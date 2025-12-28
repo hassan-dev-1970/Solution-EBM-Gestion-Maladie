@@ -1,0 +1,339 @@
+/* Style global de la liste */
+.liste-Liste {
+  padding: 2rem;
+  max-width: 90%;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titre */
+.liste-Liste h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: #0b4a7a;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(5, 5, 5, 0.1);
+
+}
+
+/* Tableau */
+.liste-Liste table {
+  width: 100%;
+  border-collapse: collapse;
+  z-index: -1000;
+}
+
+.liste-Liste th,
+.liste-Liste td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+
+.liste-Liste th {
+  background-color: #277199;
+  color: white;
+  font-weight: bold;
+}
+
+.liste-Liste tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.liste-Liste tr:hover {
+  background-color: #f1f1f1;
+}
+
+.col-actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+  padding: 4px 8px;
+}
+
+.liste-Liste table td.col-actions {
+  text-align: center;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+/* Boutons */
+button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s, opacity 0.3s;
+  text-align: center;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.btn-supprimer {
+  background-color: none;
+  color: white;
+}
+
+button.btn-supprimer:hover {
+  background-color: none;
+}
+
+.action-icon-settings {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.buton-add-adh {
+  position: relative;
+  left: 500px;
+}
+
+/* Champ de recheche*/
+.input-recherche {
+  width: 100%;
+  max-width: 500px;
+  height: 40px;
+  padding: 12px 10px;
+  margin: 10px 0;
+  border: 1px solid #68abdf;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f0f4f6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-recherche:focus {
+  border-color: #4b547e;
+  outline: none;
+  box-shadow: 0 0 2px rgba(75, 84, 126, 0.5);
+}
+
+.input-recherche::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.input-recherche:focus::placeholder {
+  color: transparent;
+}
+
+
+/* Pagination */
+.pagination {
+  width: 100%;
+  max-width: 300px;
+  float: right;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  }
+.pagination button {
+  width: 100%;
+  max-width: 105px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;  
+  transition: background-color 0.3s, opacity 0.3s;
+  text-align: center;
+  background: none;
+  color: rgb(15, 1, 1);
+}
+.pagination button:hover {
+  opacity: 0.9;
+  background-color: #d7dbea;
+  color: rgb(15, 55, 134);
+}
+
+.page-numbers {
+  margin-top: 5px;
+}
+.chevron {
+font-size: 20px; 
+}
+
+
+/* === Dropdown menu stylisé === */
+/* === Animation === */
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* === Dropdown menu === */
+.dropdown-container-LC {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle-LC {
+  position: relative;
+  right: 10px;
+  display: flex;
+  align-items: center;  
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-toggle-LC:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;}
+
+
+.dropdown-menu-LC {
+  position: absolute;
+  top: 45px;
+  left: -15px;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 8px 0;
+  min-width: 180px;
+  animation: dropdownFade 0.2s ease-in-out;
+}
+
+.dropdown-menu-LC li {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.dropdown-menu-LC li:hover {
+  background-color: #f3f3f3;
+}
+
+.dropdown-link-LC {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Barre de recherche - conteneur */
+.barre-recherche-clients {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+
+/* Barre de recherche */
+.Rech-Simple {
+  position: relative;
+  top: 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0 .5rem;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  float: left;
+  width: 100%;
+  max-width: 100%;
+}
+.Rech-Simple select {
+  width: 100%;
+  max-width: 300px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.barre-recherche-clients input {
+  width: 100%;
+  max-width: 300px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.barre-recherche-clients select {
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.btn-advanced-search {
+  background-color: #e0e1b8;
+  color: rgb(9, 9, 9);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.zone-recherche-avancee {
+  position: relative;
+  top: 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  float: left;
+  width: 100%;
+  max-width: 100%;
+  border: #c4c4c6 0.3px solid;
+}
+
+.zone-recherche-avancee select {
+  width: 100%;
+  max-width: 300px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.zone-recherche-avancee input [type="text"],
+.zone-recherche-avancee input [type="date"] {
+  width: 100%;
+  max-width: 300px;
+  height: 35px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  background-color: #e27474;
+}
+
+/* Griser le bouton ajouter-prestations */
+.disabled-item {
+  color: #aaa;
+  cursor: not-allowed;
+  pointer-events: none; /* empêche le clic */
+  opacity: 0.6;
+}
+
+.select-search{
+  position: relative;
+  top: 1px;
+}
+
+

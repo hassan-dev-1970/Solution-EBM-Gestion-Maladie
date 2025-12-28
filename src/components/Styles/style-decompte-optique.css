@@ -1,0 +1,150 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.page-layout {
+  padding: 50px;
+}
+.header-bloc-titre {
+  background-color: #59607f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.Section-bouttons {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.Section-bouttons input {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: solid 1px #96979a;
+  border-radius: 5px;
+  color: black;
+}
+
+/* section table */
+.div-decompte {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header-bloc-titre-decompte {
+  background-color: #59607f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+tfoot tr {
+  font-weight: bold;
+}
+
+/* ------- section detail ACCORDION-------- */
+.card {
+  margin-bottom: 20px;
+}
+.card-header {
+  background-color: #59607f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  gap: 30px;
+}
+
+.card-header a {
+  font-size: 16px;
+  color: aqua;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-header a:hover {
+  box-shadow: 5px 10px 15px aqua;
+  text-decoration: none;
+  color: aqua;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-header label {
+  margin-right: 20px;
+  font-size: 16px;
+  color: rgb(235, 241, 241);
+  animation: clignote 2s infinite;
+}
+@keyframes clignote {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.card-body {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.global {
+  display: flex;
+  flex-wrap: wrap;
+}
+.div-BC,
+.div-FE,
+.div-TV {
+  flex: 1;
+  margin: 10px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header-bloc {
+  background-color: #59607f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.infos {
+  display: flex;
+  justify-content: space-between;
+}
+.P-Span,
+.P-Champ {
+  flex: 1;
+}
+.P-Span p,
+.P-Champ p {
+  margin: 15px 0 5px 0;
+}
+.P-Champ input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+

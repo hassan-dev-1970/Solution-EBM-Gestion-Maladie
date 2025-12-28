@@ -1,13 +1,35 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Arial, sans-serif;
+}
+/* Conteneur général */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Layout entre la sidebar et le contenu */
+.body-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
+
+
+
+/* Contenu principal */
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Réduction du contenu si la sidebar est fermée */
+.sidebar-closed {
+  margin-left: 0;
+}
+

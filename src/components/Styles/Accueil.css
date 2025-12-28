@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  overflow: hidden;
+}
+
+/*===================== Style du  CORP DE LA PAGE ==========================*/
+/* Créez 2 DIV égales qui flottent les unes à côté des autres */
+
+.main-content {
+  flex: 1;
+  padding: 10px;
+  background: #f5f5f5;
+}
+
+
+.accueil-container {
+  padding-right: 10%;
+  display: flex;
+  position: fixed;
+  top: 60px; /* Enlève la hauteur du header */
+  width: 100%;
+  height: calc(100vh - 60px); /* Enlève la hauteur du header */
+  background: linear-gradient(to right, #f5f5f5, #dbe5ff);
+}
+
+.flexbox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+
+.image-accueil {
+  flex: 1;
+  max-width: 100%; /* ⬅️ limite sa taille */
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-accueil img {
+  max-width: 60%;
+  max-height: 60%;
+  object-fit: contain; /* ⬅️ adapte sans déformer */
+}
+
+
+.texte-accueil {
+  text-align: center;
+  color: rgb(78, 79, 137);
+  position: relative;
+  font-size: 22px;
+  font-weight: 800;
+  animation: softPulse 3s ease-in-out infinite;
+  transition: transform 0.3s ease;}
+
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

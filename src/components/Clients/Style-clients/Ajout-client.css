@@ -1,0 +1,133 @@
+/* Overlay semi-transparent centré */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  padding: 1rem;
+}
+
+/* Conteneur modal */
+.modal_AddClient {
+  background: #fff;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease forwards;
+  justify-content: center;
+  align-items: left;
+  max-height: 90vh;
+}
+
+/* Animation d'apparition */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Contenu de la modal */
+.modal-content_AddClient {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Titre */
+.modal-content_AddClient .titre {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titre */
+.modal-content_AddClient .titre h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: #0b4a7a;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(5, 5, 5, 0.1);
+
+}
+/* Champs input */
+.modal-content_AddClient input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 2px;
+}
+
+.modal-content_AddClient input:focus {
+  border-color: #777778;
+  box-shadow: 0 0 6px rgb(138, 140, 144);
+  outline: none;
+}
+
+/* Actions boutons */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Bouton valider */
+#button-valider {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#button-valider:hover {
+  background-color: rgb(20, 159, 20);
+  color: white;
+}
+
+/* Bouton annuler */
+#reset {
+  background: #bd4c4c;
+  color: #fefcfc;
+  border: 1.8px solid #d29494;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#reset:hover {
+background-color: #923c3c;
+
+}
+
+/* Responsive (optionnel) */
+@media (max-width: 500px) {
+  .modal {
+    max-width: 90%;
+  }
+}

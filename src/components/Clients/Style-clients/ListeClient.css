@@ -1,0 +1,344 @@
+/* Style global de la liste */
+.liste-Liste {
+  padding: 2rem;
+  width: 1200px;
+  max-width: 90%;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titre */
+.liste-Liste h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: #0b4a7a;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(5, 5, 5, 0.1);
+
+}
+
+/* Tableau */
+.liste-Liste table {
+  width: 100%;
+  border-collapse: collapse;
+  z-index: -1000;
+}
+
+.liste-Liste th,
+.liste-Liste td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+
+.liste-Liste th {
+  background-color: #277199;
+  color: white;
+  font-weight: bold;
+}
+
+.liste-Liste tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.liste-Liste tr:hover {
+  background-color: #f1f1f1;
+}
+
+.col-actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.liste-Liste table td.col-actions {
+  text-align: center;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+/* Boutons */
+button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s, opacity 0.3s;
+  text-align: center;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.btn-supprimer {
+  background-color: none;
+  color: white;
+}
+
+button.btn-supprimer:hover {
+  background-color: none;
+}
+
+.action-icon {
+  width: 25px;
+  height: 25px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+  width: 28px;
+  height: 28px;
+  opacity: 0.9;
+  background-color: none;
+}
+
+
+
+/* Champ de recheche*/
+.barre-recherche-clients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  margin: 1.5rem 0;
+  justify-content: left;
+  width: 100%;
+}
+
+.barre-recherche-clients input {
+  flex: 1 1 250px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 400px;
+  max-width: 400px;
+}
+
+.barre-recherche-clients input:focus {
+  border-color: #8c959f;
+  outline: none;
+  box-shadow: 0 0 5px rgb(177, 182, 189);
+}
+
+.barre-recherche-clients input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.barre-recherche-clients input:focus::placeholder {
+  color: transparent;
+}
+
+.input-tooltip {
+  position: relative;
+  display: inline-block;
+  flex: 1 1 250px;
+  max-width: 300px;
+  margin-right: 1rem;}
+
+.input-tooltip input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input-tooltip input:focus {
+  border-color: #8c959f;
+  outline: none;
+  box-shadow: 0 0 5px rgb(177, 182, 189);
+}
+
+.input-tooltip .tooltip-text {
+  visibility: hidden;
+  width: 260px;
+  background-color: #e1e6ea;
+  color: #2f2d2d;
+  text-align: center;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  padding: 4px 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* au-dessus de l’input */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.input-tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nombre_total_filtre {
+  font-size: 1.2rem;
+  color: #5071e0;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.container-btn-add {
+  width: auto;
+  margin-left: auto;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  flex-wrap: flex-start;      /* Permet aux éléments de passer à la ligne si l'espace manque */
+  justify-content: flex-end;  /* Aligne les éléments à droite */
+  align-items: center;
+  gap: 0.5rem;                  /* Espacement entre boutons et texte */
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 16px;
+  width: 100%;               /* Prend toute la largeur du conteneur parent */
+  box-sizing: border-box;    /* Évite que padding/margin dépasse */
+}
+
+.pagination button {
+  flex-shrink: 0;            
+  padding: 6px 12px;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;            /* Affiche le contenu en ligne */
+  align-items: center;      /* Centre verticalement le texte et le chevron */
+  gap: 4px;                 /* Petit espace entre chevron et texte */
+}
+
+
+.pagination button:hover:not(:disabled) {
+  background-color: #ddd;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.page-numbers {
+  white-space: nowrap;       /* Empêche le texte "Page X / Y" de se couper */
+  min-width: 80px;           /* Minimum pour rester lisible */
+  text-align: center;
+  position: relative;
+  top: -3px;
+}
+
+.chevron {
+  font-size: 10px;
+ position: relative;
+  top: -2px;
+}
+.page-info {
+  margin: 0 0.5rem;
+}
+
+
+
+
+
+
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.total-medicaments {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.pagination-buttons {
+  flex-shrink: 0;            
+  padding: 6px 12px;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  display: flex;            /* Affiche le contenu en ligne */
+  align-items: center;      /* Centre verticalement le texte et le chevron */
+  gap: 4px;   
+  width: 460px;               /* Prend toute la largeur du conteneur parent */
+}
+
+.pagination-buttons button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f2f2f2;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: auto;
+  display: flex;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.pagination-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
+
+.pagination-settings {
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  width: 100%;
+  max-width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.pagination-settings select {
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+
+/* Responsive pour mobiles */
+@media (max-width: 600px) {
+  .lien-button {
+    font-size: 0.9rem;
+    padding: 10px 18px;
+    gap: 8px;
+  }
+
+  .lien-button img {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -1,0 +1,102 @@
+/* Conteneur principal */
+.form-section {
+  background: #fff;
+  padding: 25px;
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Titre */
+.form-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-left: 4px solid #3498db;
+  padding-left: 10px;
+}
+
+/* Mise en page en 2 colonnes */
+.form-columns {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+/* Chaque bloc (incapacité / invalidité) */
+.form-block {
+  flex: 1;
+  min-width: 320px;
+  background: #fafafa;
+  border: 1px solid #e0e4e8;
+  border-radius: 10px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.form-block:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.form-block h4 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #07508f;
+  border-bottom: 2px solid #07508f;
+  padding-bottom: 6px;
+  font-weight: 600;
+  
+}
+
+/* Champs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #2f3640;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid #dcdfe3;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  width: 100%;
+}
+/* Styles spécifiques pour les select */
+.form-group select {
+  appearance: none;
+  background-size: 12px 8px;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23343A40' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  bottom: 6px;
+
+}

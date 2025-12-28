@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  overflow: hidden;
+}
+
+.global {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  position: relative;
+  top: 20px;
+  width: 100%;
+  height: 500px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.div-BC, .div-FE, .div-TV{
+  position: relative;
+  width: 500px;
+  height: 500px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: white;
+  margin-bottom: 20px;
+
+}
+
+.infos{
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  position: relative;
+  left: 10px;
+  width: 500px;
+  height: auto;
+  }
+
+/* ======= SECTION BASES CONTARCATUELLES + PRESTATIONS =====================*/
+
+.header-bloc {
+  background: linear-gradient(90deg, #3d4465, #4b547e, #5e6aa0);
+  color: rgb(247, 243, 243);
+  font-size: 1.7rem;
+  font-weight: bold;
+  height: 40px;
+  box-shadow: 0px 0px 10px rgba(64, 86, 111, 0.1);
+  padding: 8px 0 0 10px;
+}
+
+.P-Span{
+  position: relative;
+  left: 20px;
+
+}
+
+.P-Span span{
+  position: relative;
+  top: 5px;
+}
+
+.P-Champ{
+  position: relative;
+  left: 20px;
+  top: 5px;
+}
+
+p{
+  padding-top: 20px;
+}
+
+.radio-first{
+  position: relative;
+  left: 10px;
+}
+.radio-last{
+  position: relative;
+  left: 30px;
+}
+
+.P-Champ input[type=text]{
+  width: 100%; 
+  height: 25px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.liste {
+  width: 100%;
+  height: 25px;
+  border: none;
+  border-radius: 4px;
+  text-align: justify;
+  text-indent:2px; /* pour décalaer l'écriture de la marge gauche dans input*/
+  position: relative;
+  bottom: 5px;
+  border: solid 0.1px;
+  border-color: rgb(191, 200, 210);
+  background-color: transparent;
+}
+
+.span-TV{
+position: relative;
+background-color: rgb(100, 72, 122);
+color: white;
+font-weight: bold;
+width: 30px;
+text-align: center;
+}
+
+/* ======= SECTION BOUTTONS =====================*/
+.Section-bouttons {
+  position: relative;
+  top: 50px;
+  width: 100%;
+  padding-top: 25px;
+  justify-items: center;
+  text-align: center;
+}
+
+.Section-bouttons input[type="submit"],
+.Section-bouttons input[type="button"] {
+  border-radius: 10px;
+  padding: 12px 25px;
+  font-size: medium;
+  transition: background-color 0.3s;
+}
+
+.Section-bouttons input[type="submit"]:hover,
+.Section-bouttons input[type="button"]:hover {
+  background-color: #2980b9;
+}
+
+
+input[type=submit] {
+  position: relative;
+  width: 300px;
+  height: 50px;
+  right: 50px;
+  color: rgb(23, 19, 19);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+input.form-control:focus, select.form-control:focus, textarea:focus {
+  border-color: #6c757d;
+  box-shadow: 0 0 8px rgba(108, 117, 125, 0.2);
+  outline: none;
+}
+
+.radio-first input[type="radio"], .radio-last input[type="radio"] {
+  cursor: pointer;
+}
+
+/*================================================================================
+
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 900px) {
+  .infos {
+    width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .infos {
+    width: 100%;
+  }
+}

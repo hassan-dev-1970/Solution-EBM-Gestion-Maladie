@@ -1,0 +1,169 @@
+/* Overlay sombre centré */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Conteneur modal */
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  max-width: 480px;
+  width: 90%;
+  padding: 30px 35px;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  } to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Titre */
+.modal h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Formulaire */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inputs text, email, password */
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"]
+ {
+  padding: 12px 14px;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  width: 400px;
+  box-sizing: border-box;
+  margin-top: 15px;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="email"]:focus,
+.modal-content input[type="password"]:focus,
+.modal-content select:focus {
+  border-color: #c1c4c5;
+  outline: none;
+  box-shadow: 0 0 6px rgb(167, 166, 173);
+}
+
+
+.modal-content select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: white url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray'><polygon points='0,0 16,0 8,8'/></svg>") no-repeat right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.8px solid #ccc;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.password-field {
+  position: relative;
+  margin-left: -10px;
+}
+/* Checkbox show password */
+.password-show {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.password-show input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Messages d’erreur */
+.modal-content p {
+  color: #e03e3e;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Actions boutons */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Bouton Enregistrer */
+.modal-actions .button-valider {
+  background-color: #353e76;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  width: 300px;
+  max-width: 300px;
+  margin-left: auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.modal-actions .button-valider:hover {
+  background-color: #3730a3;
+}
+
+/* Bouton Annuler */
+.modal-actions .reset {
+  background-color: rgb(132, 61, 56);
+  border: none;
+  color: #fefcfc;
+  padding: 12px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  width: 200px;
+  max-width: 200px;
+}
+
+.modal-actions .reset:hover {
+  background-color: rgb(146, 78, 73);
+}

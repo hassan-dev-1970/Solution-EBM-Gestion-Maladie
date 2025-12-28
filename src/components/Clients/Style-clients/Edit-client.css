@@ -1,0 +1,136 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal_modif_client {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 650px;           /* largeur fixe */
+  max-width: 100vw;        /* évite débordement sur petits écrans */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content_EditClient {
+display: flex;
+flex-direction: column;
+width: 100%;
+
+}
+
+.titre_EditClient h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: #0b4a7a;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(5, 5, 5, 0.1);
+}
+
+.modal-content_EditClient .form-group {
+  display: flex;
+  text-align: left;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-content_EditClient .form-group label {
+  width: 150px; /* largeur fixe pour l'alignement */
+  margin-left: 5px;
+  text-align: left;
+  font-weight: 500;
+  color: #333;
+}
+
+.modal-content_EditClient .form-group input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modal-content_EditClient .form-group select{ 
+ flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: white url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray'><polygon points='0,0 16,0 8,8'/></svg>") no-repeat right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+
+}
+/* Actions boutons */
+.modal-button {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Bouton principal */
+.valider_button {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: #23a92c; /* Bleu moderne */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 17px;
+}
+
+.valider_button :hover {
+  background-color: #3cbc38; /* Bleu foncé au survol */
+}
+
+/* Bouton annuler */
+.cancel_button {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: #d03c3c;
+  color: #f7f4f4;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 17px;
+}
+
+.cancel_button:hover {
+  background-color: #aa4040;
+}
+/* Animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

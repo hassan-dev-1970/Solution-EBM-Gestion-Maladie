@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  overflow: hidden;
+}
+
+.header {
+  height: 60px;
+  background-color: #586a8b;
+  display: flex;
+  justify-content: space-between; /* sepparer la zone des éléments d'une façon équitable*/
+  align-items: center;
+  padding: 10px 50px;
+}
+
+.header-left {
+  padding-left: 0;
+  color: #ffffff;
+  font-size: 30px;
+  align-content: center;
+  vertical-align: middle;
+  justify-content: space-between; /* sepparer la zone des éléments d'une façon équitable*/
+}
+.logo-EBM {
+  position: relative;
+  width: 100px;
+  height: 60px;
+  padding: 10px 0 10px 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.menu-open .menu-close {
+  position: absolute;
+  padding: 5px 0 0 10px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+.header-right a {
+  color: rgb(224, 228, 239);
+  font-size: large;
+  text-decoration: none;
+  padding: 10px 10px; /* la 1ère valeur définit TOP & BOTTOM ---- la 2ème valeur RIGHT & LEFT*/
+  border-radius: 15px;
+}
+
+.header-right a:hover {
+  background-color: #44587d;
+}
+
+/* ====== Style de toute la barre de menu = SIDE BAR = */
+
+/* Utilisateur connecté ===========================*/
+.user {
+  display: inline-block;
+  text-align: center;
+  padding: 0 0 0 20%;
+}
+.user img {
+  width: 15%;
+  border-radius: 50px;
+}
+
+/* La barre de Menu ==========================*/
+
+.sidenav {
+  height: 100%;
+  width: 220px;
+  position: fixed;
+  z-index: 1;
+  top: 60px;
+  left: 0;
+  background-color: #e7ecf5;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 15px;
+}
+
+.side-link {
+  width: 220px;
+  max-width: 230px;
+  list-style-type: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 0 0 10px;
+  font-size: large;
+  margin-top: 20px;
+  padding: 10px 10px; /* la 1ère valeur définit TOP & BOTTOM ---- la 2ème valeur RIGHT & LEFT*/
+}
+
+.side-link .link-img .sidebar-link {
+  transition: 0.5s;
+}
+.user {
+  transition: 0.5s;
+}
+.side-link:hover {
+  background-color: #586a8b;
+  color: white;
+}
+
+.side-link:hover a {
+  color: #fff;
+}
+
+.span-idem:hover {
+  color: #fff;
+}
+
+.link-img {
+  width: 30px;
+}
+
+.side-link a {
+  padding-left: 10px;
+  text-decoration: none;
+  color: rgb(25, 42, 77);
+}
+
+#main {
+  margin-left: 220px;
+  transition: 0.5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
