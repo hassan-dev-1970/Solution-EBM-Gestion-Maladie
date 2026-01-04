@@ -33,7 +33,7 @@ body {
   position: sticky;
   top: 60px; /* aligne juste sous le header */
   height: calc(100vh - 60px); /* prend la hauteur restante sous le header */
-  width: 230px;
+  width: 280px;
   background: linear-gradient(180deg, #4a5d82, #4b547e, #6a82fb);
   color: white;
   transition: width 0.4s ease;
@@ -50,6 +50,7 @@ body {
   padding: 15px;
   cursor: pointer;
   transition: background 0.3s ease;
+  width: 260px;
 }
 
 .menu-item a {
@@ -57,18 +58,30 @@ body {
   color: white;
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 .menu-item:last-child {
   border-bottom: none;
   }
 .menu-item:hover {
   /*transform: translateX(5px);*/
-  box-shadow: 0 2px 2px rgb(130, 123, 123);
   color: #7fd0ee;
 }
 
+.menu-item .arrow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 210px;
+  color: white;
+  fill: white;
+}
+.menu-item.arrow:hover {
+  background-color: #485ea1;
+  color: #7fd0ee;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 .accueil {
   margin-top: 40px;
 }
@@ -147,14 +160,10 @@ body {
   visibility: hidden;
 }
 
-.arrow {
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition);
-  flex-shrink: 0;
-  padding: 2px 8px;
+.sidebar.collapsed .dropdown-toggle .arrow {
+  opacity: 0;
+  visibility: hidden;
 }
-
 .dropdown-content {
   display: none;
   overflow: visible;

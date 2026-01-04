@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MessageBanner from '../message/MessageBanner';
 import PermissionGate from '../utilisateurs/PermissionGate';
 import './Styles-contrats/ListeContrats.css';
@@ -127,7 +127,7 @@ useEffect(() => {
 
   return (
     <div className="liste-Liste">
-      <h2>Liste des Contrats Résiliés</h2>
+      <h2>Contrats Résiliés</h2>
 
       {error && <p className="error">{error}</p>}
       {message && (
@@ -145,7 +145,7 @@ useEffect(() => {
               <div className='Rech-Simple'>
 
               {/* 🔎 Recherche par Raison Sociale */}
-              <select name="id_client" value={searchRaison}
+              <select className='select-search' name="id_client" value={searchRaison}
                 onChange={e => {
                   setSearchRaison(e.target.value);
                   setCurrentPage(1);
@@ -160,7 +160,7 @@ useEffect(() => {
               </select>
 
               {/* 🔎 Police par client */}
-              <select name="police" value={searchPolice}
+              <select className='select-search' name="police" value={searchPolice}
                 onChange={(e) => {
                   setSearchPolice(e.target.value);
                   setCurrentPage(1);
@@ -186,7 +186,7 @@ useEffect(() => {
             {/* Zone Recherche Avancée */}
             {showAdvancedSearch && (
               <div className="zone-recherche-avancee">
-                <select name="compagnie" value={searchCie} onChange={(e) => {
+                <select className='select-search' name="compagnie" value={searchCie} onChange={(e) => {
                   setSearchCie(e.target.value);
                   setCurrentPage(1);
                 }}>
@@ -200,7 +200,7 @@ useEffect(() => {
                   <option value="Allianz Maroc">Allianz Maroc</option>
                 </select>
 
-                <select name="type_contrat" value={searchTypeContrat} onChange={(e) => {
+                <select className='select-search' name="type_contrat" value={searchTypeContrat} onChange={(e) => {
                   setSearchTypeContrat(e.target.value);
                   setCurrentPage(1);
                 }}>

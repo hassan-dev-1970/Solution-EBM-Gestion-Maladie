@@ -1,7 +1,7 @@
 // src/components/contrats/ModifierPrestationsContrat.jsx
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../contrats/Styles-contrats/PrestationsContrat.css";
 
@@ -105,6 +105,39 @@ const ModifierPrestationsContrat = () => {
     setMaladie((prev) => ({
       ...prev, [id]: { ...prev[id], [field]: value },
     }));
+ if (field === "checked" && !value) {
+      // Vider les champs taux, plafond, age_limite si décoché
+      setMaladie((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          taux_remb_prestat_mald: "",
+          plafond_prestat_mald: "",
+          age_limit_prestat_mald: "",
+          valeur_d: "0",
+          valeur_k: "0",
+          periode_prestat_mald: 365,
+          date_debut_prestat_mald: new Date().toISOString().slice(0, 10),
+        },
+      }));
+    }
+
+    if (field === "checked" && value) {
+      // Remplir les champs taux, plafond, age_limite si coché
+      setMaladie((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          taux_remb_prestat_mald: contratInfo?.taux_remb || "",
+          plafond_prestat_mald: contratInfo?.plafond || "",
+          age_limit_prestat_mald: "60",
+          valeur_d: "0",
+          valeur_k: "0",
+          periode_prestat_mald: 365,
+          date_debut_prestat_mald: new Date().toISOString().slice(0, 10),
+        },
+      }));
+    }  
   };
 
   
@@ -223,7 +256,8 @@ const handleSaveAll = async () => {
                   <tr key={p.id_prestation_std}>
                     <td>
                       <input
-                        type="checkbox"
+                        style={{width: '15px', height: '15px'}}
+                        type="checkbox" 
                         checked={maladie[p.id_prestation_std]?.checked || false}
                         onChange={(e) =>
                           handleMaladieChange(p.id_prestation_std, "checked", e.target.checked)

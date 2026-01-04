@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PermissionGate from '../utilisateurs/PermissionGate';
 import './Styles-contrats/ListeContrats.css';
@@ -127,7 +127,7 @@ useEffect(() => {
 
   return (
     <div className="liste-Liste">
-      <h2>Liste des Contrats Actifs</h2>
+      <h2>Contrats Actifs</h2>
 
       {error && <p className="error">{error}</p>}
 
@@ -268,9 +268,17 @@ useEffect(() => {
                           <img src="/Images/edit/delete-6.png" alt="Supprimer" className="action-icon" /> Supprimer
                         </li>
                       </PermissionGate>
-                      <li onClick={() => { navigate(`/contrats/${contrat.id_contrat}/prestations`); setDropdownOpenId(null); }}>
-                        <img src="/Images/edit/prestation.png" alt="outil" className="action-icon" /> Prestations
-                      </li>
+                      <li onClick={() => setDropdownOpenId(null)}>
+                          <Link
+                            to={`/contrats/${contrat.id_contrat}/prestations`}
+                            state={{ from: "/listecontrats" }}
+                            className="dropdown-link-LC"
+                          >
+                            <img src="/Images/edit/prestation.png" className="action-icon" alt=''/>
+                            Prestations
+                          </Link>
+                        </li>
+
                     </ul>
                   )}
                 </div>

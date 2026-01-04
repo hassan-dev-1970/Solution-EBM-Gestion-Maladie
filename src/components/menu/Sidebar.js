@@ -27,7 +27,7 @@ function DropdownMenu({ label, icon, children }) {
       <div className="menu-item dropdown-toggle" onClick={toggleDropdown}>
         {icon && <img src={icon} alt="" />}
         <span className="menu-label">{label}</span>
-        <span className="arrow">{isOpen ? '' : ''}</span>
+        <span className="arrow">{isOpen ? '⏶' : '⏷'}</span>
       </div>
       <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
         {children}
@@ -61,7 +61,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
           {/*-- Gestion des utilisateurs --*/}
           {/*-- Administration --*/}
           <PermissionGate permission="administration:voir">
-          <DropdownMenu label="Administration" icon="/Images/icones/menu/sous-menu.png">
+          <DropdownMenu label="Administration" icon="/Images/icones/menu/Liste-1.png">
             <div className="tooltip-wrapper">
               <Link to="/utilisateurs" className="dropdown-link">
                 <img src="/Images/icones/admin/admin-2.png" alt="" />
@@ -95,7 +95,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
        {/*-- Gestion des contrats --*/}
           <PermissionGate permission="contrat:voir">
 
-          <DropdownMenu label="Gestion des contrats" icon="/Images/icones/menu/sous-menu.png">
+          <DropdownMenu label="Gestion des contrats" icon="/Images/icones/menu/Liste-1.png">
             <div className="tooltip-wrapper">
               <Link to="/listeclients" className="dropdown-link">
                 <img src="/Images/icones/menu/client-5.png" alt="" />
@@ -114,7 +114,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
             <div className="tooltip-wrapper">
               <Link to="/listecontratsresilies" className="dropdown-link">
-                <img src="/Images/edit/supp-2.png" alt="" />
+                <img src="/Images/edit/file_copy_off.png" alt="" />
                 {isOpen && <span>Contrats résiliés</span>}
               </Link>
               {!isOpen && <span className="tooltipDropdown">Contrats résilés</span>}
@@ -133,7 +133,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 {/*--------------------------------------------------------------------------------------------------------------*/}
 
           { /*-- Gestion Affiliation --*/}
-          <DropdownMenu label="Affiliation" icon="/Images/icones/menu/sous-menu.png">
+          <DropdownMenu label="Affiliation" icon="/Images/icones/menu/Liste-1.png">
              <div className="tooltip-wrapper">
               <Link to="/listeAdhesions" className='dropdown-link'>
                 <img className="" src="/Images/icones/menu/contrat-5.png" alt="" />
@@ -162,8 +162,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 {/*--------------------------------------------------------------------------------------------------------------*/}
 
           {/*-- Gestion des sinistres --*/}
-          <DropdownMenu label="Gestion des sinistres" icon="/Images/icones/menu/sous-menu.png">
-          
+          <DropdownMenu label="Gestion des sinistres" icon="/Images/icones/menu/Liste-1.png">          
               {/*-- Optique --*/}
               <div className="tooltip-wrapper">
               <Link to="/pageinstruction" className='dropdown-link' tabindex="0">

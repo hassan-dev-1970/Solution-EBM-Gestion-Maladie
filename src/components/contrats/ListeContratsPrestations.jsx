@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import PermissionGate from '../utilisateurs/PermissionGate';
 import './Styles-contrats/ListeContrats.css';
 
-const ListeContrats = () => {
+const ListeContratsPrestations = () => {
   const [contrats, setContrats] = useState([]);
   const [clients, setClients] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -140,7 +140,7 @@ useEffect(() => {
               <div className='Rech-Simple'>
 
               {/* 🔎 Recherche par Raison Sociale */}
-              <select name="id_client" value={searchRaison}
+              <select className='select-search' name="id_client" value={searchRaison}
                 onChange={e => {
                   setSearchRaison(e.target.value);
                   setCurrentPage(1);
@@ -155,7 +155,7 @@ useEffect(() => {
               </select>
 
               {/* 🔎 Police par client */}
-              <select name="police" value={searchPolice}
+              <select className='select-search' name="police" value={searchPolice}
                 onChange={(e) => {
                   setSearchPolice(e.target.value);
                   setCurrentPage(1);
@@ -181,7 +181,7 @@ useEffect(() => {
             {/* Zone Recherche Avancée */}
             {showAdvancedSearch && (
               <div className="zone-recherche-avancee">
-                <select name="compagnie" value={searchCie} onChange={(e) => {
+                <select className='select-search' name="compagnie" value={searchCie} onChange={(e) => {
                   setSearchCie(e.target.value);
                   setCurrentPage(1);
                 }}>
@@ -195,7 +195,7 @@ useEffect(() => {
                   <option value="Allianz Maroc">Allianz Maroc</option>
                 </select>
 
-                <select name="type_contrat" value={searchTypeContrat} onChange={(e) => {
+                <select className='select-search' name="type_contrat" value={searchTypeContrat} onChange={(e) => {
                   setSearchTypeContrat(e.target.value);
                   setCurrentPage(1);
                 }}>
@@ -258,9 +258,11 @@ useEffect(() => {
                           className={contrat.hasPrestations ? "disabled-item" : ""}
                           onClick={() => {
                             if (!contrat.hasPrestations) {
-                              navigate(`/contrats/${contrat.id_contrat}/prestations`);
+                              navigate(`/contrats/${contrat.id_contrat}/prestations`, {
+                                state: { from: "/listecontratsprestations" }
+                              });
+                              setDropdownOpenId(null);
                             }
-                            setDropdownOpenId(null);
                           }}
                         >
                           <img src="/Images/edit/plus-4.png" alt="outil" className="action-icon" />
@@ -309,4 +311,4 @@ useEffect(() => {
   );
 };
 
-export default ListeContrats;
+export default ListeContratsPrestations;

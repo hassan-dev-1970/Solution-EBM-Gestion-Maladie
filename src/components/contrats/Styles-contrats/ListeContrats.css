@@ -60,6 +60,7 @@
   white-space: nowrap;
   padding: 4px 8px;
 }
+
 /* Boutons */
 button {
   padding: 5px 10px;
@@ -235,7 +236,7 @@ font-size: 20px;
 
 
 
-
+/* Barre de recherche clients */
 .barre-recherche-clients {
   display: flex;
   gap: 1rem;
@@ -279,7 +280,7 @@ font-size: 20px;
 }
 
 .btn-advanced-search {
-  background-color: #e0e1b8;
+  background-color: #ccd9ef;
   color: rgb(9, 9, 9);
   border: none;
   padding: 6px 10px;
@@ -305,7 +306,6 @@ margin-top: 10px;
   float: left;
   width: 100%;
   max-width: 100%;
-  border: #c4c4c6 0.3px solid;
 }
 
 .zone-recherche-avancee select {

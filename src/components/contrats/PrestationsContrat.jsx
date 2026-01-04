@@ -1,13 +1,14 @@
-import { useRef, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import '../contrats/Styles-contrats/PrestationsContrat.css';
 
 
 const PrestationsContrat = () => {
   const { id_contrat } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem("token");
 
   const [openAccordion, setOpenAccordion] = useState(null);
@@ -74,11 +75,12 @@ const [incapacite, setIncapacite] = useState({
             checked: false,
             taux: contratInfo?.taux_remb || "",   // ✅ valeur par défaut du contrat
             plafond: contratInfo?.plafond || "",  // ✅ valeur par défaut du contrat
-            age_limite: "",
+            age_limite: "60",
             valeur_D: "0",
             valeur_K: "0",
             periodicite: 365,
-            date_debut: new Date().toISOString().slice(0, 10),
+            date_debut: new Date().toISOString().slice(0, 10),    
+
           };
         });
 
@@ -107,7 +109,35 @@ const [incapacite, setIncapacite] = useState({
         [field]: value,
       },
     }));
-  };
+    if (field === "checked" && !value) {
+      // Vider les champs taux, plafond, age_limite si décoché
+      setMaladie((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          taux: "",
+          plafond: "",
+          age_limite: "",
+          valeur_D: "0",
+          valeur_K: "0",
+        },
+      }));
+    }
+
+    if (field === "checked" && value) {
+      // Remplir les champs taux, plafond, age_limite si coché
+      setMaladie((prev) => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          taux: contratInfo?.taux_remb || "", // ✅ valeur par défaut du contrat
+          plafond: contratInfo?.plafond || "", // ✅ valeur par défaut du contrat
+          age_limite: "60",
+          valeur_D: "0",
+          valeur_K: "0",
+        },
+      }));
+    }  };
 
 // Vérifications
 const isMaladieComplete = Object.values(maladie).some(
@@ -213,6 +243,17 @@ useEffect(() => {
   }
 }, [masterState]);
 
+  // Gestion du bouton retour
+const handleRetour = () => {
+    if (location.state?.from) {
+      navigate(location.state.from);
+    } else {
+      navigate(-1); // fallback sécurité
+    }
+  };
+
+
+
 
   return (
     <div className="prestations-container">
@@ -230,11 +271,9 @@ useEffect(() => {
         )}
       </h2>
           <div className="actions-buttons">
-            <button
-              className="btn-retour"
-              onClick={() => navigate("/listecontratsprestations")}
-            >
-              &lt;&lt;&lt; Retour
+            <button className="btn-retour"
+              onClick={handleRetour}>
+              &lt;&lt; Retour
             </button>
             <button
               onClick={handleSaveAll}
@@ -290,7 +329,8 @@ useEffect(() => {
                 <tr key={p.id_prestation_std}>
                   <td>
                     <input
-                      type="checkbox"
+                    style={{width: '15px', height: '15px'}}
+                      type="checkbox" 
                       checked={maladie?.[p.id_prestation_std]?.checked || false}
                       onChange={(e) =>
                         handleMaladieChange(p.id_prestation_std, "checked", e.target.checked)
