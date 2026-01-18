@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../contrats/Styles-contrats/ListeContrats.css';
+import { useAuth } from "../utilisateurs/AuthContext";
 import PermissionGate from '../utilisateurs/PermissionGate';
+import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
+
 
 const ListeAdhesions = () => {
   const [adhesions, setAdhesions] = useState([]);
@@ -29,6 +32,10 @@ const ListeAdhesions = () => {
 
   const navigate = useNavigate();
   const adhesionsParPage = 20;
+
+const { user } = useAuth();
+const adhesionRoute = getAdhesionRouteByRole(user);
+
 
   /* =======================
      FETCH ADHESIONS
@@ -282,7 +289,7 @@ const currentAdhesions = filteredAdhesions.slice(
                 {showAdvancedSearch ? '− Masqué' : '+ Recherche Avancée'}
                 </button>
               <PermissionGate permission="adhesion:ajouter">
-                <button onClick={() => navigate('/ajouter-adhesion')} className="lien-button buton-add-adh">
+                <button onClick={() => navigate(adhesionRoute)} className="lien-button buton-add-adh">
                   <img src="/Images/edit/plus-1.png" alt="Ajouter" className="icon-plus" />
                   Nouveau Adhérent
                 </button>

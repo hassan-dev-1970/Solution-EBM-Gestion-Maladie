@@ -38,7 +38,10 @@ import ModifierPrestationsContrat from './components/contrats/ModifierPrestation
 import AfficherPrestationsContrat from './components/contrats/AfficherPrestationsContrat';
 import ListeMedicaments from './components/medicaments/ListeMedicaments';
 import ListeAdhesions from './components/affiliation/ListeAdhesions';
-import AjouterAdhesion from './components/affiliation/FormulaireAdhesion';
+import EspaceClientAdhesion from "./components/espace-client/EspaceClientAdhesion";
+import EspaceSouscripteurAdhesion from "./components/espace-client/EspaceClientAdhesion";
+import FormulaireAdhesion from "./components/affiliation/FormulaireAdhesion";
+import BulletinAdhesionPreview from './components/affiliation/BulletinAdhesionPreview';
 import './index.css';
 
 function AppContent({
@@ -373,17 +376,6 @@ useEffect(() => {
             />
             
             <Route
-              path="/ajouter-adhesion"
-              element={
-                <PrivateRoute>
-                  <AjouterAdhesion
-                    setMessage={setMessage}
-                    setMessageType={setMessageType}
-                  />
-                </PrivateRoute>
-              }
-            />
-            <Route
               path="/listeadhesions"
               element={
                 <PrivateRoute>    
@@ -394,6 +386,47 @@ useEffect(() => {
                 </PrivateRoute>
               }
             />
+            <Route
+                path="/espace-client/adhesion"
+                element={
+                  <PrivateRoute>
+                    <EspaceClientAdhesion/>
+                  </PrivateRoute>
+                }
+              />
+
+            <Route
+              path="/espace-souscripteur/adhesion"
+              element={
+                <PrivateRoute>
+                  <EspaceSouscripteurAdhesion/>
+                </PrivateRoute>
+              }
+            />
+            <Route path="/ajouter-adhesion" element={
+                <PrivateRoute>
+                  <FormulaireAdhesion contexte="admin"/>
+                </PrivateRoute>
+              }
+            />
+            <Route path="/espace-souscripteur/contrat" element={
+                <PrivateRoute>
+                  <AjouterContrat 
+                  contexte="client"
+                  canSubmit={true}
+                  canPrint={true}                  
+                  />
+                </PrivateRoute>
+              }
+            />
+
+            
+            <Route path="/bulletin-adhesion-preview" element={
+                  <PrivateRoute>    
+                  <BulletinAdhesionPreview />
+                </PrivateRoute>
+              }
+            />  
           </Routes>
 
           </div>

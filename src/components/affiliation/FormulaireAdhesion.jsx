@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useReactToPrint } from "react-to-print";
+import BulletinAdhesionPreview from './BulletinAdhesionPreview';
+import html2pdf from 'html2pdf.js';
 import "./FormulaireAdhesion.css";
 
+// Icône simple en inline SVG
 const Icon = ({ name }) => {
   const icons = {
     person: "👤",
@@ -14,6 +18,7 @@ const Icon = ({ name }) => {
   return <span className="icon">{icons[name] || "•"}</span>;
 };
 
+// Composant d’en-tête d’accordéon
 const AccordionHeader = ({ title, open, onClick, rightElement, activeSection }) => (
   <button
     type="button"
@@ -29,18 +34,48 @@ const AccordionHeader = ({ title, open, onClick, rightElement, activeSection }) 
   </button>
 );
 
-const FormulaireAdhesion = () => {
+const FormulaireAdhesion = ({
+  contexte,
+  canEdit = false,
+  canSubmit = false,
+  canPrint = false,
+  canValidate = false
+}) => {
+  // ---------- STATES pour options dynamiques ----------
   const [contrats, setContrats] = useState([]);
   const [clients, setClients] = useState([]);
+  const [souscripteursFiltres, setSouscripteursFiltres] = useState([]);
   const [policesParContrat, setPolicesParContrat] = useState([]);
   const [searchRaison, setSearchRaison] = useState('');
   const [error, setError] = useState('');
   const [pays, setPays] = useState([]);
   const [villes, setVilles] = useState([]);
   const navigate = useNavigate();
-const [typeBenef, setTypeBenef] = useState(""); 
-const [beneficiaires, setBeneficiaires] = useState([]);
+  const [typeBenef, setTypeBenef] = useState(""); 
+  const [beneficiaires, setBeneficiaires] = useState([]);
+  
+  // Determine user role from context or localStorage
+  const isAdmin = contexte === "admin";
+  const isAdherentDistant = contexte === "client" && canSubmit;
+  const isSouscripteurDistant = contexte === "client" && canValidate;
 
+ const isFieldEditable = (fieldOwner) => {
+  if (isAdmin) return true;
+
+  if (fieldOwner === "adherent") {
+    return isAdherentDistant;
+  }
+
+  if (fieldOwner === "souscripteur") {
+    return isSouscripteurDistant;
+  }
+
+  return false;
+};
+
+
+
+  // ---------- STATES formulaire ----------
   const [sections, setSections] = useState({
     assure: false,
     conjoint: false,
@@ -166,24 +201,45 @@ const [beneficiaires, setBeneficiaires] = useState([]);
     fetchContrats();
   }, []);
 
-  // Met à jour les polices disponibles lorsque searchRaison change
-  useEffect(() => {
-    if (searchRaison) {
-      const filtered = contrats
-        .filter(c => Number(c.id_client) === Number(searchRaison))
-        .map(c => c.police);
-      setPolicesParContrat(filtered);
-    } else {
-      setPolicesParContrat([]);
-    }
-  }, [searchRaison, contrats]);
+// Met à jour les clients disponibles selon la compagnie sélectionnée ----------
+      useEffect(() => {
+        if (!assure.compagnie) {
+          setSouscripteursFiltres([]);
+          return;
+        }
 
-// Flitrage par compagnie d'assurance
+        // 1️⃣ Contrats de la compagnie sélectionnée
+        const contratsParCompagnie = contrats.filter(
+          c => c.compagnie === assure.compagnie
+        );
+
+        // 2️⃣ IDs clients uniques
+        const idsClients = [...new Set(
+          contratsParCompagnie.map(c => Number(c.id_client))
+        )];
+
+        // 3️⃣ Clients correspondants
+        const clientsFiltres = clients.filter(client =>
+          idsClients.includes(Number(client.id_client))
+        );
+
+        setSouscripteursFiltres(clientsFiltres);
+
+      }, [assure.compagnie, contrats, clients]);
 
 
-
-
-  
+      // Met à jour les polices disponibles lorsque searchRaison change
+      useEffect(() => {
+        if (searchRaison) {
+          const filtered = contrats
+            .filter(c => Number(c.id_client) === Number(searchRaison))
+            .map(c => c.police);
+          setPolicesParContrat(filtered);
+        } else {
+          setPolicesParContrat([]);
+        }
+      }, [searchRaison, contrats]);
+   
 
 // Charger les pays
   useEffect(() => {
@@ -227,6 +283,15 @@ const handleAssure = (e) => {
   if (upperFields.includes(name)) {
     newValue = newValue.toUpperCase();
   }
+
+  if (name === "compagnie") {
+  setAssure(prev => ({
+    ...prev,
+    compagnie: value,
+    souscripteur: "",
+    num_police: ""
+  }));
+}
 
   setAssure((prev) => ({
     ...prev,
@@ -310,9 +375,6 @@ const updateBenef = (i, field, value) =>
       timeout: 20000
     });
   };
-
-
-
   // ---------- SAVE adhesion (single endpoint) ----------
 const saveAdhesion = async (payload) => {
   // 🔥 payload vient désormais de handleSubmit()
@@ -354,11 +416,11 @@ const saveAdhesion = async (payload) => {
 };
 
 
-  const handleSubmit = async (e) => {
+// ---------- HANDLE SUBMIT ----------
+const handleSubmit = async (e) => {
   e.preventDefault();
   if (!validateBeforeSend()) return;
 
-  // 🔥 Préparer la structure des bénéficiaires selon ta logique
   let beneficiairesPayload = null;
 
   if (typeBenef === "ayants_droits" || typeBenef === "heritiers_legaux") {
@@ -380,7 +442,6 @@ const saveAdhesion = async (payload) => {
     };
   }
 
-  // 🧩 Construire le PAYLOAD final à envoyer au saveAdhesion()
   const payload = {
     assure,
     conjoint,
@@ -392,13 +453,59 @@ const saveAdhesion = async (payload) => {
 
   try {
     const id = await saveAdhesion(payload);
-    alert("Adhésion enregistrée avec succès. ID = " + id);
-    navigate("/listeadhesions");
+
+    if (canSubmit && contexte === "client") {
+        alert("Votre bulletin d’adhésion a été soumis avec succès.");
+        navigate("/espace-client");
+      } else {
+        alert(`Adhésion enregistrée avec succès. ID = ${id}`);
+        navigate("/listeadhesions");
+      }
+
+
   } catch (err) {
     console.error("Erreur complète :", err);
     const serverMsg = err?.response?.data || err?.message;
-    alert("Erreur lors de l'enregistrement — voir console.\n" + JSON.stringify(serverMsg));
+    alert(
+      "Erreur lors de l'enregistrement — voir console.\n" +
+      JSON.stringify(serverMsg)
+    );
   }
+};
+
+const printRef = useRef(null);
+
+const handlePrintPreview = useReactToPrint({
+  contentRef: printRef,
+  documentTitle: `Bulletin_Adhesion_${assure.nom}_${assure.prenom}`,
+  removeAfterPrint: true
+});
+
+// ---------- IPRESSION AVEC html2pdf ----------
+const handleDownloadPDF = () => {
+  const element = printRef.current;
+  if (!element) return;
+
+  const opt = {
+    margin: 0,
+    filename: `Bulletin_Adhesion_${assure.nom}_${assure.prenom}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      scrollY: -window.scrollY // corrige le décalage de scroll
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(element).save();
+};
+
+const handleValidation = () => {
+  alert("Adhésion validée par le souscripteur");
+  // plus tard : appel API pour changer le statut
 };
 
 
@@ -416,11 +523,7 @@ const saveAdhesion = async (payload) => {
         </div>  
         {error && <div className="form-error" role="alert">{error}</div>}
       </header>
-          <div className="actions-bar">
-          <button type="submit" form="adhesion-form" className="btn-primary">Enregistrer l'adhésion</button>
-          <button type="button" className="btn-ghost" onClick={() => window.location.reload()}>Annuler</button>
-          <button type="button" className="btn-close" onClick={() => navigate('/listeadhesions')}>Fermer</button>
-        </div>
+
     </div>
 
 
@@ -428,7 +531,46 @@ const saveAdhesion = async (payload) => {
       <div className='fa-scroll-container'>   
         
       <form id="adhesion-form" className="fa-form" onSubmit={handleSubmit}>
-       
+
+    {/*=========================================================================== */}
+          {/*========== Barre de navigation basique des boutons ========== */}
+    {/*=========================================================================== */}
+          <div className="actions-bar">
+                  {/* 🧾 ESPACE CLIENT – ADHÉRENT DISTANT */}
+                  {contexte === "client" && canSubmit && (
+                    <>
+                      {canPrint && (
+                        <button type="button" className="btn-ghost" onClick={handlePrintPreview}>Aperçu / PDF</button>
+                      )}
+
+                      <button type="submit" className="btn-primary">Soumettre le bulletin</button>
+                    </>
+                  )}
+
+                  {/* 🏢 ESPACE CLIENT – SOUSCRIPTEUR DISTANT */}
+                  {contexte === "client" && canValidate && (
+                    <>
+                      {canPrint && (
+                        <button type="button"  className="btn-ghost" onClick={handleDownloadPDF}>Télécharger le bulletin</button>
+                      )}
+
+                      <button type="button" className="btn-primary" onClick={handleValidation}>Valider l’adhésion</button>
+                    </>
+                  )}
+
+                  {/* 🛠️ ADMIN / BACKOFFICE */}
+                  {contexte === "admin" && (
+                    <>
+                      <button type="submit" className="btn-primary">Enregistrer l’adhésion</button>
+
+                      <button type="button" className="btn-ghost"  onClick={() => window.location.reload()}> Annuler</button>
+                    
+                      <button type="button" className="btn-close" onClick={() => navigate("/listeadhesions")}>Fermer</button>
+                    </>
+                  )}
+                </div>
+    {/*==================================================================================================================== */}
+
         {/* ASSURÉ */}
         <section className={`card ${sections.assure ? "active-section" : ""}`}>
                 <AccordionHeader
@@ -451,7 +593,7 @@ const saveAdhesion = async (payload) => {
                     <select name="compagnie" value={assure.compagnie}
                     onChange={handleAssure} >
                        <option value="">-- Compagnie --</option>
-                        <option value="SANLAM">Sanlam Maroc</option>
+                        <option value="Sanlam Maroc">Sanlam Maroc</option>
                         <option value="AXA">AXA Assurance Maroc</option>
                         <option value="Wafa Assurance">Wafa Assurance</option>
                         <option value="RMA">RMA</option>
@@ -465,17 +607,29 @@ const saveAdhesion = async (payload) => {
                         {/* Souscripteur */}
                         <label>
                           <span className="lbl">Souscripteur *</span>
-                            <select name="souscripteur" value={assure.souscripteur}
-                              onChange={(e) => { handleAssure(e); setSearchRaison(e.target.value); }}
-                            >
-                              <option value="">-- Sélectionner un client --</option>
-                              {clients.map((client) => (
-                                <option key={client.id_client} value={client.id_client}>
-                                  {client.raison_sociale}
-                                </option>
-                              ))}
-                            </select>
+                          <select
+                            name="souscripteur"
+                            value={assure.souscripteur}
+                            onChange={(e) => {
+                              handleAssure(e);
+                              setSearchRaison(e.target.value);
+                            }}
+                            disabled={!assure.compagnie} // ⛔ bloqué tant que compagnie non choisie
+                          >
+                            <option value="">
+                              {assure.compagnie
+                                ? "-- Sélectionner un client --"
+                                : "-- Choisissez d’abord une compagnie --"}
+                            </option>
+
+                            {souscripteursFiltres.map((client) => (
+                              <option key={client.id_client} value={client.id_client}>
+                                {client.raison_sociale}
+                              </option>
+                            ))}
+                          </select>
                         </label>
+
                         
                         {/* Numéro de police */}
                         <label>
@@ -500,13 +654,15 @@ const saveAdhesion = async (payload) => {
                           {/* Date d’adhésion */}
                         <label>
                           <span className="lbl">Date d’adhésion</span>
-                          <input type="date" name="date_adhesion" value={assure.date_adhesion} onChange={handleAssure} />
+                          <input type="date" name="date_adhesion" value={assure.date_adhesion} onChange={handleAssure} 
+                          disabled={!isFieldEditable("souscripteur")}/>
                         </label>
                         
                         {/* Numéro d’adhésion */}
                         <label>
                           <span className="lbl">Numéro d’adhésion</span>
-                          <input type="number" name="num_adhesion" value={assure.num_adhesion} onChange={handleAssure} />
+                          <input type="number" name="num_adhesion" value={assure.num_adhesion} onChange={handleAssure} 
+                          disabled={!isFieldEditable("souscripteur")}/>
                         </label>
                       </div>
                     </div>
@@ -798,7 +954,8 @@ const saveAdhesion = async (payload) => {
                 {/* Date d’adhésion */}
                 <label>
                   <span className="lbl">Date d’adhésion</span>
-                  <input type="date" value={conjoint.date_adh_conj} onChange={(e) => updateconjoint(i, "date_adh_conj", e.target.value)} />
+                  <input type="date" value={conjoint.date_adh_conj} onChange={(e) => updateconjoint(i, "date_adh_conj", e.target.value)}
+                    placeholder="jj/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}"  disabled={!isFieldEditable("souscripteur")}/>
                 </label>
                 
                 {/* Profession */}
@@ -810,7 +967,7 @@ const saveAdhesion = async (payload) => {
 
               {/* Bouton Supprimer */}
               <button type="button" className="btn-del" onClick={() => removeconjoint(i)}><span>&#x1F5D1;</span></button>
-              <br />
+             
               </div>
 
               ))}
@@ -885,12 +1042,14 @@ const saveAdhesion = async (payload) => {
                   {/* Date d’adhésion */ }
                   <label> 
                     <span className="lbl">Date d’adhésion</span> 
-                    <input type="date" value={enf.date_adh_enf} onChange={(e) => updateEnfant(i, "date_adh_enf", e.target.value)} />
+                    <input type="date" value={enf.date_adh_enf} onChange={(e) => updateEnfant(i, "date_adh_enf", e.target.value)} 
+                      placeholder="jj/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" disabled={!isFieldEditable("souscripteur")}/>
                   </label>
-
-                  {/* Bouton supprimer */ }
                   </div>
+
+                  {/* Bouton supprimer */ }                  
                   <button type="button" className="btn-del" onClick={() => removeEnfant(i)}><span>&#x1F5D1;</span></button>
+               
                 </div>
               ))}
             </div>
@@ -987,11 +1146,14 @@ const saveAdhesion = async (payload) => {
                           {/* Pourcentage */}
                           <label>
                             <span className="lbl">Pourcentage</span>
-                            <input type="number" value={b.pourcentage ?? ""} onChange={(e) => updateBenef(i, "pourcentage", e.target.value)} placeholder="ex: 50" />
+                            <input type="number" value={b.pourcentage ?? ""} onChange={(e) => updateBenef(i, "pourcentage", e.target.value)} 
+                            placeholder="ex: 50" disabled={!isFieldEditable("souscripteur")}/>
                           </label>
                         </div>
 
+                        {/* Bouton supprimer */}
                         <button type="button" className="btn-del" onClick={() => removeBenef(i)}><span>&#x1F5D1;</span></button>
+                      
                       </div>
                     ))}
                   </>
@@ -1032,7 +1194,7 @@ const saveAdhesion = async (payload) => {
                     <select value={questionnaire.adherent.cie_assur_mald_anterieur} onChange={(e) => 
                       handleQuestionnaire("adherent", "cie_assur_mald_anterieur", e.target.value)}>
                        <option value="">-- Compagnie --</option>
-                        <option value="SANLAM">Sanlam Maroc</option>
+                        <option value="Sanlam Maroc">Sanlam Maroc</option>
                         <option value="AXA">AXA Assurance Maroc</option>
                         <option value="Wafa Assurance">Wafa Assurance</option>
                         <option value="RMA">RMA</option>
@@ -1192,7 +1354,7 @@ const saveAdhesion = async (payload) => {
                     value={questionnaire.conjoint.emploi_occupe} onChange={(e) => handleQuestionnaire("conjoint", "emploi_occupe", e.target.value)} />
                   </label>
 
-                  {/* Assurance Maladie Antérieur */ }
+                  {/* Assurance Maladie Antérieure */ }
                   <label>
                     <span className="lbl">Avez-vous bénéficié d’une assurance maladie ?</span>
                     <select value={questionnaire.conjoint.benef_assur_mald_anterieur} onChange={(e) => 
@@ -1208,19 +1370,20 @@ const saveAdhesion = async (payload) => {
                     <select value={questionnaire.conjoint.cie_assur_mald_anterieur} onChange={(e) => 
                       handleQuestionnaire("conjoint", "cie_assur_mald_anterieur", e.target.value)}>
                        <option value="">-- Compagnie --</option>
-                        <option value="SANLAM">Sanlam Maroc</option>
+                        <option value="Sanlam Maroc">Sanlam Maroc</option>
                         <option value="AXA">AXA Assurance Maroc</option>
                         <option value="Wafa Assurance">Wafa Assurance</option>
                         <option value="RMA">RMA</option>
                         <option value="MCMA">MCMA</option>
                         <option value="La Marocaine Vie">La Marocaine Vie</option>
                         <option value="Allianz Maroc">Allianz Maroc</option>
+                        <option value="AtlantaSanad">AtlantaSanad</option>
                     </select>
                   </label>
 
                   {/* Assurance Maladie Actuelle */ }
                   <label>
-                    <span className="lbl">bénéficiez-vous actuellement d’une assurance maladie ?</span>
+                    <span className="lbl">Bénéficiez-vous d’une assurance maladie ?</span>
                     <select value={questionnaire.conjoint.benef_assur_maladie} onChange={(e) => 
                       handleQuestionnaire("conjoint", "benef_assur_maladie", e.target.value)}>
                       <option value="">--</option>
@@ -1234,13 +1397,14 @@ const saveAdhesion = async (payload) => {
                     <select value={questionnaire.conjoint.cie_assur_maladie} onChange={(e) => 
                       handleQuestionnaire("conjoint", "cie_assur_maladie", e.target.value)}>
                        <option value="">-- Compagnie --</option>
-                        <option value="SANLAM">Sanlam Maroc</option>
+                        <option value="Sanlam Maroc">Sanlam Maroc</option>
                         <option value="AXA">AXA Assurance Maroc</option>
                         <option value="Wafa Assurance">Wafa Assurance</option>
                         <option value="RMA">RMA</option>
                         <option value="MCMA">MCMA</option>
                         <option value="La Marocaine Vie">La Marocaine Vie</option>
                         <option value="Allianz Maroc">Allianz Maroc</option>
+                        <option value="AtlantaSanad">AtlantaSanad</option>
                     </select>
                   </label>
 
@@ -1261,7 +1425,7 @@ const saveAdhesion = async (payload) => {
                       handleQuestionnaire("conjoint", "motif_consultation", e.target.value)} />
                   </label>
 
-                  {/* Traitement */ }
+                  {/* Traitement en cours */ }
                   <label>
                     <span className="lbl">Traitement en cours ?</span>
                     <select value={questionnaire.conjoint.traitement_en_cours} onChange={(e) => 
@@ -1408,9 +1572,31 @@ const saveAdhesion = async (payload) => {
             </div>
           )}
         </section>
+     
       </form>
     </div>
     </div>  
+
+    {/* 🔥 ICI — rendu caché pour impression / PDF */}
+      <div style={{
+        position: 'absolute',
+        left: '-10000px',
+        top: '-10000px',
+        width: '160mm'
+      }}>
+        <BulletinAdhesionPreview
+          ref={printRef}
+          assure={assure}
+          conjoint={conjoint}
+          enfants={enfants}
+          beneficiaires={beneficiaires}
+          questionnaire={questionnaire}
+          clients={clients}
+          villes={villes}
+          pays={pays}
+        />
+      </div>
+
     </>
   );
 };

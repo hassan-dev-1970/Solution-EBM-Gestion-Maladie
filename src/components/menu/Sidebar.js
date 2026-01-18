@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
-import '../Styles/Sidebar.css'; // Assurez-vous d'importer le fichier CSS pour le style
+import '../Styles/Sidebar.css'; 
+import { useAuth } from "../utilisateurs/AuthContext";
 import PermissionGate from '../utilisateurs/PermissionGate';
+import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
 
 // Pour construire un Composant Dropdown
 function DropdownMenu({ label, icon, children }) {
@@ -22,6 +24,17 @@ function DropdownMenu({ label, icon, children }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Fermer le menu si on clique sur la touche Escape
+  useEffect(() => {
+    const handleEscapeKey = (e) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, []);
+
   return (
     <div className="dropdown-wrapper" ref={dropdownRef}>
       <div className="menu-item dropdown-toggle" onClick={toggleDropdown}>
@@ -38,12 +51,16 @@ function DropdownMenu({ label, icon, children }) {
 
 
 function Sidebar({ isOpen, toggleSidebar }) {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  const adhesionRoute = getAdhesionRouteByRole(user);
+
   return (
   <React.Fragment>
     <div
       className={`${isOpen ? "" : ""}`}> 
 
-    <div class="layout">
+    <div className="layout">
       <aside className={`sidebar ${isOpen ? "" : "collapsed"}`}>
        
     <nav>
@@ -143,7 +160,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             </div>
             
             <div className="tooltip-wrapper">
-          <Link to="/ajouter-adhesion" className='dropdown-link'>
+          <Link to={adhesionRoute} className='dropdown-link'>
                 <img className="" src="/Images/icones/menu/new.png" alt="" />
                 {isOpen &&<span>Nouvelle Adhésion</span>}
               </Link>
@@ -165,7 +182,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
           <DropdownMenu label="Gestion des sinistres" icon="/Images/icones/menu/Liste-1.png">          
               {/*-- Optique --*/}
               <div className="tooltip-wrapper">
-              <Link to="/pageinstruction" className='dropdown-link' tabindex="0">
+              <Link to="/pageinstruction" className='dropdown-link' tabIndex={0}>
                 <img className="" src="/Images/icones/lunettes-2.png" alt="" />
                 {isOpen &&<span className="">Optique</span>}
               </Link>

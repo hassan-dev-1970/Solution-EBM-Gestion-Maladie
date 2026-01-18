@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../Styles/connexion.css';
 import { useAuth } from '../utilisateurs/AuthContext';
+import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
 
 const Connexion = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const Connexion = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  
 
   // 🔹 Étape 1 : Vérifier l’email
   const handleCheckEmail = async (e) => {
@@ -34,36 +35,42 @@ const Connexion = () => {
   };
 
   // 🔹 Étape 2 : Connexion complète
-  const handleConnexion = async (e) => {
-    e.preventDefault();
-    setLoading(true);
 
-    try {
-      const response = await axios.post('/api/connexion', { email, pass });
-      const { token, user } = response.data;
+const { setUser } = useAuth();
 
-      const permissionsRes = await axios.get(`/api/roles/${user.role}/permissions`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+const handleConnexion = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-      const permissions = permissionsRes.data
-        .filter((p) => p.active === 1)
-        .map((p) => p.nom);
+  try {
+    const { data } = await axios.post("/api/connexion", { email, pass });
+    const { token, user } = data;
 
-      const userWithPermissions = { ...user, permissions };
+    // 🔐 Stockage persistant
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(userWithPermissions));
-      setUser(userWithPermissions);
+    // 🔐 Mise à jour du contexte (source de vérité)
+    setUser(user);
 
-      navigate('/accueil');
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Mot de passe incorrect.");
-      setPass('');
-    } finally {
-      setLoading(false);
-    }
-  };
+    // 🎯 Calcul de la route À PARTIR DU USER API
+    const adhesionRoute = getAdhesionRouteByRole(user);
+
+    // ⏳ Navigation après mise à jour du contexte
+    setTimeout(() => {
+      navigate(adhesionRoute, { replace: true });
+    }, 0);
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Mot de passe incorrect.");
+    setPass("");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
 
   return (
     <>

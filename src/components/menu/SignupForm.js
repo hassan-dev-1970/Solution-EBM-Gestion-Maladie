@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../Style/SignupForm.css';
 
 const SignupForm = () => {
@@ -19,7 +19,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div class='container' style={{ }}>
+    <div className='container' style={{ }}>
       <h2>Ajouter un compte</h2>
       <form onSubmit={handleSubmit}>
         <div>
