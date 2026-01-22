@@ -425,7 +425,8 @@ const handleSubmit = async (e) => {
 
   if (typeBenef === "ayants_droits" || typeBenef === "heritiers_legaux") {
     beneficiairesPayload = {
-      type_beneficiaire: typeBenef
+      type_beneficiaire: typeBenef,
+      liste: []
     };
   }
 
@@ -1075,7 +1076,7 @@ const handleValidation = () => {
                         name="type_benef"
                         value="ayants_droits"
                         checked={typeBenef === "ayants_droits"}
-                        onChange={() => { setTypeBenef("ayants_droits"); setBeneficiaires([]); }}
+                        onChange={() => setTypeBenef("ayants_droits")}
                       />
                       Ayants droits
                     </label>
@@ -1086,7 +1087,7 @@ const handleValidation = () => {
                         name="type_benef"
                         value="heritiers_legaux"
                         checked={typeBenef === "heritiers_legaux"}
-                        onChange={() => { setTypeBenef("heritiers_legaux"); setBeneficiaires([]); }}
+                        onChange={() => setTypeBenef("heritiers_legaux")}
                       />
                       Héritiers légaux
                     </label>
@@ -1594,6 +1595,7 @@ const handleValidation = () => {
           clients={clients}
           villes={villes}
           pays={pays}
+          typeBenef={typeBenef}
         />
       </div>
 

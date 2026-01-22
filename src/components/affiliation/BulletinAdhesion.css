@@ -63,35 +63,49 @@ table {
 }
 
 th {
-  background: #f2f3f5;
+  background: #e2e6ee;
   color: #000;
   font-weight: 500;
-  font-size: 10.5px;
+  font-size: 12.5px;
   text-align: left;
-  border: 0.1px solid #d8dbdc;
   padding: 4px 6px;
   vertical-align: middle;
   font-family: Calibri;
+  border-color: #666;
 }
 
 td {
   background: #fff;
   color: #082b67;
   text-align: left;
-  border: 0.1px solid #d8dbdc;
   padding: 4px 6px;
   vertical-align: middle;
   width: 25%;
-  font-size: 10.5px;
+  font-size: 12px;
   font-family:Calibri;
+  border-color: #666;
+
 }
 
 .td-titre {
-  font-size: 10.5px;
-  border: 0.1px solid #d8dbdc;
+  font-size: 12.5px;
   color: #000;
-  background: #f2f3f5;
+  background: #e2e6ee;
   font-family: Calibri;
+  border-right: 0 !important;
+  border-color: #666;
+
+}
+
+.no-border td, .no-border th {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+ .no-border-left {
+  border-left: 0 !important;
+}
+.no-border-right {
+  border-right: 0 !important;
 }
 /* =========================
    BULLETIN A4
@@ -129,13 +143,19 @@ td {
   margin-bottom: 20px;
 }
 
-.preview-section h3 {
+.preview-section h4 {
   background: #021e39;
   color: #fff;
   padding: 5px;
-  font-size: 14px;
+  font-size: 14px; 
 }
 
+.titre-questionnaire {
+  background: #021e39;
+  color: #fff;
+  padding: 5px;
+  font-size: 14px; 
+}
 
 .declaration {
   margin-top: 40px;
