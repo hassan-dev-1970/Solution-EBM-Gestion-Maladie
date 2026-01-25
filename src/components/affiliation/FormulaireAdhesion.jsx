@@ -1,9 +1,11 @@
 import axios from 'axios';
+import html2pdf from 'html2pdf.js';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from "react-to-print";
 import BulletinAdhesionPreview from './BulletinAdhesionPreview';
-import html2pdf from 'html2pdf.js';
+import SignaturePad from "./SignaturePad";
+
 import "./FormulaireAdhesion.css";
 
 // Icône simple en inline SVG
@@ -53,7 +55,8 @@ const FormulaireAdhesion = ({
   const navigate = useNavigate();
   const [typeBenef, setTypeBenef] = useState(""); 
   const [beneficiaires, setBeneficiaires] = useState([]);
-  
+  const [signature, setSignature] = useState(null);
+
   // Determine user role from context or localStorage
   const isAdmin = contexte === "admin";
   const isAdherentDistant = contexte === "client" && canSubmit;
@@ -421,27 +424,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   if (!validateBeforeSend()) return;
 
-  let beneficiairesPayload = null;
-
-  if (typeBenef === "ayants_droits" || typeBenef === "heritiers_legaux") {
-    beneficiairesPayload = {
-      type_beneficiaire: typeBenef,
-      liste: []
-    };
-  }
-
-  if (typeBenef === "personne_designee") {
-    beneficiairesPayload = {
-      type_beneficiaire: "personne_designee",
-      liste: beneficiaires.map(b => ({
-        nom: b.nom || null,
-        prenom: b.prenom || null,
-        date_naissance: b.date_naissance || null,
-        lien: b.lien || null,
-        pourcentage: b.pourcentage ? parseFloat(b.pourcentage) : null
-      }))
-    };
-  }
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   const payload = {
     assure,
@@ -449,7 +432,13 @@ const handleSubmit = async (e) => {
     enfants,
     beneficiaires: beneficiairesPayload,
     questionnaire,
-    notes
+    notes,
+    signature: {
+    image: signature,
+    date: new Date().toISOString(),
+    role: user.role,
+    signataire: `${user.nom} ${user.prenom}`
+  }
   };
 
   try {
@@ -509,6 +498,37 @@ const handleValidation = () => {
   // plus tard : appel API pour changer le statut
 };
 
+// ===============================
+// NORMALISATION BENEFICIAIRES (GLOBAL)
+// ===============================
+const beneficiairesPayload = (() => {
+  if (!typeBenef) return null;
+
+  // ayants droits / héritiers légaux
+  if (typeBenef === "ayants_droits" || typeBenef === "heritiers_legaux") {
+    return {
+      type_beneficiaire: typeBenef,
+      liste: []
+    };
+  }
+
+  // personnes désignées
+  if (typeBenef === "personne_designee") {
+    return {
+      type_beneficiaire: "personne_designee",
+      liste: beneficiaires.map(b => ({
+        nom: b.nom || null,
+        prenom: b.prenom || null,
+        date_naissance: b.date_naissance || null,
+        lien: b.lien || null,
+        pourcentage: b.pourcentage ? Number(b.pourcentage) : null
+      }))
+    };
+  }
+
+  return null;
+})();
+
 
   return (
     <> 
@@ -542,6 +562,15 @@ const handleValidation = () => {
                     <>
                       {canPrint && (
                         <button type="button" className="btn-ghost" onClick={handlePrintPreview}>Aperçu / PDF</button>
+                      )}
+
+                      {canSubmit && (
+                        <>
+                          <SignaturePad onChange={setSignature} />
+                          <button type="submit" className="btn-primary" disabled={!signature}>
+                            Signer et soumettre
+                          </button>
+                        </>
                       )}
 
                       <button type="submit" className="btn-primary">Soumettre le bulletin</button>
@@ -1590,7 +1619,7 @@ const handleValidation = () => {
           assure={assure}
           conjoint={conjoint}
           enfants={enfants}
-          beneficiaires={beneficiaires}
+          beneficiaires={beneficiairesPayload}
           questionnaire={questionnaire}
           clients={clients}
           villes={villes}

@@ -107,6 +107,12 @@ td {
 .no-border-right {
   border-right: 0 !important;
 }
+.no-berder-top {
+  border-top: 0 !important;
+}
+.no-border-bottom {
+  border-bottom: 0 !important;
+}
 /* =========================
    BULLETIN A4
 ========================= */
@@ -155,6 +161,7 @@ td {
   color: #fff;
   padding: 5px;
   font-size: 14px; 
+  border-bottom: 0 !important;
 }
 
 .declaration {
@@ -213,6 +220,72 @@ td {
   display: flex;
   justify-content: space-between;
 }
+
+
+/* =======================================
+    Signatures assure et mention légal 
+   ======================================= */
+
+.signatures-section {
+  margin-top: 30px;
+  page-break-inside: avoid;
+}
+
+.signatures-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.signature-box {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.signature-title {
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.signature-line {
+  border-bottom: 1px solid #000;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.signature-line.large {
+  height: 80px;
+}
+
+.signature-date {
+  font-size: 12px;
+  color: #444;
+}
+
+.mentions-legales p {
+  font-size: 11px;
+  color: #0e0303;
+}
+
+
+/* =========================
+   Signature Electronic
+========================= */
+.signature-preview {
+  margin-top: 20px;
+  page-break-inside: avoid;
+}
+
+.signature-preview img {
+  border-bottom: 1px solid #000;
+}
+
+.signature-meta {
+  font-size: 11px;
+  color: #333;
+}
+
 /* =========================
    FIN DU DOCUMENT
 ========================= */
+

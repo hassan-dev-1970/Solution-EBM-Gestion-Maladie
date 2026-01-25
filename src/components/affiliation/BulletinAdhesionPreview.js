@@ -3,6 +3,7 @@ import React from "react";
 import "./BulletinAdhesion.css";
 
 
+
 const getClientName = (id, clients = []) => {
   if (!id || !Array.isArray(clients)) return "-";
   return (
@@ -45,40 +46,17 @@ const yesNo = (v) =>
 
 
 const BulletinAdhesionPreview = React.forwardRef(
-({ assure, conjoint, enfants, beneficiaires, questionnaire, clients, villes, pays }, ref) => {
+({ assure, conjoint, enfants, beneficiaires, questionnaire, clients, villes, pays, signature }, ref) => {
 
-// ===== NORMALISATION BENEFICIAIRES =====
-let typeBenef = null;
-let listeBenef = [];
-
-// Nouveau format (objet)
-if (beneficiaires && typeof beneficiaires === "object" && !Array.isArray(beneficiaires)) {
-  typeBenef = beneficiaires.type_beneficiaire || null;
-  listeBenef = Array.isArray(beneficiaires.liste) ? beneficiaires.liste : [];
-}
-
-// Ancien format (tableau direct = personnes désignées)
-if (Array.isArray(beneficiaires)) {
-  typeBenef = "personne_designee";
-  listeBenef = beneficiaires;
-}
-
-// Normalisation du type
-const normalizedType = typeBenef
-  ? typeBenef
-      .toLowerCase()
-      .replace(/[_\s]/g, "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-  : null;
-
-
+const typeBenef = beneficiaires?.type_beneficiaire ?? null;
+const listeBenef = Array.isArray(beneficiaires?.liste)
+  ? beneficiaires.liste
+  : [];
 
 
   return (
     <><div>
       <div ref={ref} className="bulletin-a4-print">
-
         {/* ===== EN-TÊTE ===== */}
         <header className="pdf-header">
           <table className="preview-table-header">
@@ -88,8 +66,9 @@ const normalizedType = typeBenef
                   <img src="/Images/wafa-logo.png" alt="WAFA Assurance" height="40" />
                 </td>
                 <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                  BULLETIN D’ADHÉSION<br />
-                  ASSURANCE MALADIE
+                  BULLETIN INDIVIDUEL D’ADHÉSION<br />
+                  CONTRAT GROUPE PREVOYANCE<br />
+                  "ACCIDENTS CORPORELS" <br/> "ASSURANCE GROUPE DECES IAD"
                 </td>
                 <td style={{ width: "25%", textAlign: "right" }}>
                   Date : {new Date().toLocaleDateString()}
@@ -270,73 +249,72 @@ const normalizedType = typeBenef
 
           {/* ===== BENEFICIAIRES ===== */}
           <section className="preview-section">
-  <table className="preview-table">
-    <tbody>
+                {typeBenef === "ayants_droits" && (
+                  <>
+                    <table className="preview-table">
+                      <thead>
+                        <tr>
+                        <td className="titre-questionnaire">Bénéficiaires en cas de décès</td>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="no-border-top" style={{height: "50px"}}>
+                          <td>Les ayants droits légaux.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </>
+                )}
 
-      {/* ===== AYANTS DROITS ===== */}
-      {normalizedType === "ayantsdroits" && (
-        <tr>
-          <td colSpan="4">
-            Les bénéficiaires sont les <strong>ayants droits légaux</strong>.
-          </td>
-        </tr>
-      )}
+                {typeBenef === "heritiers_legaux" && (
+                  <>
+                    <table className="preview-table">
+                      <thead>
+                        <tr>
+                        <td className="titre-questionnaire">Bénéficiaires en cas de décès</td>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="no-border-top" style={{height: "50px"}}>
+                          <td>Les héritiers légaux.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </>
+                )}
 
-      {/* ===== HÉRITIERS LÉGAUX ===== */}
-      {normalizedType === "heritierslegaux" && (
-        <tr>
-          <td colSpan="4">
-            Les bénéficiaires sont les <strong>héritiers légaux</strong>.
-          </td>
-        </tr>
-      )}
+                {typeBenef === "personne_designee" && (
+                  listeBenef.length > 0 ? (
+                    <table className="preview-table">
+                      <thead>
+                      <tr>
+                        <td className="titre-questionnaire" colSpan={"4"}>Bénéficiaires en cas de décès</td>
+                      </tr>
+                        <tr className="no-border">
+                          <th className="no-border-right">Nom</th>
+                          <th className="no-border-right">Prénom</th>
+                          <th className="no-border-right">Date de naissance</th>
+                          <th>Lien</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {listeBenef.map((b, i) => (
+                          <tr key={i}>
+                            <td className="no-border-right">{b.nom || "-"}</td>
+                            <td className="no-border-right">{b.prenom || "-"}</td>
+                            <td className="no-border-right">{formatDateFR(b.date_naissance)}</td>
+                            <td>{b.lien || "-"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>Aucune personne désignée renseignée.</p>
+                  )
+                )}
 
-      {/* ===== PERSONNES DÉSIGNÉES ===== */}
-      {normalizedType === "personnedesignee" && (
-        <>
-          <tr>
-            <td className="titre-questionnaire" colSpan="4">
-              Bénéficiaires en cas de décès
-            </td>
-          </tr>
-
-          {listeBenef.length > 0 ? (
-            <>
-              <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Date de naissance</th>
-                <th>Lien</th>
-              </tr>
-
-              {listeBenef.map((b, i) => (
-                <tr key={i}>
-                  <td>{b.nom || "-"}</td>
-                  <td>{b.prenom || "-"}</td>
-                  <td>{formatDateFR(b.date_naissance)}</td>
-                  <td>{b.lien || "-"}</td>
-                </tr>
-              ))}
-            </>
-          ) : (
-            <tr>
-              <td colSpan="4">Aucune personne désignée renseignée.</td>
-            </tr>
-          )}
-        </>
-      )}
-
-      {/* ===== AUCUN CHOIX ===== */}
-      {!normalizedType && (
-        <tr>
-          <td colSpan="4">Aucun bénéficiaire sélectionné.</td>
-        </tr>
-      )}
-
-    </tbody>
-  </table>
-</section>
-
+                {!typeBenef && <p>Aucun bénéficiaire sélectionné.</p>}
+              </section>
 
 
         {/* ===== VISAS CLIENT ET SOUSCRIPTEUR ===== */}
@@ -614,37 +592,72 @@ const normalizedType = typeBenef
         )}
 
 
-        {/* ===== DECLARATION ET SIGNATURES ===== */}
-        <section className="preview-section" style={{marginTop: "40px"}}>
-          <table className="preview-table">
-            <tbody>
-              <tr>
-                {/* <td className="td-visas">
-                  Déclaration de l’adhérent<br /><br />
-                  Signature :
-                </td>*/}
-                <td className="td-visas" style={{float: "right"}}>
-                  Signature de l'adhérent:
-                </td>
-              </tr>
-            </tbody>
-          </table>
+       
+
+        {/* ================= SIGNATURES ================= */}
+        <section className="preview-section signatures-section">
+          <div className="signatures-grid">
+            <div className="signature-box">
+              <p className="signature-title">Signature de l’adhérent</p>
+              <div className="signature-line"></div>
+              <p className="signature-date">
+                Fait le : {formatDateFR(new Date())}
+              </p>
+            </div>
+
+            <div className="signature-box">
+              <p className="signature-title">Signature & cachet du souscripteur</p>
+              <div className="signature-line"></div>
+              <p className="signature-date">Cachet obligatoire</p>
+            </div>
+          </div>
+
+          {signature?.image && (
+              <div className="signature-preview">
+                <p><strong>Signature électronique</strong></p>
+                <img
+                  src={signature.image}
+                  alt="Signature"
+                  style={{ width: "200px", height: "auto" }}
+                />
+                <p className="signature-meta">
+                  Signé par : {signature.signataire}<br />
+                  Rôle : {signature.role}<br />
+                  Date : {formatDateFR(signature.date)}
+                </p>
+              </div>
+            )}
+
         </section>
 
-      
-    
-    {/* <footer className="print-footer">
-        <span className="footer-left">
-          Bulletin d’adhésion — édité le {new Date().toLocaleDateString("fr-FR")}
-        </span>
+        {/* ================= MENTIONS LÉGALES ================= */}
+        <section className="preview-section mentions-legales">
+          <h4>Mentions légales</h4>
+          <p>
+            Je soussigné(e) déclare que les informations fournies dans le présent
+            bulletin d’adhésion sont exactes et sincères.
+          </p>
 
-        <span className="footer-right">
-          Page <span className="pageNumber"></span> 
-        </span>
-      </footer>*/}
-     
-     
-     
+          <p>
+            Toute fausse déclaration ou omission intentionnelle pourra entraîner
+            la nullité des garanties conformément aux dispositions légales
+            applicables.
+          </p>
+
+          <p>
+            Le présent bulletin vaut demande d’adhésion et ne constitue pas une
+            acceptation définitive tant qu’il n’a pas été validé par l’organisme
+            assureur.
+          </p>
+          <p>
+            Les données personnelles collectées sont traitées conformément à la
+            réglementation en vigueur relative à la protection des données à
+            caractère personnel.
+        </p>
+
+        </section>
+
+    
       </div>
    </div></>
   );
