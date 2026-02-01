@@ -55,7 +55,7 @@ const AfficherPrestationsContrat = () => {
   return (
     <div className="prestations-container">
       <div className="header-actions">
-                  <h2>
+      <h2>
         Détail des Prestations <br />
         {contratInfo ? (
           <span>

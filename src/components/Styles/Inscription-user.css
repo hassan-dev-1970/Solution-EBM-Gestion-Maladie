@@ -109,22 +109,7 @@ body {
 .reset:hover {
   background-color: #984f4f;
 }
-/* Bouton retour */
-.btn-retour {
-  width: 100%;
-  background-color: #304d68;
-  color: white;
-  padding: 12px 22px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.btn-retour:hover {
-  background-color: #597288;
-}
+
   /* Animation de la ligne du titre*/
   @keyframes pulseLine {
     0% { width: 0; }

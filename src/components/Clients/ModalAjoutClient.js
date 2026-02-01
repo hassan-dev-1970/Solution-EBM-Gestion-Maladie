@@ -68,9 +68,12 @@ const ModalAjoutClient = ({ isOpen, onClose, onClientAjoute }) => {
   return (
     <div className="modal-overlay">
       <div className="modal_AddClient">
-        <div className="modal-content_AddClient">
-          <div className="titre"><h2>Ajouter un Client</h2> </div>
-           
+     
+      <div className="titre-modal">
+        <h1>Ajout - Client</h1>
+      </div>
+
+        <div className="modal-content_AddClient">           
           <form className="modal-content_AddClient" onSubmit={handleSubmit}>
             <input name="raison_sociale" placeholder="Raison sociale" value={client.raison_sociale} onChange={handleChange} required />
             <input name="adresse" placeholder="Adresse" value={client.adresse} onChange={handleChange} />
@@ -102,9 +105,9 @@ const ModalAjoutClient = ({ isOpen, onClose, onClientAjoute }) => {
             <option value="Mohamed Jadrane">Mohamed Jadrane</option>
             <option value="Yassine Benhaissate">Yassine Benhaissate</option>
             </select>
-            <div className="modal-actions">
-              <button id='button-valider' className='button-valider' type="submit">Enregistrer</button>
-              <button id='reset' className='reset' type="button" onClick={onClose}>Annuler</button>
+            <div className="btn-group bottom" style={{marginTop: '8px'}}>
+              <button id='button-valider' className='btn btn-success' type="submit">Enregistrer</button>
+              <button id='reset' className='btn btn-annuler' type="button" onClick={onClose}>Annuler</button>
             </div>
 
           </form>

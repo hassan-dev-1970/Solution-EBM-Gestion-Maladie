@@ -55,8 +55,8 @@ return (
           required
         />
         <div className="bouton">
-        <button className="btn-ajouter" type="submit">Ajouter</button>
-        <button className="btn-retour" onClick={handleRetour}>Retour</button>
+        <button className="btn btn-success" type="submit">Ajouter</button>
+        <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
       </div>
       </form>
 

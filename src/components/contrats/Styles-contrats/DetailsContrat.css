@@ -13,18 +13,7 @@
   gap: 10px;
   margin-bottom: 20px;
 }
-.btn-annuler {
-  width: 100%;
-  max-width: 200px;
-  height: 40px;
-  margin-top: 10px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
+
 
 .titre-VC {
   width: 100%;

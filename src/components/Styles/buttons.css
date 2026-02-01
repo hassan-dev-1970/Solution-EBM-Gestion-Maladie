@@ -1,0 +1,215 @@
+/* src/styles/buttons.css */
+
+/* =========================
+   STYLES GLOBAUX POUR BOUTONS
+   ========================= */
+
+
+/* Boutons basiques */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* ===== Conteneur pour les boutons côte à côte ===== */
+.btn-group {
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0px;
+  z-index: 9998;
+  justify-content: flex-start; /* alignement par défaut */
+}
+
+/* Alignement à droite */
+.btn-group.right {
+  justify-content: flex-end;
+}
+
+/* Alignement centré (au cas où) */
+.btn-group.center {
+  justify-content: center;
+}
+
+/* Alignement à gauche */
+.btn-group.left {
+  justify-content: flex-start;
+}
+
+/* Alignement en bas */
+.btn-group.bottom{
+  align-items: center;
+  margin-top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  gap: 8px;
+  padding: 10px;
+}
+
+/* Boutons larges dans le conteneur bas */
+.btn-group.bottom .btn-large{
+  width: 100%;
+  padding:10px 16px;
+  border-radius:8px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.1s;
+  
+}
+
+/* ============================================================================================ */
+
+.btn-add {
+  background-color: #436e75; /* Vert Bootstrap */
+  color:#fff;
+}
+.btn.add:hover {
+  background-color: #edefef;
+  transform: translateY(-1px);
+}
+/* ===== Bouton primaire (validation, ajout, action principale) ===== */
+.btn-primary {
+  background-color: #082b67; /* Bleu principal */
+  color:#fff;
+  
+}
+
+.btn-primary:hover {
+  background-color: #061f4a; /* Bleu plus foncé au survol */
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== Bouton secondaire (annuler, retour) ===== */
+.btn-secondary {
+  background-color: #6d7c8a; /* Gris neutre */
+  color:#fff; 
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* ===== Bouton danger (supprimer) ===== */
+.btn-danger {
+  background-color: #dc3545; /* Rouge Bootstrap */
+  color:#fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* ===== Bouton succès (activer, confirmer) ===== */
+.btn-success {
+  background-color: #28a745; /* Vert Bootstrap */
+  color:#fff;
+  width: 100%;
+  }
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* ===== Bouton annuler ===== */
+.btn-annuler {
+  background-color: #666e77; /* Gris clair */
+  color: #eceef0;
+}
+
+.btn-annuler:hover {
+  background-color: #a3adb9;
+  color: #1e293b;
+}
+
+.btn-annuler:disabled {
+  background-color: #f8f9fa;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* ======== Bouton ouvert ========= */
+.btn-open {
+  background-color: #0b4a7a;
+  color: #fff; 
+}
+
+.btn-open:hover {
+  background-color: #0b4a7a;
+  color: #fff;
+}
+
+/* ======== Bouton retour ========= */
+.btn-retour {
+  background-color: #3e6e9e;
+  color: white;
+}
+
+.btn-retour:hover {
+  background-color: #5585b5;
+  color: white;
+}
+
+
+/* ===== Bouton dans les toasts de confirmation ===== */
+.btn-toast-cancel,
+.btn-toast-confirm {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-toast-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-toast-cancel:hover {
+  background-color: #5a6268;
+}
+
+.btn-toast-confirm {
+  background-color: #082b67;
+  color: white;
+}
+
+.btn-toast-confirm:hover {
+  background-color: #061f4a;
+}

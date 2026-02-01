@@ -96,8 +96,7 @@ const response = await axios.post('/api/utilisateurs', {
         <div className="form-group">
           <label htmlFor="nom">Nom</label>
           <div className="input-wrapper">
-            <input
-              type="text"
+            <input type="text" 
               id="nom"
               name="nom"
               placeholder="Votre nom"
@@ -195,9 +194,9 @@ const response = await axios.post('/api/utilisateurs', {
         </div>
 
         {/* Boutons */}
-        <div className="button-groupe">
-          <button className="button-valider" type="submit">Valider</button>
-          <button className="reset" type="reset" onClick={() => setFormData({
+        <div className="btn-group bottom">
+          <button className="btn btn-success" type="submit">Valider</button>
+          <button className="btn btn-annuler" type="reset" onClick={() => setFormData({
                 nom: '',
                 prenom: '',
                 email: '',
@@ -206,7 +205,7 @@ const response = await axios.post('/api/utilisateurs', {
                 confirmPassword: ''
               })
             }> Annuler</button>
-          <button className="btn-retour" onClick={handleRetour}>Retour</button>
+          <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
         </div>
       </form>
     </div>

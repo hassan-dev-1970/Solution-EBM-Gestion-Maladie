@@ -15,39 +15,36 @@
   box-shadow: 0 2px 5px rgba(5, 5, 5, 0.1);
 
 }
-table {
+.table-permissions {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
-
-th, td {
+.table-permissions th, td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
 }
 
-.message {
-  margin-top: 10px;
-  color: green;
+.table-permissions th {
+  background-color: #c6cdd8;
+  text-align: center;
+  color: #093152;
+  font-weight: bold;
+  font-size: medium;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
-.error {
-  color: red;
-  margin-top: 10px;
+
+.table-permissions td {
+  background-color: #fff;
+  color: #315e95;
+  font-size: large;
 }
-.button-ajouter {
-  background-color: #496086;
-  color: rgb(242, 243, 247);
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 5px;
+
+.table-permissions tr:nth-child(even) td {
+  background-color: #f9f9f9;
 }
-.button-ajouter:hover {
-  background-color: #385b71;
-  color: #fff;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+
 

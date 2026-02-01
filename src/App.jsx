@@ -1,4 +1,5 @@
 
+import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import {
   Navigate,
@@ -10,10 +11,29 @@ import {
 } from 'react-router-dom';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { jwtDecode } from 'jwt-decode';
 import './App.css';
+// Importation des styles globaux
+import './components/Styles/buttons.css';
+import './components/Styles/titres.css';
+import './components/Styles/input-select-texterea.css';
+// Importation des composants
 import ListeClients from './components/Clients/ListeClients';
 import GestionTypePrestations from './components/Prestations/TypesPrestations';
+import BulletinAdhesionPreview from './components/affiliation/BulletinAdhesionPreview';
+import FormulaireAdhesion from "./components/affiliation/FormulaireAdhesion";
+import ListeAdhesions from './components/affiliation/ListeAdhesions';
+import ListeAdhesionsSoumises from './components/affiliation/ListeAdhesionsSoumises';
+import AfficherPrestationsContrat from './components/contrats/AfficherPrestationsContrat';
+import AjouterContrat from './components/contrats/AjouterContrat';
+import DetailsContrat from './components/contrats/DetailsContrat';
+import ListeContrats from './components/contrats/ListeContrats';
+import ListeContratsPrestations from './components/contrats/ListeContratsPrestations';
+import ListeContratsResilies from './components/contrats/ListeContratsResilies';
+import ModifierContrat from './components/contrats/ModifierContrat';
+import ModifierPrestationsContrat from './components/contrats/ModifierPrestationsContrat';
+import PrestationsContrat from './components/contrats/PrestationsContrat';
+import { default as EspaceClientAdhesion, default as EspaceSouscripteurAdhesion } from "./components/espace-client/EspaceClientAdhesion";
+import ListeMedicaments from './components/medicaments/ListeMedicaments';
 import Accueil from './components/menu/Accueil';
 import Header from './components/menu/Header';
 import PageInstruction from './components/menu/Page-construct';
@@ -27,21 +47,6 @@ import GestionPermissions from './components/utilisateurs/GestionPermissions';
 import InscriptionUsers from './components/utilisateurs/Inscription-users';
 import ListeUtilisateurs from './components/utilisateurs/ListeUtilisateurs';
 import ModifProfil from './components/utilisateurs/ModifProfil';
-import ListeContrats from './components/contrats/ListeContrats';
-import ListeContratsResilies from './components/contrats/ListeContratsResilies';
-import ListeContratsPrestations from './components/contrats/ListeContratsPrestations';
-import AjouterContrat from './components/contrats/AjouterContrat';
-import DetailsContrat from './components/contrats/DetailsContrat';
-import ModifierContrat from './components/contrats/ModifierContrat';
-import PrestationsContrat from './components/contrats/PrestationsContrat';
-import ModifierPrestationsContrat from './components/contrats/ModifierPrestationsContrat';
-import AfficherPrestationsContrat from './components/contrats/AfficherPrestationsContrat';
-import ListeMedicaments from './components/medicaments/ListeMedicaments';
-import ListeAdhesions from './components/affiliation/ListeAdhesions';
-import EspaceClientAdhesion from "./components/espace-client/EspaceClientAdhesion";
-import EspaceSouscripteurAdhesion from "./components/espace-client/EspaceClientAdhesion";
-import FormulaireAdhesion from "./components/affiliation/FormulaireAdhesion";
-import BulletinAdhesionPreview from './components/affiliation/BulletinAdhesionPreview';
 import './index.css';
 
 function AppContent({
@@ -427,6 +432,17 @@ useEffect(() => {
                 </PrivateRoute>
               }
             />  
+            <Route
+              path="/adhesions-a-valider"
+              element={
+                <PrivateRoute>
+                  <ListeAdhesionsSoumises
+                    setMessage={setMessage}
+                    setMessageType={setMessageType}
+                  />
+                </PrivateRoute>
+              }
+            />
           </Routes>
 
           </div>

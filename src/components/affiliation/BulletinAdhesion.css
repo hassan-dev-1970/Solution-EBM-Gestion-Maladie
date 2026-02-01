@@ -2,7 +2,7 @@
 
 @page {
   size: A4;
-  margin: 10mm;
+  margin: 0;
 }
 
 body {
@@ -23,7 +23,11 @@ body {
 /* =========================
    PDF HEADER
 ========================= */
+
 .pdf-header{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0px;
   text-align: center;
   margin-bottom: 10px;
   background: #fff;
@@ -31,6 +35,7 @@ body {
   font-weight: bold;
   padding: 10px;
   page-break-after: avoid;
+  font-family: Calibri;
   color: #000;
   height: 65px;
   }
@@ -58,15 +63,16 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0px;
-  margin-bottom: 5px;
+  margin-top: 0;
+  margin-bottom: 0;  
+  font-family: Calibri;
 }
 
 th {
   background: #e2e6ee;
   color: #000;
   font-weight: 500;
-  font-size: 12.5px;
+  font-size: 11.5px;
   text-align: left;
   padding: 4px 6px;
   vertical-align: middle;
@@ -81,14 +87,14 @@ td {
   padding: 4px 6px;
   vertical-align: middle;
   width: 25%;
-  font-size: 12px;
+  font-size: 11px;
   font-family:Calibri;
   border-color: #666;
 
 }
 
 .td-titre {
-  font-size: 12.5px;
+  font-size: 11.5px;
   color: #000;
   background: #e2e6ee;
   font-family: Calibri;
@@ -117,14 +123,14 @@ td {
    BULLETIN A4
 ========================= */
 .bulletin-a4-print {
+  margin: 0;
   width: 210mm;
   min-height: 297mm;
   padding: 10mm; /* marges internes */
-  margin: 0;
   box-sizing: border-box;
   position: relative;
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   color: #000;
   background: #fff;
   display: block;
@@ -204,7 +210,7 @@ td {
 .page-break {
   page-break-before: always;
   break-before: page;
-  height: 40px;
+  height: 10px;
   margin: 0;
   padding: 0;
 }
@@ -227,40 +233,10 @@ td {
    ======================================= */
 
 .signatures-section {
-  margin-top: 30px;
+  margin-top: 10px;
   page-break-inside: avoid;
 }
 
-.signatures-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-}
-
-.signature-box {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.signature-title {
-  font-weight: bold;
-  margin-bottom: 40px;
-}
-
-.signature-line {
-  border-bottom: 1px solid #000;
-  height: 60px;
-  margin-bottom: 10px;
-}
-
-.signature-line.large {
-  height: 80px;
-}
-
-.signature-date {
-  font-size: 12px;
-  color: #444;
-}
 
 .mentions-legales p {
   font-size: 11px;
@@ -271,19 +247,82 @@ td {
 /* =========================
    Signature Electronic
 ========================= */
-.signature-preview {
+
+.signature-actions button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  background-color: #4c7daf;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  width: auto;
+}
+
+.signature-actions button:hover {
+  background-color: #3b5c7d;
+}
+
+.table-signature {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 20px;
   page-break-inside: avoid;
 }
 
-.signature-preview img {
-  border-bottom: 1px solid #000;
+.table-signature th,
+.table-signature td {
+  border: 0;
+  padding: 8px;
+  text-align: center;
 }
 
-.signature-meta {
-  font-size: 11px;
-  color: #333;
+.table-signature th {
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
+
+.table-signature td {
+  background-color: #fff;
+}
+.table-signature img {
+  max-width: 150px;
+  height: 200px;
+  min-height: fit-content;
+  object-fit: contain;
+  margin: 0 auto;
+  margin-top: 10px;
+  background-color: #f7efef;
+  border: 1px solid #f6dbdb;
+  border-radius: 4px;
+  padding: 5px;
+  display: inline-block;
+  }
+
+.signature-confirmed {
+  min-height: 150px; 
+  border-radius: 4px;
+  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+  min-height: fit-content;
+  object-fit: contain;
+}
+
+.signature-preview {
+  margin-top: 15px;
+  padding: 10px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+}
+
+
+
 
 /* =========================
    FIN DU DOCUMENT

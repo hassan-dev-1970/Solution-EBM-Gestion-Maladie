@@ -53,12 +53,14 @@ const listeBenef = Array.isArray(beneficiaires?.liste)
   ? beneficiaires.liste
   : [];
 
+console.log("🟢 SIGNATURE DANS PREVIEW =", signature);
 
   return (
-    <><div>
-      <div ref={ref} className="bulletin-a4-print">
+    <><div className="bulletin-a4-print">
+      <div ref={ref} >
+        
         {/* ===== EN-TÊTE ===== */}
-        <header className="pdf-header">
+        <section className="preview-section">
           <table className="preview-table-header">
             <tbody>
               <tr>
@@ -76,8 +78,7 @@ const listeBenef = Array.isArray(beneficiaires?.liste)
               </tr>
             </tbody>
           </table>
-        </header>
-
+        </section>
 
         {/* ===== INFORMATIONS GÉNÉRALES CONTRAT ===== */}
         <section className="preview-section">
@@ -592,43 +593,66 @@ const listeBenef = Array.isArray(beneficiaires?.liste)
         )}
 
 
-       
-
         {/* ================= SIGNATURES ================= */}
-        <section className="preview-section signatures-section">
-          <div className="signatures-grid">
-            <div className="signature-box">
-              <p className="signature-title">Signature de l’adhérent</p>
-              <div className="signature-line"></div>
-              <p className="signature-date">
-                Fait le : {formatDateFR(new Date())}
-              </p>
-            </div>
+          <section className="preview-section">
+            
+            <table className="preview-table table-signature">
+              <tbody>    
+                <tr>
+                  <td className="">Signature électronique</td>
+                  <td>Signature de l’adhérent</td>
+                  <td>Signature & cachet du souscripteur</td>
+                </tr>
+                <tr style={{height: "100px"}}>
+                  <td className="">
+                    {signature?.image && signature.role === "user_distant-adherent" ? (
+                      <img src={signature.image} alt="Signature" style={{maxWidth: "150px", maxHeight: "80px"}} />
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td className="">
+                    </td>
+                  <td>Fait le : {formatDateFR(new Date())}</td>
+                  <td>Cachet obligatoire</td>
+                </tr>
+              </tbody>
+            </table>        
+            
+            {/* Alternative signature layout 
+            
+            <div className="signatures-grid">
+              <div className="signature-box">
+                <p className="signature-title">Signature de l’adhérent</p>
+                <div className="signature-line"></div>
+                <p className="signature-date">
+                  Fait le : {formatDateFR(new Date())}
+                </p>
+              </div>
 
-            <div className="signature-box">
-              <p className="signature-title">Signature & cachet du souscripteur</p>
-              <div className="signature-line"></div>
-              <p className="signature-date">Cachet obligatoire</p>
-            </div>
-          </div>
+              <div className="signature-box">
+                <p className="signature-title">Signature & cachet du souscripteur</p>
+                <div className="signature-line"></div>
+                <p className="signature-date">Cachet obligatoire</p>
+              </div>
 
-          {signature?.image && (
+            {signature?.image && signature.role === "user_distant-adherent" && (
               <div className="signature-preview">
                 <p><strong>Signature électronique</strong></p>
-                <img
-                  src={signature.image}
-                  alt="Signature"
-                  style={{ width: "200px", height: "auto" }}
-                />
+                <img src={signature.image} alt="Signature" />
                 <p className="signature-meta">
                   Signé par : {signature.signataire}<br />
-                  Rôle : {signature.role}<br />
-                  Date : {formatDateFR(signature.date)}
+                  Fait le : {formatDateFR(signature.date)}
                 </p>
               </div>
             )}
+          </div>*/}
 
-        </section>
+          </section>
 
         {/* ================= MENTIONS LÉGALES ================= */}
         <section className="preview-section mentions-legales">

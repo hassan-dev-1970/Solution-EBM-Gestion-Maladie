@@ -127,7 +127,7 @@ useEffect(() => {
 
   return (
     <div className="liste-Liste">
-      <h2>Contrats Résiliés</h2>
+      <h1>Contrats Résiliés</h1>
 
       {error && <p className="error">{error}</p>}
       {message && (

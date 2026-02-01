@@ -328,3 +328,15 @@ body {
     gap: 10px;
   }
 
+.badge-sidebar {
+  background-color: #e74c3c; /* rouge vif */
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  margin-left: 8px;
+  vertical-align: middle;
+  min-width: 20px;
+  text-align: center;
+}
+

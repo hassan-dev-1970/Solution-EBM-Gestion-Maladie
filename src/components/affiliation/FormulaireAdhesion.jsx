@@ -2,7 +2,6 @@ import axios from 'axios';
 import html2pdf from 'html2pdf.js';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useReactToPrint } from "react-to-print";
 import BulletinAdhesionPreview from './BulletinAdhesionPreview';
 import SignaturePad from "./SignaturePad";
 
@@ -56,12 +55,22 @@ const FormulaireAdhesion = ({
   const [typeBenef, setTypeBenef] = useState(""); 
   const [beneficiaires, setBeneficiaires] = useState([]);
   const [signature, setSignature] = useState(null);
-
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   // Determine user role from context or localStorage
   const isAdmin = contexte === "admin";
   const isAdherentDistant = contexte === "client" && canSubmit;
   const isSouscripteurDistant = contexte === "client" && canValidate;
 
+ 
+
+const [modalEnfant, setModalEnfant] = useState({
+  isOpen: false,
+  benefIndex: null // index du bénéficiaire concerné
+});
+// ---------- END STATES pour options dynamiques ------------------------------------------
+// ========================================================================================
+
+// Helper pour déterminer si un champ est éditable ou non
  const isFieldEditable = (fieldOwner) => {
   if (isAdmin) return true;
 
@@ -120,8 +129,8 @@ const FormulaireAdhesion = ({
     date_embauche: "",
     regime_base: "",
     notes: "",
-    statut_adhesion: "En cours",
-    situation_adhesion: "En cours"
+    statut_adhesion: "",
+    situation_adhesion: ""
   });
 
   
@@ -330,12 +339,40 @@ const addBenef = () => setBeneficiaires((arr) => [
 const removeBenef = (i) =>
   setBeneficiaires((arr) => arr.filter((_, idx) => idx !== i));
 
-const updateBenef = (i, field, value) =>
-  setBeneficiaires((arr) => {
-    const copy = [...arr];
-    copy[i] = { ...copy[i], [field]: value };
-    return copy;
-  });
+// Met à jour un champ spécifique d’un bénéficiaire dans le tableau
+const updateBenef = (index, field, value) => {
+  setBeneficiaires(prev =>
+    prev.map((b, i) =>
+      i === index ? { ...b, [field]: value } : b
+    )
+  );
+};
+
+// Renvoie les IDs (index) des enfants déjà utilisés comme bénéficiaires
+const getEnfantsDejaSelectionnes = () => {
+  return beneficiaires
+    .filter(b => b.lien === "enfant")
+    .map(b => {
+      // On identifie l'enfant par nom + prénom + date (ou juste l'index si vous stockez l'id)
+      return `${b.nom}-${b.prenom}-${b.date_naissance}`;
+    });
+};
+
+const handleLienChange = (index, value) => {
+  if (value === "enfant" && enfants.length > 0) {
+    // Ouvrir la modale
+    setModalEnfant({ isOpen: true, benefIndex: index });
+  } else {
+    // Mettre à jour normalement
+    updateBenef(index, "lien", value);
+    // Optionnel : vider les champs si besoin
+    if (value !== "enfant") {
+      updateBenef(index, "nom", "");
+      updateBenef(index, "prenom", "");
+      updateBenef(index, "date_naissance", "");
+    }
+  }
+};
 
 
   const addconjoint = () => setConjoint((arr) => [...arr, { nom: "", prenom: "", sexe_conj: "", date_naissance: "", type_identite_conj: "", num_identite_conj: "", profession: "", date_adh_conj: "" }]);
@@ -399,7 +436,8 @@ const saveAdhesion = async (payload) => {
     enfants,
     beneficiaires,
     questionnaire,
-    notes: notes || ""
+    notes: notes || "",
+    signature: payload.signature
   };
 
   // 🔥 Envoi au backend
@@ -418,13 +456,35 @@ const saveAdhesion = async (payload) => {
   return id_adhesion;
 };
 
+const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+const getSignatureObject = (image) => ({
+  image,
+  date: new Date().toISOString(),
+  role: user.role,
+  signataire: `${user.nom} ${user.prenom}`
+});
+
+// Helper to format dates in French locale for display (used by modal child selection)
+const formatDateFR = (date) => {
+  if (!date) return "";
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return String(date);
+  try {
+    return d.toLocaleDateString('fr-FR');
+  } catch {
+    // simple fallback dd/mm/yyyy
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
 
 // ---------- HANDLE SUBMIT ----------
 const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!validateBeforeSend()) return;
-
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!validateBeforeSend()) return; 
 
   const payload = {
     assure,
@@ -433,12 +493,7 @@ const handleSubmit = async (e) => {
     beneficiaires: beneficiairesPayload,
     questionnaire,
     notes,
-    signature: {
-    image: signature,
-    date: new Date().toISOString(),
-    role: user.role,
-    signataire: `${user.nom} ${user.prenom}`
-  }
+    signature: getSignatureObject(signature)
   };
 
   try {
@@ -465,33 +520,47 @@ const handleSubmit = async (e) => {
 
 const printRef = useRef(null);
 
-const handlePrintPreview = useReactToPrint({
-  contentRef: printRef,
-  documentTitle: `Bulletin_Adhesion_${assure.nom}_${assure.prenom}`,
-  removeAfterPrint: true
-});
-
 // ---------- IPRESSION AVEC html2pdf ----------
-const handleDownloadPDF = () => {
+const handleDownloadPDF = async () => {
   const element = printRef.current;
   if (!element) return;
 
-  const opt = {
-    margin: 0,
-    filename: `Bulletin_Adhesion_${assure.nom}_${assure.prenom}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      scrollY: -window.scrollY // corrige le décalage de scroll
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-
-  html2pdf().set(opt).from(element).save();
+// 🔥 attendre que l'image signature soit chargée
+  if (!signature) {
+    alert("Veuillez signer avant de télécharger le bulletin.");
+    return;
+  }
+  // Indique qu’on va générer le PDF → force le re-rendu avec la signature
+  setIsGeneratingPDF(true);
 };
+  useEffect(() => {
+  if (isGeneratingPDF && signature) {
+    // Laisser un tick au DOM pour s’assurer que le composant est à jour
+    const timer = setTimeout(() => {
+      const element = printRef.current;
+      if (element) {
+        const opt = {
+          margin: 10,
+          filename: `Bulletin_Adhesion_${assure.nom}_${assure.prenom}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            allowTaint: true 
+          },
+          jsPDF: { unit: 'mm', format: 'a4' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+
+        html2pdf().set(opt).from(element).save();
+      }
+      setIsGeneratingPDF(false); // réinitialiser
+    }, 50); // délai court pour garantir le rendu
+
+    return () => clearTimeout(timer);
+  }
+}, [isGeneratingPDF, signature, assure]);
+
 
 const handleValidation = () => {
   alert("Adhésion validée par le souscripteur");
@@ -556,21 +625,12 @@ const beneficiairesPayload = (() => {
     {/*=========================================================================== */}
           {/*========== Barre de navigation basique des boutons ========== */}
     {/*=========================================================================== */}
-          <div className="actions-bar">
+          <div className="btn-group right">
                   {/* 🧾 ESPACE CLIENT – ADHÉRENT DISTANT */}
                   {contexte === "client" && canSubmit && (
                     <>
                       {canPrint && (
-                        <button type="button" className="btn-ghost" onClick={handlePrintPreview}>Aperçu / PDF</button>
-                      )}
-
-                      {canSubmit && (
-                        <>
-                          <SignaturePad onChange={setSignature} />
-                          <button type="submit" className="btn-primary" disabled={!signature}>
-                            Signer et soumettre
-                          </button>
-                        </>
+                        <button type="button" className="btn-ghost" onClick={handleDownloadPDF} disabled={!signature}>Aperçu / PDF</button>
                       )}
 
                       <button type="submit" className="btn-primary">Soumettre le bulletin</button>
@@ -581,24 +641,24 @@ const beneficiairesPayload = (() => {
                   {contexte === "client" && canValidate && (
                     <>
                       {canPrint && (
-                        <button type="button"  className="btn-ghost" onClick={handleDownloadPDF}>Télécharger le bulletin</button>
+                        <button type="button"  className="btn-ghost" onClick={handleDownloadPDF} disabled={!signature}>Télécharger le bulletin</button>
                       )}
 
-                      <button type="button" className="btn-primary" onClick={handleValidation}>Valider l’adhésion</button>
+                      <button type="button" className="btn-success" onClick={handleValidation}>Valider l’adhésion</button>
                     </>
                   )}
 
                   {/* 🛠️ ADMIN / BACKOFFICE */}
                   {contexte === "admin" && (
                     <>
-                      <button type="submit" className="btn-primary">Enregistrer l’adhésion</button>
+                      <button type="submit" className="btn-success">Enregistrer l’adhésion</button>
 
-                      <button type="button" className="btn-ghost"  onClick={() => window.location.reload()}> Annuler</button>
+                      <button type="button" className="btn-annuler"  onClick={() => window.location.reload()}> Annuler</button>
                     
                       <button type="button" className="btn-close" onClick={() => navigate("/listeadhesions")}>Fermer</button>
                     </>
                   )}
-                </div>
+          </div>
     {/*==================================================================================================================== */}
 
         {/* ASSURÉ */}
@@ -1146,7 +1206,7 @@ const beneficiairesPayload = (() => {
                           {/* Type de lien */}
                           <label>
                             <span className="lbl">Type de lien</span>
-                            <select name="lien" value={b.lien} onChange={(e) => updateBenef(i, "lien", e.target.value)}>
+                            <select name="lien" value={b.lien} onChange={(e) => handleLienChange(i, e.target.value)}>
                               <option value="">-- sélectionner --</option>
                               <option value="parent">Parent</option>
                               <option value="conjoint">Conjoint</option>
@@ -1158,7 +1218,8 @@ const beneficiairesPayload = (() => {
                            {/* Nom */}
                           <label>
                             <span className="lbl">Nom</span>
-                            <input value={b.nom} onChange={(e) => updateBenef(i, "nom", e.target.value.toUpperCase())} />
+                            <input value={b.nom} readOnly={b.lien === "enfant"}
+                            onChange={(e) => updateBenef(i, "nom", e.target.value.toUpperCase())} />
                           </label>
 
                           {/* Prénom */}
@@ -1603,6 +1664,47 @@ const beneficiairesPayload = (() => {
           )}
         </section>
      
+        {/* ================= SIGNATURE ================= */}
+        <section className="card signature-section">
+          <h3>Signature électronique</h3>
+
+          {/* Zone de signature */}
+          {!signature ? (
+            <SignaturePad onChange={(imgData) => setSignature(getSignatureObject(imgData))}/>
+          ) : (
+            <div className="signature-confirmed">
+              <img
+                src={signature}
+                alt=""
+                className="signature-preview"
+              />
+            </div>
+          )}
+
+          {/* Boutons de la section signature */}
+          <div className="signature-actions">
+
+            {!signature && (
+              <p className="muted">
+                Veuillez signer avant de soumettre.
+              </p>
+            )}
+
+            {signature && (
+              <>
+                <button type="button" onClick={() => setSignature(null)}>
+                  Refaire la signature
+                </button>
+
+                <button type="submit" className="btn-primary" >
+                  Signer et soumettre
+                </button>
+              </>
+            )}
+
+          </div>
+        </section>
+
       </form>
     </div>
     </div>  
@@ -1625,9 +1727,67 @@ const beneficiairesPayload = (() => {
           villes={villes}
           pays={pays}
           typeBenef={typeBenef}
+          signature={signature}
         />
       </div>
 
+
+
+
+          {/* MODALE SÉLECTION ENFANT */}
+          {modalEnfant.isOpen && (
+            <div className="modal-overlay" onClick={() => setModalEnfant({ isOpen: false, benefIndex: null })}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className='modal-header'>
+                <h3>Sélectionner un enfant</h3>
+                </div>
+                {enfants.length === 0 ? (
+                  <p>Aucun enfant déclaré.</p>
+                ) : (() => {
+                  const dejaSelectionnes = getEnfantsDejaSelectionnes();
+                  const enfantsDisponibles = enfants.filter((e, idx) => {
+                    const key = `${e.nom}-${e.prenom}-${e.date_naissance}`;
+                    return !dejaSelectionnes.includes(key);
+                  });
+
+                  if (enfantsDisponibles.length === 0) {
+                    return <p>Tous les enfants ont déjà été désignés comme bénéficiaires.</p>;
+                  }
+
+                  return (
+                    <div className="modal-list">
+                      {enfants.map((e, idx) => {
+                        const key = `${e.nom}-${e.prenom}-${e.date_naissance}`;
+                        const estDisponible = !dejaSelectionnes.includes(key);
+                        
+                        return (
+                          <div
+                            key={idx}
+                            className={`modal-list-item ${!estDisponible ? 'disabled' : ''}`}
+                            onClick={() => {
+                              if (!estDisponible) return;
+                              const index = modalEnfant.benefIndex;
+                              updateBenef(index, "nom", e.nom || "");
+                              updateBenef(index, "prenom", e.prenom || "");
+                              updateBenef(index, "date_naissance", e.date_naissance || "");
+                              updateBenef(index, "lien", "enfant");
+                              setModalEnfant({ isOpen: false, benefIndex: null });
+                            }}
+                          >
+                            {e.prenom} {e.nom} — {formatDateFR(e.date_naissance)}
+                            {!estDisponible && <span style={{ marginLeft: '8px', color: '#999' }}>(déjà sélectionné)</span>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+
+                <button type="button" className="btn-secondary"
+                  onClick={() => setModalEnfant({ isOpen: false, benefIndex: null })}>Fermer</button>
+              </div>
+            </div>
+          )}
     </>
   );
 };

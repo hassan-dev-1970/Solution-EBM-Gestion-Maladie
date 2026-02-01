@@ -118,7 +118,7 @@ const filteredClients = clients.filter((client) =>
 
   return (
     <div className="liste-Liste">
-      <h2>Liste des Clients</h2>
+      <h1>Liste des Clients</h1>
 
 <div className="barre-recherche-clients">
 

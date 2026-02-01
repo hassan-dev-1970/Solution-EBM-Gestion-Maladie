@@ -128,7 +128,7 @@ setUtilisateurs((prev) =>
   return (
     <>
       <div className="liste-Liste">
-        <h2>Liste des utilisateurs</h2>
+        <h1>Liste des utilisateurs</h1>
 
 <div className="barre-recherche-clients">
   <input type="text" placeholder="Nom" value={searchNom}

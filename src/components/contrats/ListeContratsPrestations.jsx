@@ -131,7 +131,7 @@ useEffect(() => {
 
   return (
     <div className="liste-Liste">
-      <h2>Gestion des Prestations</h2>
+      <h1>Gestion des Prestations</h1>
 
       {error && <p className="error">{error}</p>}
 

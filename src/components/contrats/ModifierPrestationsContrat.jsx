@@ -201,7 +201,7 @@ const handleSaveAll = async () => {
 
   return (
     <div className="prestations-container">
-      <div className="header-actions">
+      <div className="header-actions-prestations">
           <h2>
               Mise à jour des Prestations <br />
               {contratInfo ? (
@@ -212,19 +212,14 @@ const handleSaveAll = async () => {
               ) : (
                 "Chargement..."
               )}
-            </h2>
-          <div className="actions-buttons">
-          <button
-            className="btn-retour"
-            onClick={() => navigate("/listecontratsprestations")}
-          >
-            &lt;&lt;&lt; Retour
-          </button>
+        </h2>
+          
+      <div className="btn-group right">
+          <button className="btn-secondary" onClick={() => navigate("/listecontratsprestations")}>
+            &lt;&lt;&lt; Retour</button>        
 
-          <button onClick={handleSaveAll} className="btn-valider-prestations">
-          Valider la modification des prestations
-          </button>
-          </div>
+          <button onClick={handleSaveAll}  className="btn-success"> Valider la modification des prestations</button>
+      </div>
     </div>
 
 

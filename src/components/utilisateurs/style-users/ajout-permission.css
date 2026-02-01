@@ -92,39 +92,7 @@ body {
   gap: 12px;
   width: 100%;
 }
-.form-container-ajout-permission .btn-retour {
-  width: 100%;
-  background-color: #304d68;
-  color: white;
-  padding: 12px 22px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.form-container-ajout-permission .btn-retour:hover {
-  background-color: #597288;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.form-container-ajout-permission .btn-ajouter {
-  width: 100%;
-  background-color: green;
-  color: #fff;
-  padding: 12px 22px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.form-container-ajout-permission .btn-ajouter:hover {
-  background-color: rgb(26, 153, 26);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
 .form-container-ajout-permission p {
   color: green;

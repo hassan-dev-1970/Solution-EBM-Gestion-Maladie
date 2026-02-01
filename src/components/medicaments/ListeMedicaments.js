@@ -142,7 +142,7 @@ useEffect(() => {
 // Affichage de la liste des medicaments
   return (
     <div className="liste-Liste">
-      <h2>Liste des Medicaments</h2>
+      <h1>Liste des Medicaments</h1>
 <div className="barre-recherche-clients">
 
   <div className="input-tooltip">

@@ -11,7 +11,7 @@
 }
 
 /* Header */
-.header-actions {
+.header-actions-prestations {
   display: flex;
   margin-bottom: 40px;
   width: 100%;
@@ -22,71 +22,37 @@
   border-radius: 8px;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header-actions h2 {
+.header-actions-prestations h2 {
   font-size: 1.2rem;
   color: #2c4a7d;
   margin: 0;
   text-align: left;
   width: 100%;
 }
-.header-actions h2 span {
+.header-actions-prestations h2 span {
   font-weight: normal;
   font-size: 1rem;
   color: #374151;
+}
+
+.actions-buttons-prestations {
+  display: flex;
+  gap: 10px; /* espace entre boutons */
+  float: right;
+  z-index: 10;
+  width: 100%;
+  background-color: yellow;
 }
 
 /* =============================================================================
    BOUTONS (Retour & Enregistrer)
 ============================================================================= */
 
-.actions-buttons {
-  display: flex;
-  gap: 10px; /* espace entre boutons */
-  float: right;
-  z-index: 10;
-  width: 100%;
-  justify-content: flex-end;
-}
 
-.btn-retour {
-  background: #f1f5f9;
-  color: #475569;
-  border-color: #e2e8f0;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-  width: 200px;
-}
-
-.btn-retour:hover {
-  background: #e2e8f0;
-  color: #1e293b; 
- }
-
-.btn-valider-prestations {
-  width: auto;
-  background: #2563eb;
-  color: white;  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.btn-valider-prestations:hover {
-  background: #1d4ed8;
-}
-
-.btn-valider-prestations:disabled {
-  background: #cbd5e1;
-  color: #94a3b8;
-  cursor: not-allowed;
-}
 
 /* =============================================================================
      ACCORDÉONS (Maladie, Incapacité, Décès)

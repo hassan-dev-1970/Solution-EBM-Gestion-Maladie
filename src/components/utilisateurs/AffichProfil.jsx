@@ -35,8 +35,8 @@ const ModalViewUser = ({ user, isOpen, onClose }) => {
                 <input value={user.login} readOnly />
               </div>
 
-              <div className="modal-buttons">
-                <button className="button-valider" onClick={onClose}>Fermer</button>
+              <div className="btn-group bottom">
+                <button className="btn-close btn-large" onClick={onClose}>Fermer</button>
               </div>
             </div>
           </div>

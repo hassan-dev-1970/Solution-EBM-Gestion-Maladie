@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
-import '../Styles/Sidebar.css'; 
+import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
+import useAdhesionCount from '../affiliation/useAdhesionCount';
+import '../Styles/Sidebar.css';
 import { useAuth } from "../utilisateurs/AuthContext";
 import PermissionGate from '../utilisateurs/PermissionGate';
-import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
+
 
 // Pour construire un Composant Dropdown
 function DropdownMenu({ label, icon, children }) {
@@ -34,7 +36,6 @@ function DropdownMenu({ label, icon, children }) {
     document.addEventListener('keydown', handleEscapeKey);
     return () => document.removeEventListener('keydown', handleEscapeKey);
   }, []);
-
   return (
     <div className="dropdown-wrapper" ref={dropdownRef}>
       <div className="menu-item dropdown-toggle" onClick={toggleDropdown}>
@@ -51,10 +52,14 @@ function DropdownMenu({ label, icon, children }) {
 
 
 function Sidebar({ isOpen, toggleSidebar }) {
-  const { user, loading } = useAuth();
-  if (loading) return null;
-  const adhesionRoute = getAdhesionRouteByRole(user);
+const { user, loading: authLoading } = useAuth();
+const { count } = useAdhesionCount(user?.role); // ✅ safe même si user est undefined
 
+if (authLoading) return <div className="sidebar">Chargement...</div>;
+if (!user) return null;
+
+const adhesionRoute = getAdhesionRouteByRole(user);
+  
   return (
   <React.Fragment>
     <div
@@ -166,6 +171,17 @@ function Sidebar({ isOpen, toggleSidebar }) {
               </Link>
               {!isOpen && <span className="tooltipDropdown">Nouvelle Adhésion</span>}
             </div>
+
+            <div className="tooltip-wrapper">
+              {user.role === 'user_distant-souscripteur' && (                  
+                    <Link to="/adhesions-a-valider" className="dropdown-link">
+                      📋 Adhésions à valider
+                      {count > 0 && (
+                        <span className="badge-sidebar">{count}</span>
+                      )}
+                    </Link>                 
+                )}
+            </div>           
 
             <div className="tooltip-wrapper">
               <Link to="/pageinstruction" className='dropdown-link'>

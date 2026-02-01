@@ -6,6 +6,7 @@ import '../contrats/Styles-contrats/ListeContrats.css';
 import { useAuth } from "../utilisateurs/AuthContext";
 import PermissionGate from '../utilisateurs/PermissionGate';
 import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
+import useConfirmToast from '../useConfirmToast';
 
 
 const ListeAdhesions = () => {
@@ -102,6 +103,7 @@ useEffect(() => {
   };
 
   useEffect(() => { fetchContrats(); }, []);
+  
 
   // ⏳ Effacer les messages après 3 secondes
   useEffect(() => {
@@ -204,20 +206,32 @@ useEffect(() => {
 ]);
 
   // 🗑️ Supprimer un assure
+  const { showConfirm } = useConfirmToast();
   const supprimerAssure = async (id_adhesion) => {
-    if (!window.confirm("Voulez-vous vraiment supprimer cet assuré ?")) return;
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`/api/adhesions/${id_adhesion}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success("Assuré supprimé avec succès.");
-      fetchContrats();
-    } catch (err) {
-      console.error("Erreur suppression assuré", err);
-      toast.error("Erreur lors de la suppression.");
-    }
-  };
+    showConfirm(
+          "Voulez-vous vraiment supprimer cet assuré ?",
+          async () => {
+            try {
+              const token = localStorage.getItem('token');
+              await axios.delete(`/api/adhesions/${id_adhesion}`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+              toast.success("Assuré supprimé avec succès.");
+              fetchContrats();
+            } catch (err) {
+              console.error("Erreur suppression assuré", err);
+              toast.error("Erreur lors de la suppression.");
+           }
+          },
+          {
+            confirmText: "Supprimer",
+            cancelText: "Annuler",
+            confirmColor: "#dc3545"
+            // Vous pouvez aussi personnaliser les couleurs si besoin
+          }
+        );
+      };
+
 
   // 📄 Pagination
 const totalPages = Math.ceil(filteredAdhesions.length / adhesionsParPage);
@@ -228,7 +242,7 @@ const currentAdhesions = filteredAdhesions.slice(
 
   return (
     <div className="liste-Liste">
-      <h2>Liste des adhésions</h2>
+      <h1>Liste des adhésions</h1>
 
       {error && <p className="error">{error}</p>}
 

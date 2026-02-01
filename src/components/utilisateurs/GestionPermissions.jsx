@@ -92,14 +92,15 @@ const handleSubmit = async () => {
       {/* Liste des permissions */}
       {selectedRoleId && (
         <div className="permissions-list">
-          <div style={{ marginBottom: '10px', textAlign: 'right' }}>
-            <Link to="/ajouter-permission" className="button-ajouter">
+          <div className='btn-group'>
+            <button className="btn btn-success" onClick={handleSubmit}>Enregistrer</button>
+            <Link to="/ajouter-permission" className="btn btn-add" style={{textAlign:'center'}}>
               Ajouter une permission
             </Link>
           </div>
 
           {permissions.length > 0 && (
-            <table>
+            <table className="table-permissions">
               <thead>
                 <tr>
                   <th>Permission</th>
@@ -121,11 +122,7 @@ const handleSubmit = async () => {
                 ))}
               </tbody>
             </table>
-          )}
-
-          <button className="button-valider" onClick={handleSubmit}>
-           Enregistrer
-          </button>
+          )}          
         </div>
       )}
     </div>

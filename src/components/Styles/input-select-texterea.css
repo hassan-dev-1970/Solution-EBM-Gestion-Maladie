@@ -1,0 +1,78 @@
+/* Normalisation des champs de formulaire */
+input,
+select,
+textarea {
+  /* Même box model */
+  box-sizing: border-box;
+
+  /* Même hauteur */
+  height: 38px; /* ou 40px selon votre design */
+
+  /* Même padding interne */
+  padding: 8px 12px;
+
+  /* Même bordure */
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+
+  /* Même typo */
+   font-size: 14px;
+  font-family: inherit;
+
+  /* Alignement vertical cohérent */
+  vertical-align: middle;
+
+}
+
+/* Optionnel : focus style cohérent */
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #082b67;
+  box-shadow: 0 0 0 2px rgba(8, 43, 103, 0.2);
+}
+
+/* Optionnel : styles pour les textarea */
+textarea {
+  resize: vertical; /* Permet de redimensionner verticalement seulement */
+  min-height: 80px; /* Hauteur minimale */
+}
+
+/* Optionnel : styles pour les labels */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+  font-size: 16px;
+}
+
+/* Optionnel : styles pour les champs de formulaire en erreur */
+input.error,
+select.error,
+textarea.error {
+  border-color: #f44336;
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+}
+
+/* Optionnel : styles pour les champs de formulaire en focus en erreur */
+input.error:focus,
+select.error:focus,
+textarea.error:focus {
+  border-color: #f44336;
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+}
+
+/* Styles pour les select avec flèche personnalisée */
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: white url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray'><polygon points='0,0 16,0 8,8'/></svg>") no-repeat right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.8px solid #ccc;
+  margin-bottom: 0;
+}

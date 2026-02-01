@@ -1,17 +1,13 @@
-import SignatureCanvas from "react-signature-canvas";
 import { useRef } from "react";
+import SignatureCanvas from "react-signature-canvas";
 
 const SignaturePad = ({ onChange }) => {
   const sigRef = useRef();
 
-  const clear = () => {
-    sigRef.current.clear();
-    onChange(null);
-  };
 
   const save = () => {
     if (!sigRef.current.isEmpty()) {
-      onChange(sigRef.current.toDataURL("image/png"));
+      onChange(sigRef.current.toDataURL("image/png"))
     }
   };
 
@@ -23,14 +19,12 @@ const SignaturePad = ({ onChange }) => {
         canvasProps={{
           width: 350,
           height: 120,
+          style: { border: "none", backgroundColor: "#f4ecec" },
           className: "signature-canvas"
         }}
         onEnd={save}
       />
-
-      <div className="signature-actions">
-        <button type="button" onClick={clear}>Effacer</button>
-      </div>
+      
     </div>
   );
 };

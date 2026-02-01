@@ -38,11 +38,16 @@ const ModalEditClient = ({ clientData, isOpen, onClose, onClientUpdated }) => {
 
   return (
     <div className="modal-overlay">
+      
       <div className="modal_modif_client">
-        <form className="modal-content_EditClient" onSubmit={handleSubmit}>
-          <div className="titre_EditClient">
-          <h2>Modifier le Client</h2> 
+          <div className="modal-content_EditClient">
+
+         <div className="titre-modal">
+            <h1>Modiffication - Client</h1> 
           </div>
+
+
+  <form className="modal-content_EditClient" onSubmit={handleSubmit}>        
           
 <div className="form-group">
           <label htmlFor="raison_sociale">Raison Sociale</label>
@@ -74,9 +79,9 @@ const ModalEditClient = ({ clientData, isOpen, onClose, onClientUpdated }) => {
           <input name="mail" type="email" placeholder="Email"
             value={client.mail || ''} onChange={handleChange} />
 </div>
-<div className="form-group">
+<div className="form-group group">
           <label htmlFor="agence">Agence</label>
-          <select name="agence" value={client.agence || ''} onChange={handleChange} required>
+          <select name="agence"  value={client.agence || ''} onChange={handleChange} required>
             <option value="">-- Agence --</option>
            <option value="EPEGA-SA">EPEGA-SA</option>
             <option value="EPEGA-Centre">EPEGA-Centre</option>
@@ -89,7 +94,7 @@ const ModalEditClient = ({ clientData, isOpen, onClose, onClientUpdated }) => {
             <option value="EPEGA-Laayoune">EPEGA-Laayoune</option>
           </select>
 </div>
-<div className="form-group">
+<div className="form-group group">
           <label htmlFor="commercial">Commercial</label>
             <select name="commercial" value={client.commercial || ''} onChange={handleChange} required>
             <option value="">-- Commercial --</option>
@@ -108,13 +113,15 @@ const ModalEditClient = ({ clientData, isOpen, onClose, onClientUpdated }) => {
             value={client.date_creation ? new Date(client.date_creation).toISOString().split('T')[0] : ''}
             onChange={handleChange} />
 </div>
-          <div className="modal-button">
-            <button className="valider_button" type="submit">Enregistrer</button>
-            <button className="cancel_button" type="button" onClick={onClose}>Annuler</button>
+           
+            <div className="btn-group bottom" style={{marginTop: '8px'}}>
+            <button className="btn btn-success" type="submit">Enregistrer</button>
+            <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
           </div>
         </form>
       </div>
     </div>
+  </div> 
   );
 };
 
