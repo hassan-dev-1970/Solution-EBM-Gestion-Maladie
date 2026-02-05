@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "../contrats/Styles-contrats/PrestationsContrat.css";
+import './Styles-contrats/PrestationsContrat.css';
 
 const AfficherPrestationsContrat = () => {
   const { id_contrat } = useParams();
@@ -54,7 +54,9 @@ const AfficherPrestationsContrat = () => {
 
   return (
     <div className="prestations-container">
-      <div className="header-actions">
+
+      {/* En-tête avec boutons */}
+      <div className="header-actions-prestations">
       <h2>
         Détail des Prestations <br />
         {contratInfo ? (
@@ -66,15 +68,13 @@ const AfficherPrestationsContrat = () => {
           "Chargement..."
         )}
       </h2>
-          <div className="actions-buttons">
+          <div className="btn-group right">
             <button
-              className="btn-retour"
-              onClick={() => navigate("/listecontratsprestations")}
-            >
-              &lt;&lt;&lt; Retour
-            </button>
+              className="btn btn-retour" style={{width:'200px'}}
+              onClick={() => navigate("/listecontratsprestations")}>Retour</button>
       </div>
       </div>
+
 
 
       {/* Onglets */}
@@ -102,7 +102,8 @@ const AfficherPrestationsContrat = () => {
       {/* Contenu des onglets */}
       {activeTab === "maladie" && (
         <div className="tab-content">
-          <table className="table-prestations">
+          
+          <table className="table-afficher-prestations-contrat">
             <thead>
               <tr>
                 <th>Libellé</th>

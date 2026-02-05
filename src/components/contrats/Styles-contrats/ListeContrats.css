@@ -24,7 +24,6 @@
   width: 100%;
   border-collapse: collapse;
   z-index: -1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .liste-Liste th,
@@ -35,7 +34,7 @@
  }
 
 .liste-Liste td {
-  font-size: 15px !important;
+  font-size: large !important;
 }
 .liste-Liste th {
   background-color: #277199;
@@ -56,7 +55,6 @@
   width: 1%;
   white-space: nowrap;
   text-align: center;
-  padding: 4px 8px;
 }
 
 .liste-Liste table td.col-actions {
@@ -283,20 +281,6 @@ font-size: 20px;
   border-radius: 6px;
 }
 
-.btn-advanced-search {
-  background-color: #ccd9ef;
-  color: rgb(9, 9, 9);
-  border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  max-width: 200px;
-height: 35px;
-margin-top: 10px;
-
-}
 
 .zone-recherche-avancee {
   position: relative;

@@ -29,7 +29,7 @@ const DetailsContrat = () => {
       </div>
         <div className="header-actions-details">
           <FicheContratButton idContrat={id_contrat} />
-          <button onClick={() => navigate('/listecontrats')} className="btn-annuler vc">Retour</button>
+          <button onClick={() => navigate('/listecontrats')} className='btn-recultation'>Retour</button>
         </div>
       
 

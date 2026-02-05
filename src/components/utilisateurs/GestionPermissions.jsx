@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../Styles/permissions.css';
+import '../Modal/Modal.css';
 
 const GestionPermissions = () => {
   const [roles, setRoles] = useState([]);
@@ -111,7 +112,7 @@ const handleSubmit = async () => {
                 {permissions.map((perm) => (
                   <tr key={perm.id_permission}>
                     <td>{perm.nom}</td>
-                    <td>
+                    <td style={{textAlign: 'center'}}>
                       <input
                         type="checkbox"
                         checked={perm.active === 1 || perm.active === "1"}

@@ -98,9 +98,9 @@
   padding: 18px;
 }
 
-/* =============================================================================
-    TABLE MALADIE
-   ============================================================================= */
+/* =============================================================================================================
+/* Tableau maladie Affichage Prestations Contrat ==> Fichier ModifierPrestationsContrat.jsx */
+/* ============================================================================================================= */
 
 .table-container {
   width: 100%;
@@ -112,39 +112,53 @@
 }
 
 /* Tableau maladie */
-.table-prestations {
-  width: 100%;
-  min-width: 1000px; /* évite l’écrasement des colonnes */
+.table-container.table-prestations {
+  width: auto; /* Modifié : auto au lieu de 100% */
+  table-layout: auto; /* Ajouté : ajustement automatique */
   border-collapse: collapse;
   font-size: 0.9rem;
+  max-width: 100%; /* Évite le dépassement du conteneur */
 }
 
-
-.table-prestations th, .table-prestations td {
+.table-container .table-prestations th,
+.table-container .table-prestations td {
   padding: 10px;
   border: 1px solid #e5e7eb;
   text-align: left;
+  white-space: nowrap; /* Ajouté : empêche les retours à la ligne */
 }
 
-.table-prestations th {
+.table-container .table-prestations td {
   padding: 10px;
   border: 1px solid #e5e7eb;
-  text-align: center;
-}
-.table-prestations th {
+  text-align: left;
   background: #f9fafb;
-  font-weight: bold;
+  font-size: medium;
   position: sticky;
   top: 0;
   z-index: 2;
-}
-.table-prestations tr:nth-child(even) {
+  white-space: nowrap; /* Ajouté pour les en-têtes */
+} 
+.table-container .table-prestations tr:nth-child(even) {
   background: #f3f4f6;
 }
+.table-container .table-prestations th {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  background: #124373c6;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap; /* Ajouté pour les en-têtes */
+}
+
 .table-prestations input[type="text"],
-.table-prestations input[type="number"], 
-.table-prestations input[type="date"]
-{
+.table-prestations input[type="number"],
+.table-prestations input[type="date"] {
   background: #e5e7eb;
   border: 1px solid #d1d5db;
   border-radius: 4px;
@@ -154,8 +168,58 @@
   font-size: 0.9rem;
   text-align: center;
   transition: border-color 0.3s;
-
 }
+
+/* =============================================================================================================
+/* Tableau maladie Affichage Prestations Contrat ==> Fichier AfficherPrestationsContrat.jsx */
+/* ============================================================================================================= */
+.table-afficher-prestations-contrat {
+  width: auto; /* Modifié : auto au lieu de 100% */
+  table-layout: auto; /* Ajouté : ajustement automatique */
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  max-width: 100%; /* Évite le dépassement du conteneur */
+} 
+.table-afficher-prestations-contrat th,
+.table-afficher-prestations-contrat td {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  white-space: nowrap; /* Ajouté : empêche les retours à la ligne */
+}
+
+.table-afficher-prestations-contrat td {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  background: #f9fafb;
+  font-size: medium;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap; /* Ajouté pour les en-têtes */
+} 
+.table-afficher-prestations-contrat tr:nth-child(even) {
+  background: #f3f4f6;
+}
+.table-afficher-prestations-contrat th {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  background: #124373c6;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap; /* Ajouté pour les en-têtes */
+}
+
+
+
+
+
 
 /* Formulaires (Incapacité & Décès) */
 .form-grid {

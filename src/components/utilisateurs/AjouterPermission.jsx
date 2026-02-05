@@ -60,7 +60,7 @@ return (
       </div>
       </form>
 
-<div className="titre-permission"> <h4 className='h4'>Permissions existantes</h4></div>
+<div className="titre-permission"> <p style={{ fontWeight: 'bold', color: '#0b4a7a', fontSize: '20px' }}>Permissions existantes</p></div>
      
      <table className="permissions-table">
   <thead>

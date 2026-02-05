@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import '../contrats/Styles-contrats/PrestationsContrat.css';
 
 
 const PrestationsContrat = () => {
@@ -258,7 +257,7 @@ const handleRetour = () => {
   return (
     <div className="prestations-container">
     {/* En-tête avec boutons */}
-    <div className="header-actions">
+    <div className="header-actions-prestations">
           <h2>
         Paramétrage des Prestations <br />
         {contratInfo ? (
@@ -270,14 +269,10 @@ const handleRetour = () => {
           "Chargement..."
         )}
       </h2>
-          <div className="actions-buttons">
-            <button className="btn-retour"
-              onClick={handleRetour}>
-              &lt;&lt; Retour
-            </button>
-            <button
-              onClick={handleSaveAll}
-              className="btn-valider-prestations"
+          <div className="btn-group right">
+            <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
+
+            <button onClick={handleSaveAll} className="btn btn-success"
               disabled={!isMaladieComplete || !isIncapaciteComplete || !isDecesComplete}
             >
               Enregistrer toutes les prestations

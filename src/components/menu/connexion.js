@@ -156,7 +156,7 @@ const handleConnexion = async (e) => {
         </div>
       </div>
 
-      <footer className="footer">
+      <footer className="footer-ebm">
         <p>
           <strong style={{ color: 'rgb(147, 89, 165)' }}>EBM Solutions</strong> — 
           Plateforme technologique de gestion des dossiers médicaux.

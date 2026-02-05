@@ -633,7 +633,7 @@ const beneficiairesPayload = (() => {
                         <button type="button" className="btn-ghost" onClick={handleDownloadPDF} disabled={!signature}>Aperçu / PDF</button>
                       )}
 
-                      <button type="submit" className="btn-primary">Soumettre le bulletin</button>
+                      <button type="submit" className="btn btn-success">Soumettre le bulletin</button>
                     </>
                   )}
 
@@ -651,11 +651,11 @@ const beneficiairesPayload = (() => {
                   {/* 🛠️ ADMIN / BACKOFFICE */}
                   {contexte === "admin" && (
                     <>
-                      <button type="submit" className="btn-success">Enregistrer l’adhésion</button>
+                      <button type="submit" className="btn btn-success">Enregistrer l’adhésion</button>
 
-                      <button type="button" className="btn-annuler"  onClick={() => window.location.reload()}> Annuler</button>
+                      <button type="button" className="btn btn-annuler"  onClick={() => window.location.reload()}> Annuler</button>
                     
-                      <button type="button" className="btn-close" onClick={() => navigate("/listeadhesions")}>Fermer</button>
+                      <button type="button" className="btn btn-close" onClick={() => navigate("/listeadhesions")}>Fermer</button>
                     </>
                   )}
           </div>
@@ -1736,9 +1736,9 @@ const beneficiairesPayload = (() => {
 
           {/* MODALE SÉLECTION ENFANT */}
           {modalEnfant.isOpen && (
-            <div className="modal-overlay" onClick={() => setModalEnfant({ isOpen: false, benefIndex: null })}>
-              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <div className='modal-header'>
+            <div className="modal-overlay-enfant" onClick={() => setModalEnfant({ isOpen: false, benefIndex: null })}>
+              <div className="modal-content-enfant" onClick={(e) => e.stopPropagation()}>
+                <div className='modal-header-enfant'>
                 <h3>Sélectionner un enfant</h3>
                 </div>
                 {enfants.length === 0 ? (
@@ -1755,7 +1755,7 @@ const beneficiairesPayload = (() => {
                   }
 
                   return (
-                    <div className="modal-list">
+                    <div className="modal-list-enfant">
                       {enfants.map((e, idx) => {
                         const key = `${e.nom}-${e.prenom}-${e.date_naissance}`;
                         const estDisponible = !dejaSelectionnes.includes(key);
@@ -1782,9 +1782,10 @@ const beneficiairesPayload = (() => {
                     </div>
                   );
                 })()}
-
-                <button type="button" className="btn-secondary"
+              <div className="btn-group bottom"> 
+                <button type="button" className="btn btn-close"
                   onClick={() => setModalEnfant({ isOpen: false, benefIndex: null })}>Fermer</button>
+                  </div>
               </div>
             </div>
           )}

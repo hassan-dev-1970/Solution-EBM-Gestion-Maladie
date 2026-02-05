@@ -1,148 +1,194 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Styles/modal-edit.css';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Modal from '../Modal/Modal';
+import '../Modal/Modal.css';
+import '../Styles/modal-edit.css';
 
 const ModalEditUser = ({ user, isOpen, onClose, onSave }) => {
-  const [nom, setNom] = useState('');
-  const [prenom, setPrenom] = useState('');
-  const [login, setLogin] = useState('');
-  const [roleId, setRoleId] = useState('');
+  const [formData, setFormData] = useState({
+    nom: '',
+    prenom: '',
+    email: '',
+    role_id: '',
+    password: '',
+    confirmPassword: ''
+  });
   const [roles, setRoles] = useState([]);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
-  // Préremplir les champs à l'ouverture de la modale
   useEffect(() => {
     if (isOpen && user) {
-      setNom(user.nom || '');
-      setPrenom(user.prenom || '');
-      setLogin(user.login || '');
-      setRoleId(user.role_id || '');
-      setPassword('');
-      setConfirmPassword('');
-      setError('');
+      setFormData({
+        nom: user.nom || '',
+        prenom: user.prenom || '',
+        email: user.login || '',
+        role_id: user.role_id || '',
+        password: '',
+        confirmPassword: ''
+      });
     }
   }, [isOpen, user]);
 
-  // Charger la liste des rôles depuis l’API
- useEffect(() => {
-  axios.get('/api/roles')
-    .then((res) => {
-      setRoles(res.data);
-      console.log("Rôles chargés dans modale :", res.data);
-    })
-    .catch((err) => console.error('Erreur chargement des rôles :', err));
-}, []);
+  useEffect(() => {
+    axios.get('/api/roles')
+      .then((res) => setRoles(res.data))
+      .catch((err) => console.error('Erreur chargement des rôles :', err));
+  }, []);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      const msg = "Les mots de passe ne correspondent pas.";
-      toast.warning(msg);
+    if (formData.password !== formData.confirmPassword) {
+      toast.warning("Les mots de passe ne correspondent pas.");
       return;
     }
 
     const updatedUser = {
       id_utilisateur: user.id_utilisateur,
-      nom,
-      prenom,
-      login,
-      role_id: parseInt(roleId, 10), // 🔥 ici on force à INT
-      role: roles.find(r => r.id_role === parseInt(roleId, 10))?.nom || user.role, // Ajout du nom du rôle pour l'affichage
-      ...(password && { pass: password }),
+      nom: formData.nom,
+      prenom: formData.prenom,
+      login: formData.email,
+      role_id: parseInt(formData.role_id, 10),
+      ...(formData.password && { pass: formData.password }),
     };
-    console.log("📝 Données envoyées pour la modification :", updatedUser);
+
     onSave(updatedUser);
     toast.success("Utilisateur mis à jour avec succès.");
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <div className='titre'>
-        <h2>Modifier l'utilisateur</h2>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Modification - Utilisateur"
+      size="medium"
+      footer={
+        <>          
+          <button className="btn btn-success" form="editUserForm" onClick={handleSubmit}>
+            Enregistrer
+          </button>
+          <button className="btn btn-annuler" onClick={onClose}>Annuler</button>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit}>
+        {/* Champ Nom */}
+        <div className="form-group">
+          <label htmlFor="nom" className="required">Nom</label>
+          <div className="input-wrapper">
+            <input 
+              type="text"
+              id="nom"
+              name="nom"
+              value={formData.nom}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
-        <form className="modal-content" onSubmit={handleSubmit}>
-          <input type='text'
-            value={nom}
-            onChange={(e) => setNom(e.target.value)}
-            placeholder="Nom"
-            required
-          />
-          <input type='text'
-            value={prenom}
-            onChange={(e) => setPrenom(e.target.value)}
-            placeholder="Prénom"
-            required
-          />
+
+        {/* Champ Prénom */}
+        <div className="form-group">
+          <label htmlFor="prenom" className="required">Prénom</label>
+          <div className="input-wrapper">
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              value={formData.prenom}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Champ Email */}
+        <div className="form-group">
+          <label htmlFor="email" className="required">Email</label>
+          <div className="input-wrapper">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Champ Rôle */}
+        <div className="form-group">
+          <label htmlFor="role_id" className="required">Rôle</label>
+          <div className="input-wrapper">
+            <select
+              id="role_id"
+              name="role_id"
+              value={formData.role_id || ''}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Sélectionner un rôle --</option>
+              {roles.map((role) => (
+                <option key={role.id_role} value={role.id_role}>
+                  {role.nom}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Mots de passe côte à côte */}
+          <div className="form-group">
+            <label htmlFor="password">Nouveau mot de passe</label>
+            <div className="input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Laisser vide pour ne pas modifier"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirmer</label>
+            <div className="input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirmer le mot de passe"
+              />
+            </div>
+          </div>
+
+        {/* Checkbox show password */}
+        <div className="password-show-group" onClick={() => setShowPassword(!showPassword)}>
           <input
-            type="email"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            placeholder="Email"
-            required
+            type="checkbox"
+            id="showPassword"
+            checked={showPassword}
+            onChange={() => {}}
           />
-
-          {/* Champ select dynamique pour le rôle */}
-              <select
-                id="role_id"
-                name="role_id"
-                value={String(roleId)}
-                onChange={(e) => setRoleId(e.target.value)}
-                required
-              >
-                <option value="">-- Sélectionner un rôle --</option>
-                {roles.map((role) => (
-                  <option key={role.id_role} value={String(role.id_role)}>
-                    {role.nom}
-                  </option>
-                ))}
-              </select>
-
-          <div className="password-field">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Nouveau mot de passe"
-            />
-          </div>
-          <div className="password-field">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirmer le mot de passe"
-            />
-          </div>
-          <div className="password-show">
-            <label htmlFor="showPassword">
-              <span>Afficher le mot de passe</span>
-            </label>
-            <input
-              type="checkbox"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-            />
-          </div>
-
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-
-          <div className="modal-actions">
-            <button className="button-valider" type="submit">Enregistrer</button>
-            <button className="reset" type="button" onClick={onClose}>Annuler</button>
-          </div>
-        </form>
-      </div>
-    </div>
+          <label htmlFor="showPassword">Afficher le mot de passe</label>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

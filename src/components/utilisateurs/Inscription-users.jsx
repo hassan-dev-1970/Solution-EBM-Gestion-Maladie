@@ -15,15 +15,18 @@ function InscriptionUsers() {
   });
 
   const [roles, setRoles] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Utilisation de useNavigate pour la navigation
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  
   // Retourner à la page de gestion des permissions
   const handleRetour = () => {
     navigate('/utilisateurs');
   };
+  
   // Charger les rôles depuis l'API
-  // et les stocker dans l'état local
   useEffect(() => {
     axios.get('/api/roles')
       .then((res) => setRoles(res.data))
@@ -36,9 +39,9 @@ function InscriptionUsers() {
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
-[e.target.name]: e.target.name === 'role_id'
-  ? parseInt(e.target.value, 10)
-  : e.target.value
+      [e.target.name]: e.target.name === 'role_id'
+        ? parseInt(e.target.value, 10)
+        : e.target.value
     }));
   };
 
@@ -53,19 +56,19 @@ function InscriptionUsers() {
     try {
       const { nom, prenom, email, role_id, pass } = formData;
 
-const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-const response = await axios.post('/api/utilisateurs', {
-  nom,
-  prenom,
-  login: email,
-  role_id,
-  password: pass
-}, {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-});
+      const response = await axios.post('/api/utilisateurs', {
+        nom,
+        prenom,
+        login: email,
+        role_id,
+        password: pass
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
       toast.success(response.data.message || 'Utilisateur ajouté avec succès !');
       setFormData({
@@ -89,14 +92,15 @@ const response = await axios.post('/api/utilisateurs', {
   };
 
   return (
-    <div className="form-container">
-      <h2>Inscription Utilisateur</h2>
+    <div className="form-container"> 
+      <h2 className="titre-modal">Inscription Utilisateur</h2>
       <form onSubmit={handleSubmit}>
-        {/* Champ nom */}
+        {/* Tous les champs en colonne verticale */}
         <div className="form-group">
           <label htmlFor="nom">Nom</label>
           <div className="input-wrapper">
-            <input type="text" 
+            <input 
+              type="text" 
               id="nom"
               name="nom"
               placeholder="Votre nom"
@@ -107,7 +111,6 @@ const response = await axios.post('/api/utilisateurs', {
           </div>
         </div>
 
-        {/* Champ prénom */}
         <div className="form-group">
           <label htmlFor="prenom">Prénom</label>
           <div className="input-wrapper">
@@ -123,7 +126,6 @@ const response = await axios.post('/api/utilisateurs', {
           </div>
         </div>
 
-        {/* Champ email */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <div className="input-wrapper">
@@ -139,34 +141,33 @@ const response = await axios.post('/api/utilisateurs', {
           </div>
         </div>
 
-        {/* Champ rôle dynamique */}
         <div className="form-group">
           <label htmlFor="role_id">Rôle</label>
           <div className="input-wrapper">
             <select
-                id="role_id"
-                name="role_id"
-                value={formData.role_id || ''}
-                onChange={handleChange}
-                required
-              >
-                <option value="">-- Sélectionner un rôle --</option>
-                {roles.map((role) => (
-                  <option key={role.id_role} value={role.id_role}>
-                    {role.nom}
-                  </option>
-                ))}
-              </select>
-
+              id="role_id"
+              name="role_id"
+              value={formData.role_id || ''}
+              onChange={handleChange}
+              required
+              style={{}}              
+            >
+              <option value="">-- Sélectionner un rôle --</option>
+              {roles.map((role) => (
+                <option key={role.id_role} value={role.id_role}>
+                  {role.nom}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {/* Champ mot de passe */}
+        {/* Mot de passe avec toggle */}
         <div className="form-group">
           <label htmlFor="pass">Mot de passe</label>
-          <div className="input-wrapper">
+          <div className="input-wrapper password-input-wrapper">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="pass"
               name="pass"
               placeholder="********"
@@ -174,15 +175,34 @@ const response = await axios.post('/api/utilisateurs', {
               onChange={handleChange}
               required
             />
+            <button
+              type="button"
+              className="toggle-password-btn"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            >
+              {showPassword ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <line x1="2" y1="2" x2="22" y2="22"></line>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Champ confirmation mot de passe */}
+        {/* Confirmation mot de passe avec toggle */}
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-          <div className="input-wrapper">
+          <div className="input-wrapper password-input-wrapper">
             <input
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
               name="confirmPassword"
               placeholder="********"
@@ -190,21 +210,42 @@ const response = await axios.post('/api/utilisateurs', {
               onChange={handleChange}
               required
             />
+            <button
+              type="button"
+              className="toggle-password-btn"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              aria-label={showConfirmPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            >
+              {showConfirmPassword ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <line x1="2" y1="2" x2="22" y2="22"></line>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              )}
+            </button>
           </div>
         </div>
 
         {/* Boutons */}
-        <div className="btn-group bottom">
+        <div className="btn-group bottom group-buttons">
           <button className="btn btn-success" type="submit">Valider</button>
-          <button className="btn btn-annuler" type="reset" onClick={() => setFormData({
-                nom: '',
-                prenom: '',
-                email: '',
-                role_id: '',
-                pass: '',
-                confirmPassword: ''
-              })
-            }> Annuler</button>
+          <button className="btn btn-annuler" type="button" onClick={() => setFormData({
+              nom: '',
+              prenom: '',
+              email: '',
+              role_id: '',
+              pass: '',
+              confirmPassword: ''
+            })}
+          >
+            Annuler
+          </button>
           <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
         </div>
       </form>

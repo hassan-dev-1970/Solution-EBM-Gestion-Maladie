@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
-import '../Prestations/AjoutPrestations.css'; // Import du CSS spécifique pour la modale d'ajout
+import Modal from '../Modal/Modal';
+import '../Modal/Modal.css';
 
-const ModalEditTypePrestation = ({ typeData, onClose, onSave }) => {
+const ModalEditTypePrestation = ({ typeData, isOpen, onClose, onSave }) => {
   const [form, setForm] = useState({ libelle: '', description: '' });
 
   useEffect(() => {
-    if (typeData) {
+    if (isOpen && typeData) {
       setForm({
-        libelle: typeData.libelle,
-        description: typeData.description
+        libelle: typeData.libelle || '',
+        description: typeData.description || ''
       });
     }
-  }, [typeData]);
+  }, [isOpen, typeData]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -23,35 +25,57 @@ const ModalEditTypePrestation = ({ typeData, onClose, onSave }) => {
     onClose();
   };
 
-  if (!typeData) return null;
+  if (!isOpen || !typeData) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <form className='modal-content_AddPrestation' onSubmit={handleSubmit}>
-          <div className='titre'>
-          <h3>Modifier le type de prestation</h3>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Modifier le type de prestation"
+      size="medium"
+      footer={
+        <>
+          <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
+          <button className="btn btn-success" type="submit" form="editTypePrestationForm" onClick={handleSubmit}>
+            Enregistrer
+          </button>
+        </>
+      }
+    >
+      <form id="editTypePrestationForm" onSubmit={handleSubmit}>
+        {/* Libellé */}
+        <div className="form-group">
+          <label htmlFor="libelle" className="required">Libellé</label>
+          <div className="input-wrapper">
+            <input
+              type="text"
+              id="libelle"
+              name="libelle"
+              value={form.libelle}
+              onChange={handleChange}
+              placeholder="Entrez le libellé de la prestation"
+              required
+              autoFocus
+            />
           </div>
-          <input
-            name="libelle"
-            placeholder="Libellé"
-            value={form.libelle}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-          />
-          <div className="modal-actions">
-            <button type="submit">Enregistrer</button>
-            <button type="button" onClick={onClose}>Annuler</button>
+        </div>
+
+        {/* Description */}
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <div className="input-wrapper">
+            <textarea
+              id="description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Entrez une description (facultatif)"
+              rows="4"
+            />
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

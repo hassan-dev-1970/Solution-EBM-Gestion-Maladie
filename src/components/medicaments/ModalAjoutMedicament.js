@@ -1,23 +1,10 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import '../Clients/Style-clients/Ajout-client.css'; // Import du CSS spécifique pour la modale d'ajout
+import Modal from '../Modal/Modal';
+import '../Modal/Modal.css';
 
 const ModalAjoutMedicament = ({ isOpen, onClose, onMedicamentAjoute }) => {
-
-  const token = localStorage.getItem('token');
-  let id_medicament = '';
-
-  if (token) {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      id_medicament = payload.id;
-    } catch (err) {
-      console.error("Erreur lors du décodage du token :", err);
-    }
-  }
-
-  // État local pour les données du médicament
   const [medicament, setMedicament] = useState({
     nom_commercial: '',
     statut_medicament: '',
@@ -26,25 +13,38 @@ const ModalAjoutMedicament = ({ isOpen, onClose, onMedicamentAjoute }) => {
     classification: '',
     prix: '',
     presentation: '',
-    id_medicament: id_medicament || '',
+    remboursable: '',
+    id_medicament: ''
   });
 
-
-  if (!isOpen) return null;
+  // Récupérer l'ID utilisateur depuis le token
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setMedicament(prev => ({ ...prev, id_medicament: payload.id || '' }));
+      } catch (err) {
+        console.error("Erreur lors du décodage du token :", err);
+      }
+    }
+  }, [isOpen]);
 
   const handleChange = (e) => {
-    setMedicament({ ...medicament, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setMedicament(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!medicament.id_medicament) {
-      console.error("ID medicament introuvable.");
+      toast.error("ID utilisateur introuvable.");
       return;
     }
 
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post('/api/medicaments', medicament, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,65 +53,183 @@ const ModalAjoutMedicament = ({ isOpen, onClose, onMedicamentAjoute }) => {
 
       if (response.status === 201) {
         toast.success("Médicament ajouté avec succès.");
-
-        onMedicamentAjoute();  // 🔄 recharge la liste
-        onClose();         // ❌ ferme la modale
+        onMedicamentAjoute();
+        setMedicament({
+          nom_commercial: '',
+          statut_medicament: '',
+          dosage: '',
+          forme: '',
+          classification: '',
+          prix: '',
+          presentation: '',
+          remboursable: '',
+          id_medicament: medicament.id_medicament
+        });
+        onClose();
       } else {
         throw new Error("Réponse inattendue du serveur");
       }
     } catch (err) {
-      console.error("Erreur d'ajout medicament :", err.response?.data || err.message);
-      toast.error("Erreur lors de l'ajout du médicament");
+      console.error("Erreur d'ajout médicament :", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Erreur lors de l'ajout du médicament");
     }
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal_AddClient">
-        <div className="modal-content_AddClient">
-          <div className="titre"><h2>Ajouter un Médicament</h2> </div>
-           
-          <form className="modal-content_AddClient" onSubmit={handleSubmit}>
-
-            <input name="nom_commercial" placeholder="Nom commercial" value={medicament.nom_commercial} onChange={handleChange} required />
-          
-            <select name="statut_medicament" value={medicament.statut_medicament} onChange={handleChange}>
-            <option value="">-- Statut de commercialisation --</option>
-            <option value="Commercialisé">Commercialisé</option>
-            <option value="Non Commercialise">Non commercialisé</option>
-            <option value="Retiré du Marché">Retiré du marché</option>
-            <option value="Autre">Autre</option>
-          </select>
-                        
-            <input name="dosage" placeholder="Dosage" value={medicament.dosage} onChange={handleChange} />
-            <input name="forme" placeholder="Forme" value={medicament.forme} onChange={handleChange} />
-           
-          <select name="classification" value={medicament.classification} onChange={handleChange} required>
-            <option value="">-- Classification --</option>
-            <option value="PP">Princeps</option>
-            <option value="GN">Générique</option>
-            <option value="Autre">Autre</option>
-          </select>
-
-            <input name="prix" type="number" placeholder="Prix" value={medicament.prix} onChange={handleChange} />
-            <input name="presentation" placeholder="Présentation" value={medicament.presentation} onChange={handleChange} />
-            
-            <select name="Remboursable" value={medicament.remboursable} onChange={handleChange} required>
-            <option value="">-- Remboursable --</option>
-            <option value="Remboursable">Remboursable</option>
-            <option value="Non Remboursable">Non remboursable</option>
-            <option value="Autre">Autre</option>
-          </select>
-          
-            <div className="modal-actions">
-              <button id='button-valider' className='button-valider' type="submit">Enregistrer</button>
-              <button id='reset' className='reset' type="button" onClick={onClose}>Annuler</button>
-            </div>
-
-          </form>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Ajouter un Médicament"
+      size="medium"
+      footer={
+        <>
+          <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
+          <button className="btn btn-success" type="submit" form="addMedicamentForm" onClick={handleSubmit}>
+            Enregistrer
+          </button>
+        </>
+      }
+    >
+      <form id="addMedicamentForm" onSubmit={handleSubmit}>
+        {/* Nom commercial */}
+        <div className="form-group">
+          <label htmlFor="nom_commercial" className="required">Nom commercial</label>
+          <div className="input-wrapper">
+            <input
+              type="text"
+              id="nom_commercial"
+              name="nom_commercial"
+              value={medicament.nom_commercial}
+              onChange={handleChange}
+              placeholder="Entrez le nom commercial"
+              required
+            />
+          </div>
         </div>
-      </div>
-    </div>
+
+        {/* Statut et Classification côte à côte */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="statut_medicament">Statut de commercialisation</label>
+            <div className="input-wrapper">
+              <select
+                id="statut_medicament"
+                name="statut_medicament"
+                value={medicament.statut_medicament}
+                onChange={handleChange}
+              >
+                <option value="">-- Sélectionner un statut --</option>
+                <option value="Commercialisé">Commercialisé</option>
+                <option value="Non Commercialise">Non commercialisé</option>
+                <option value="Retiré du Marché">Retiré du marché</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="classification" className="required">Classification</label>
+            <div className="input-wrapper">
+              <select
+                id="classification"
+                name="classification"
+                value={medicament.classification}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Sélectionner une classification --</option>
+                <option value="PP">Princeps</option>
+                <option value="GN">Générique</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Dosage et Forme côte à côte */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="dosage">Dosage</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                id="dosage"
+                name="dosage"
+                value={medicament.dosage}
+                onChange={handleChange}
+                placeholder="Ex: 500mg, 10mg/ml"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="forme">Forme</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                id="forme"
+                name="forme"
+                value={medicament.forme}
+                onChange={handleChange}
+                placeholder="Ex: Comprimé, Sirop, Injection"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Prix et Présentation côte à côte */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="prix">Prix (DH)</label>
+            <div className="input-wrapper">
+              <input
+                type="number"
+                id="prix"
+                name="prix"
+                value={medicament.prix}
+                onChange={handleChange}
+                placeholder="Entrez le prix"
+                step="0.01"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="presentation">Présentation</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                id="presentation"
+                name="presentation"
+                value={medicament.presentation}
+                onChange={handleChange}
+                placeholder="Ex: Boîte de 30 comprimés"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Remboursable */}
+        <div className="form-group">
+          <label htmlFor="remboursable" className="required">Remboursable</label>
+          <div className="input-wrapper">
+            <select
+              id="remboursable"
+              name="remboursable"
+              value={medicament.remboursable}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Sélectionner --</option>
+              <option value="Remboursable">Remboursable</option>
+              <option value="Non Remboursable">Non remboursable</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

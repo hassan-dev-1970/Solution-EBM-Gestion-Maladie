@@ -210,6 +210,7 @@ useEffect(() => {
                     setSearchDateDebut(e.target.value);
                     setCurrentPage(1);
                   }}
+                  style={{marginTop: '2px'}}
                 />
               </div>
             )}

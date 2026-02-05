@@ -157,6 +157,8 @@ select {
   background-size: 16px 16px;
   bottom: 10px;
   position: relative;
+  cursor: pointer;
+  top: 0;
 }
 input::placeholder { color:#9aa4b2; }
 input:focus, select:focus { outline:none; border-color:#7aa2ff; box-shadow: 0 0 0 3px rgba(122,162,255,0.08); }
@@ -323,7 +325,7 @@ textarea {
 
 
 /* MODALE - Sélection enfant */
-.modal-overlay {
+.modal-overlay-enfant {
   position: fixed;
   top: 0;
   left: 0;
@@ -336,26 +338,27 @@ textarea {
   z-index: 1000;
 }
 
-.modal-content {
+.modal-content-enfant {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  height: 300px;
-  max-height: 300px;
+  height: auto;
+  max-height: auto;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   font-family: Calibri, Arial, sans-serif;
+  flex: none;
 }
 
-.modal-list {
+.modal-list-enfant {
   margin: 15px 0;
   overflow-y: auto;
   height: 200px;
   font-size: medium;
 }
 
-.modal-header{
+.modal-header-enfant{
   position: relative;
   top: 0%;
   border-bottom: 1px solid #afbac0;

@@ -25,6 +25,7 @@
   width: 100%;
   border-collapse: collapse;
   z-index: -1000;
+  width: max-content;
 }
 
 .liste-Liste th,

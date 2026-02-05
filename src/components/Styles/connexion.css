@@ -223,7 +223,7 @@ html {
 }
 
 /* ============ FOOTER ============ */
-.footer {
+.footer-ebm {
   height: 52px;
   position: fixed;
   bottom: 0;
@@ -241,12 +241,12 @@ html {
   width: calc(100% - (100% / 3));
 }
 
-.footer p {
+.footer-ebm p {
   margin: 0;
   line-height: 1.4;
 }
 
-.footer strong {
+.footer-ebm strong {
   color: #8b5cf6;
 }
 
@@ -330,7 +330,7 @@ html {
     border-top: 1px solid #e2e8f0;
   }
 
-  .footer {
+  .footer-ebm {
     position: static;
     background: white;
     border-top: 0 solid #e2e8f0;
@@ -360,7 +360,7 @@ html {
     padding: 15px;
   }
 
-  .footer {
+  .footer-ebm {
     padding-left: 16px;
     font-size: 14px;
     border-top: 1px solid #1764ca;

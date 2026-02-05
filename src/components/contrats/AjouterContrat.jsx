@@ -181,8 +181,8 @@ const AjouterContrat = () => {
             <input name="taux_remb" placeholder="Taux remboursement (%)" value={form.taux_remb} onChange={handleChange} />
             <input name="plafond" placeholder="Plafond" value={form.plafond} onChange={handleChange} />
             <select name="mode_remb" value={form.mode_remb} onChange={handleChange}>
-                  <option value="">-- Mode remboursement --</option>
 
+                  <option value="">-- Mode remboursement --</option>
                   <optgroup label="Via Cie">
                     <option value="Via Cie: Chèque Adhérent">Chèque Adhérent</option>
                     <option value="Via Cie: Chèque Souscripteur">Chèque Souscripteur</option>
@@ -248,7 +248,7 @@ const AjouterContrat = () => {
     <button
       type="button"
       onClick={() => setIsAjoutCategorieOpen(true)}
-      className="btn-ajout-cat"  >
+      className="btn btn-primary"  >
       <img src="/Images/edit/plus-2.png" alt="Ajouter" className="icon-ajout" />
       Gérer les catégories
     </button>
@@ -265,15 +265,13 @@ const AjouterContrat = () => {
       </div>
     <div className="ajouter-contrat-container">
         <div className="ajouter-contrat-header">
-          <div className="header-actions">
-          <h2>Ajouter un Contrat</h2>
-            <button type="submit" className="btn-validat" onClick={handleSubmit}>
-              Enregistrer
-            </button>
-            <button type="button" className="btn-annuler" onClick={() => navigate('/ListeContrats')}>
-              Annuler
-            </button>
-            
+
+          <div style={{width: 'auto', display: 'flex', border: 'none', borderBottom: '1.5px solid #afbac0'}}>
+          <h2 style={{fontSize: '1.8rem', fontWeight: 'bold', color: 'darkblue'}}>Ajouter un Contrat</h2>
+           </div>
+          <div className="btn-group right">          
+            <button type="submit" className="btn btn-success" onClick={handleSubmit}>Enregistrer</button>
+            <button type="button" className="btn btn-annuler" onClick={() => navigate('/ListeContrats')}>Annuler</button>            
           </div>
         </div>
 

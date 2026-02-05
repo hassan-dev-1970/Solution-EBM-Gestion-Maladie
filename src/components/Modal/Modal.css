@@ -1,0 +1,378 @@
+/* ========== MODAL STANDARD ==========
+   Utilisable pour toutes les modales de l'application
+   =================================== */
+
+/* Overlay sombre */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Conteneur principal */
+.modal-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 100%;
+  margin: 20px auto;
+  position: relative;
+  height: auto; /* ✅ Supprime la hauteur fixe */
+}
+
+/* Content - Correction critique */
+.modal-content {
+  padding: 25px;
+  overflow-y: visible;
+  flex: none; /* ✅ Supprime le flex */
+  width: 100%;
+}
+
+/* Footer - Correction des boutons */
+.modal-footer {
+  padding: 20px 25px;
+  border-top: 2px solid #f0f0f0;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  position: relative;
+  flex: none; /* ✅ Supprime le margin-top: auto */
+}
+
+/* Titre */
+.modal-header {
+ position: relative;
+  top: 0%;
+  border-bottom: 1.5px solid #afbac0;
+  padding-bottom: 5px;
+  margin:0 0 12px 0;
+  font-weight:500;
+  border-radius: 8px;
+  padding: 10px;
+  color: #0b5cb8;
+  font-size: 13px;
+  display: flex;
+  height: auto;
+  box-shadow: #641764 0px 2px 8px -3px;
+}
+
+.modal-header h5 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0b5cb8;
+  text-align: center;
+  width: 100%;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tailles de modales */
+.modal-small {
+  width: 90%;
+  max-width: 450px;
+}
+
+.modal-medium {
+  width: 90%;
+  max-width: 600px;
+}
+
+.modal-large {
+  width: 90%;
+  max-width: 800px;
+}
+
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  line-height: 1;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+
+
+/* ========== FORMULAIRE DANS MODAL ========== */
+
+/* Structure des champs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form-group label.required::after {
+  content: ' *';
+  color: #e74c3c;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input,
+.input-wrapper select,
+.input-wrapper textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus,
+.input-wrapper textarea:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background-color: white;
+}
+
+.input-wrapper input::placeholder,
+.input-wrapper select::placeholder,
+.input-wrapper textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Select personnalisé */
+.input-wrapper select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666'><polygon points='0,0 16,0 8,8'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+/* Ligne avec champs côte à côte */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0;
+}
+
+/* Textarea */
+.input-wrapper textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ========== MESSAGES ========== */
+
+.error-message {
+  color: #e74c3c;
+  font-weight: 600;
+  margin-top: 8px;
+  font-size: 13px;
+  display: block;
+}
+
+.success-message {
+  color: #27ae60;
+  font-weight: 600;
+  margin-top: 8px;
+  font-size: 13px;
+  display: block;
+}
+
+/* ========== CHECKBOX / SWITCH ========== */
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+}
+
+input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.checkbox-group label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+  .modal-small,
+  .modal-medium,
+  .modal-large {
+    width: 95%;
+    margin: 10px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-row .form-group {
+    min-width: 100%;
+  }
+
+  .btn-group,
+  .modal-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .btn-outline {
+    width: 100%;
+  }
+}
+
+/* ========== ANIMATIONS ========== */
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* ========== UTILITIES ========== */
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-1 {
+  margin-top: 10px;
+}
+
+.mt-2 {
+  margin-top: 20px;
+}
+
+.mb-1 {
+  margin-bottom: 10px;
+}
+
+.mb-2 {
+  margin-bottom: 20px;
+}
+
+.mr-1 {
+  margin-right: 10px;
+}
+
+.mr-2 {
+  margin-right: 20px;
+}
