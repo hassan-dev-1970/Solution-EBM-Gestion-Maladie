@@ -53,13 +53,10 @@ const handleConnexion = async (e) => {
     // 🔐 Mise à jour du contexte (source de vérité)
     setUser(user);
 
-    // 🎯 Calcul de la route À PARTIR DU USER API
-    const adhesionRoute = getAdhesionRouteByRole(user);
-
-    // ⏳ Navigation après mise à jour du contexte
-    setTimeout(() => {
-      navigate(adhesionRoute, { replace: true });
-    }, 0);
+ // ✅ Redirection vers la page d'accueil pour tous les utilisateurs
+setTimeout(() => {
+  navigate('/accueil', { replace: true });
+}, 0);
 
   } catch (error) {
     toast.error(error.response?.data?.message || "Mot de passe incorrect.");

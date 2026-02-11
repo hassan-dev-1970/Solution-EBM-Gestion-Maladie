@@ -173,15 +173,15 @@ const adhesionRoute = getAdhesionRouteByRole(user);
             </div>
 
             <div className="tooltip-wrapper">
-              {user.role === 'user_distant-souscripteur' && (                  
-                    <Link to="/adhesions-a-valider" className="dropdown-link">
-                      📋 Adhésions à valider
-                      {count > 0 && (
-                        <span className="badge-sidebar">{count}</span>
-                      )}
-                    </Link>                 
-                )}
-            </div>           
+              {(user.role === 'user_distant-souscripteur' || user.role === 'admin') && (
+                <Link to="/adhesions-a-valider" className="dropdown-link">
+                  <span className="menu-item-with-badge">
+                    📋 Adhésions à valider
+                    {count > 0 && <span className="floating-badge">{count}</span>}
+                  </span>
+                </Link>
+              )}
+            </div>        
 
             <div className="tooltip-wrapper">
               <Link to="/pageinstruction" className='dropdown-link'>

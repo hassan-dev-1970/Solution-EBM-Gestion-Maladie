@@ -53,7 +53,30 @@ const listeBenef = Array.isArray(beneficiaires?.liste)
   ? beneficiaires.liste
   : [];
 
-console.log("🟢 SIGNATURE DANS PREVIEW =", signature);
+// 🔐 Normalisation signature (compatible anciennes données)
+let signatureImage = null;
+
+if (signature?.image) {
+  // Cas normal
+  if (
+    typeof signature.image === "string" &&
+    signature.image.startsWith("data:image")
+  ) {
+    signatureImage = signature.image;
+  }
+  // Cas bug : JSON stringifié
+  else if (
+    typeof signature.image === "string" &&
+    signature.image.trim().startsWith("{")
+  ) {
+    try {
+      const parsed = JSON.parse(signature.image);
+      signatureImage = parsed?.image || null;
+    } catch (e) {
+      signatureImage = null;
+    }
+  }
+}
 
   return (
     <><div className="bulletin-a4-print">
@@ -605,11 +628,15 @@ console.log("🟢 SIGNATURE DANS PREVIEW =", signature);
                 </tr>
                 <tr style={{height: "100px"}}>
                   <td className="">
-                    {signature?.image && signature.role === "user_distant-adherent" ? (
-                      <img src={signature.image} alt="Signature" style={{maxWidth: "150px", maxHeight: "80px"}} />
-                    ) : (
-                      "-"
-                    )}
+                   {signatureImage ? (
+                        <img
+                          src={signatureImage}
+                          alt="Signature"
+                          style={{ maxWidth: "150px", maxHeight: "80px" }}
+                        />
+                      ) : (
+                        "-"
+                      )}
                   </td>
                   <td></td>
                   <td></td>

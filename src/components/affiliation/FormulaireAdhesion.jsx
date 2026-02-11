@@ -45,12 +45,12 @@ const FormulaireAdhesion = ({
   // ---------- STATES pour options dynamiques ----------
   const [contrats, setContrats] = useState([]);
   const [clients, setClients] = useState([]);
+  const [pays, setPays] = useState([]);
+  const [villes, setVilles] = useState([]);
   const [souscripteursFiltres, setSouscripteursFiltres] = useState([]);
   const [policesParContrat, setPolicesParContrat] = useState([]);
   const [searchRaison, setSearchRaison] = useState('');
   const [error, setError] = useState('');
-  const [pays, setPays] = useState([]);
-  const [villes, setVilles] = useState([]);
   const navigate = useNavigate();
   const [typeBenef, setTypeBenef] = useState(""); 
   const [beneficiaires, setBeneficiaires] = useState([]);
@@ -493,7 +493,7 @@ const handleSubmit = async (e) => {
     beneficiaires: beneficiairesPayload,
     questionnaire,
     notes,
-    signature: getSignatureObject(signature)
+    signature: signature
   };
 
   try {
@@ -670,29 +670,29 @@ const beneficiairesPayload = (() => {
                   rightElement={<small>1/6 Obligatoire</small>}
                 />
                 {sections.assure && (
-                  <div className="card-body">
+              <div className="card-body">
 
                     {/* === Informations d’adhésion === */}
                     <div className="field-group">
                       <h4 className="title-groupe-section">Informations d’adhésion</h4>
-                      <div className="grid-2">
+                     <div className="grid-2">
 
-                    {/* Compagnie d'assurance */}
-                    <label >
-                    <span className="lbl">Compagnie d'assurance</span>
-                    <select name="compagnie" value={assure.compagnie}
-                    onChange={handleAssure} >
-                       <option value="">-- Compagnie --</option>
-                        <option value="Sanlam Maroc">Sanlam Maroc</option>
-                        <option value="AXA">AXA Assurance Maroc</option>
-                        <option value="Wafa Assurance">Wafa Assurance</option>
-                        <option value="RMA">RMA</option>
-                        <option value="MCMA">MCMA</option>
-                        <option value="La Marocaine Vie">La Marocaine Vie</option>
-                        <option value="Allianz Maroc">Allianz Maroc</option>
-                        <option value="AtlantaSanad">AtlantaSanad</option>
-                    </select>
-                  </label>
+                          {/* Compagnie d'assurance */}
+                          <label >
+                          <span className="lbl">Compagnie d'assurance</span>
+                          <select name="compagnie" value={assure.compagnie}
+                          onChange={handleAssure} >
+                            <option value="">-- Compagnie --</option>
+                              <option value="Sanlam Maroc">Sanlam Maroc</option>
+                              <option value="AXA Assurance Maroc">AXA Assurance Maroc</option>
+                              <option value="Wafa Assurance">Wafa Assurance</option>
+                              <option value="RMA">RMA</option>
+                              <option value="MCMA">MCMA</option>
+                              <option value="La Marocaine Vie">La Marocaine Vie</option>
+                              <option value="Allianz Maroc">Allianz Maroc</option>
+                              <option value="AtlantaSanad">AtlantaSanad</option>
+                          </select>
+                        </label>
 
                         {/* Souscripteur */}
                         <label>
@@ -993,6 +993,11 @@ const beneficiairesPayload = (() => {
             {conjoint.length === 0 && <p className="muted">Aucun conjoint enregistré.</p>}
             {conjoint.map((conjoint, i) => (
               <div className="row-item" key={i}>
+
+                <div className="row-header">
+                    <span className="row-badge">Conjoint : {i + 1}</span>
+                   </div>
+
                 <div className="mini-grid" style={{ height: '180px'}}>
 
                 {/* Nom */}
@@ -1079,6 +1084,11 @@ const beneficiairesPayload = (() => {
               {enfants.length === 0 && <p className="muted">Aucun enfant enregistré.</p>}
               {enfants.map((enf, i) => (
                 <div className="row-item" key={i}>
+
+                    <div className="row-header">
+                    <span className="row-badge">Enfant : {i + 1}</span>
+                   </div>
+
                   <div className="mini-grid">
 
                     {/* Nom */ }
@@ -1135,14 +1145,15 @@ const beneficiairesPayload = (() => {
                     <input type="date" value={enf.date_adh_enf} onChange={(e) => updateEnfant(i, "date_adh_enf", e.target.value)} 
                       placeholder="jj/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" disabled={!isFieldEditable("souscripteur")}/>
                   </label>
-                  </div>
+                </div>
 
-                  {/* Bouton supprimer */ }                  
-                  <button type="button" className="btn-del" onClick={() => removeEnfant(i)}><span>&#x1F5D1;</span></button>
+                {/* Bouton supprimer */ }                  
+                <button type="button" className="btn-del" onClick={() => removeEnfant(i)}><span>&#x1F5D1;</span></button>
                
                 </div>
-              ))}
-            </div>
+                ))}
+          </div>
+             
           )}
         </section>
 
@@ -1707,7 +1718,7 @@ const beneficiairesPayload = (() => {
 
       </form>
     </div>
-    </div>  
+</div>  
 
     {/* 🔥 ICI — rendu caché pour impression / PDF */}
       <div style={{

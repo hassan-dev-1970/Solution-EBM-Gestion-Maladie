@@ -105,11 +105,12 @@
 /* corps */
 .card-body { 
   padding:16px; 
-  border-top:1px solid #ffeeee;
+  border-top:1px solid #dddbdb;
   animation: slideDown 0.3s ease-out;
   animation-fill-mode: forwards;
   transform: translateY(-20px);
   opacity: 0;
+  border-radius: 0 0 8px 8px;
 }
 @keyframes slideDown {
   from {
@@ -167,10 +168,58 @@ input:focus, select:focus { outline:none; border-color:#7aa2ff; box-shadow: 0 0 
 .muted { color:#6b7280; padding:8px 0; }
 
 /* row-item (for dynamic list) */
-.row-item { display:flex; gap:12px; align-items:center; margin-bottom:10px; width: 100%; }
-.mini-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; flex:1; 
-  border-bottom:0.5px solid #8d0705; border-right:1px dashed #c6d3dd; }
+.row-item { 
+  display:flex; 
+  gap:12px; 
+  align-items: center; 
+  margin-bottom:10px; 
+  width: 100%; 
+  flex-wrap: wrap;
+  border-radius: 10px;
+  background: #ffffff;
+ padding-bottom: 16px;
+}
+
+/* Une ligne de séparateur entre les blocs enfants et conjoint de row-item */
+.row-item + .row-item {
+  border-top: 2px solid #ccc;
+  padding-top: 16px;
+}
+
+.mini-grid { 
+  display:grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap:8px; 
+  flex:1; 
+  border-right:1px dashed #c6d3dd; 
+}
+
+/* En-tête enfant */
+.row-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.row-badge {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f7f9fa;
+  background: #086591;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #d6d9de;
+}
+
+
 @media (max-width:720px) { .mini-grid { grid-template-columns: 1fr; } }
+
+.row-separator {
+  margin: 16px 0;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+
 .btn-del {
   background:#fff;
   border:0 solid #f3d0d6;
@@ -207,6 +256,7 @@ input:focus, select:focus { outline:none; border-color:#7aa2ff; box-shadow: 0 0 
   padding: 15px 20px;
   margin-bottom: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100% !important;
 }
 
 .title-groupe-section {
@@ -218,7 +268,6 @@ input:focus, select:focus { outline:none; border-color:#7aa2ff; box-shadow: 0 0 
   padding-bottom: 5px;
   margin:0 0 12px 0;
   font-weight:700;
-  border-style: solid;
   border-radius: 8px;
   padding: 10px;
 }
@@ -400,14 +449,21 @@ textarea {
   font-size: medium;
 }
 
-/*.btn-secondary {
-  top: 100%;
-  width: 100px;
-  max-width: 100px;
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 6px 12px;
+.read-only-field-container {
+  margin-bottom: 8px;
+}
+.read-only-field {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  background: #819db8;
   border-radius: 4px;
-  cursor: pointer;
-}*/
+  min-height: 28px;
+  color: #333;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: Calibri, Arial, sans-serif;
+  box-sizing: border-box;
+  cursor: not-allowed;
+  pointer-events: none;
+}

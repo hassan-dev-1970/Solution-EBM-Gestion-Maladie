@@ -263,10 +263,12 @@ const renderTabContent = () => {
       <div className="modif-contrat-container">
         <form onSubmit={handleSubmit} className="form-modif-contrat">
           <div className="modif-contrat-header">
-            <h2>Modifier Contrat</h2>
-            <div className="header-actions-modif">
-              <button type="submit" className="btn-valider-modif">Enregistrer</button>
-              <button type="button" className="btn-annuler-modif" onClick={() => navigate('/ListeContrats')}>Annuler</button>
+            <div style={{width: 'auto', display: 'flex', border: 'none', borderBottom: '1.5px solid #afbac0'}}>
+          <h2 style={{fontSize: '1.8rem', fontWeight: 'bold', color: 'darkblue'}}>Modification de Contrat</h2>
+           </div>
+            <div className="btn-group right">
+              <button type="submit" className="btn btn-success">Enregistrer</button>
+              <button type="button" className="btn btn-annuler" onClick={() => navigate('/ListeContrats')}>Annuler</button>
             </div>
           </div>
 

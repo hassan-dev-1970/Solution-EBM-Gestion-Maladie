@@ -267,7 +267,7 @@ const AjouterContrat = () => {
         <div className="ajouter-contrat-header">
 
           <div style={{width: 'auto', display: 'flex', border: 'none', borderBottom: '1.5px solid #afbac0'}}>
-          <h2 style={{fontSize: '1.8rem', fontWeight: 'bold', color: 'darkblue'}}>Ajouter un Contrat</h2>
+          <h2 style={{fontSize: '1.8rem', fontWeight: 'bold', color: 'darkblue'}}>Ajout de Contrat</h2>
            </div>
           <div className="btn-group right">          
             <button type="submit" className="btn btn-success" onClick={handleSubmit}>Enregistrer</button>

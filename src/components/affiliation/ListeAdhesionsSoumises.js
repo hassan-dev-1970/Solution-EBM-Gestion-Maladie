@@ -105,7 +105,7 @@ const ListeAdhesionsSoumises = () => {
       {loading && <p>Chargement...</p>}
 
       {!loading && adhesions.length === 0 && (
-        <p>Aucune adhésion en attente de validation.</p>
+        <p style={{textAlign: 'center', fontSize: 'large', fontWeight: 'bold', color: 'darkred'}}>Aucune adhésion en attente de validation.</p>
       )}
 
       {!loading && adhesions.length > 0 && (

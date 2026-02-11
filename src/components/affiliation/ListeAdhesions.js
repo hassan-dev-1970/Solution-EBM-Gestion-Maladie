@@ -393,21 +393,22 @@ const currentAdhesions = filteredAdhesions.slice(
                       <ul className="dropdown-menu-LC" ref={dropdownRef}>
 
                         <PermissionGate permission="adhesion:voir">
-                          <li onClick={() => setDropdownOpenId(null)}>
-                            <Link to={`/adhesions/${assure.id_adhesion}/details`} className="dropdown-link-LC">
-                              <img src="/Images/edit/detail-3.png" alt="Détails" className="action-icon" />
-                              Détails
-                            </Link>
-                          </li>
-                        </PermissionGate>
-                        <PermissionGate permission="adhesion:modifier">
-                          <li onClick={() => { navigate(`/adhesions/${assure.id_adhesion}/modifier`); setDropdownOpenId(null); }}>
-                            <Link to={`/adhesions/${assure.id_adhesion}/modifier`} className="dropdown-link-LC">
-                              <img src="/Images/edit/modif-2.png" alt="Modifier" className="action-icon" />
-                              Modifier
-                            </Link>
-                          </li>
-                        </PermissionGate>
+                            <li onClick={() => setDropdownOpenId(null)}>
+                              <Link to={`/adhesions/${assure.id_adhesion}/details`} className="dropdown-link-LC">
+                                <img src="/Images/edit/detail-3.png" alt="Détails" className="action-icon" />
+                                Détails
+                              </Link>
+                            </li>
+                          </PermissionGate>
+
+                          <PermissionGate permission="adhesion:modifier">
+                            <li onClick={() => setDropdownOpenId(null)}>
+                              <Link to={`/adhesions/${assure.id_adhesion}/modifier`} className="dropdown-link-LC">
+                                <img src="/Images/edit/modif-2.png" alt="Modifier" className="action-icon" />
+                                Modifier
+                              </Link>
+                            </li>
+                          </PermissionGate>
                         <PermissionGate permission="adhesion:supprimer">
                           <li onClick={() => { supprimerAssure(assure.id_adhesion); setDropdownOpenId(null); }}>
                             <img src="/Images/edit/delete-6.png" alt="Supprimer" className="action-icon" /> Supprimer

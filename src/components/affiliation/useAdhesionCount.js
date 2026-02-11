@@ -1,5 +1,5 @@
 // src/affiliation/useAdhesionCount.js
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const useAdhesionCount = (userRole) => {
   const [count, setCount] = useState(0);
@@ -8,8 +8,9 @@ const useAdhesionCount = (userRole) => {
     // Si le rôle n'est pas encore chargé, ne rien faire
     if (userRole === undefined || userRole === null) return;
 
-    // Si ce n'est pas un souscripteur, compteur = 0
-    if (userRole !== 'user_distant-souscripteur') {
+    // Si ce n'est pas un souscripteur ou un admin, compteur = 0
+     const rolesAvecAcces = ['user_distant-souscripteur', 'admin'];
+    if (!rolesAvecAcces.includes(userRole)) {
       setCount(0);
       return;
     }

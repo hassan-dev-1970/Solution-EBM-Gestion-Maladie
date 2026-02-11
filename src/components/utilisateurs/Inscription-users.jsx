@@ -10,6 +10,7 @@ function InscriptionUsers() {
     prenom: '',
     email: '',
     role_id: '',
+    id_client: '',
     pass: '',
     confirmPassword: ''
   });
@@ -17,6 +18,7 @@ function InscriptionUsers() {
   const [roles, setRoles] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [clients, setClients] = useState([]);
 
   // Utilisation de useNavigate pour la navigation
   const navigate = useNavigate();
@@ -36,15 +38,40 @@ function InscriptionUsers() {
       });
   }, []);
 
-  const handleChange = (e) => {
+  // Chargez les clients si le rôle sélectionné est un rôle distant
+        useEffect(() => {
+          if (formData.role_id) {
+            // Récupérer le nom du rôle sélectionné
+            const selectedRole = roles.find(r => r.id_role === formData.role_id);
+            if (selectedRole && ['user_distant-souscripteur', 'user_distant-adherent'].includes(selectedRole.nom)) {
+              // Charger les clients
+              const token = localStorage.getItem('token');
+                  axios.get('/api/clients', {
+                    headers: { Authorization: `Bearer ${token}`                    }
+                  })
+                .then(res => setClients(res.data))
+                .catch(err => {
+                  console.error('Erreur chargement clients:', err);
+                  toast.error("Impossible de charger la liste des clients");
+                });
+            } else {
+              setClients([]);
+            }
+          }
+        }, [formData.role_id, roles]);
+
+  /* Gestion des changements */      
+    const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.name === 'role_id'
-        ? parseInt(e.target.value, 10)
-        : e.target.value
+      [name]: name === 'role_id' || name === 'id_client'
+        ? (value ? parseInt(value, 10) : '')
+        : value
     }));
   };
 
+  /* Envoi du formulaire */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,7 +81,7 @@ function InscriptionUsers() {
     }
 
     try {
-      const { nom, prenom, email, role_id, pass } = formData;
+      const { nom, prenom, email, role_id, id_client, pass } = formData;
 
       const token = localStorage.getItem('token');
 
@@ -63,6 +90,7 @@ function InscriptionUsers() {
         prenom,
         login: email,
         role_id,
+        id_client,
         password: pass
       }, {
         headers: {
@@ -76,6 +104,7 @@ function InscriptionUsers() {
         prenom: '',
         email: '',
         role_id: '',
+        id_client: '',
         pass: '',
         confirmPassword: ''
       });
@@ -94,8 +123,11 @@ function InscriptionUsers() {
   return (
     <div className="form-container"> 
       <h2 className="titre-modal">Inscription Utilisateur</h2>
+      <div className='form-section'> 
       <form onSubmit={handleSubmit}>
         {/* Tous les champs en colonne verticale */}
+
+        {/* Nom */}
         <div className="form-group">
           <label htmlFor="nom">Nom</label>
           <div className="input-wrapper">
@@ -111,6 +143,7 @@ function InscriptionUsers() {
           </div>
         </div>
 
+        {/* Prénom */}
         <div className="form-group">
           <label htmlFor="prenom">Prénom</label>
           <div className="input-wrapper">
@@ -126,6 +159,7 @@ function InscriptionUsers() {
           </div>
         </div>
 
+        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <div className="input-wrapper">
@@ -141,6 +175,7 @@ function InscriptionUsers() {
           </div>
         </div>
 
+        {/* Rôle */}
         <div className="form-group">
           <label htmlFor="role_id">Rôle</label>
           <div className="input-wrapper">
@@ -161,6 +196,29 @@ function InscriptionUsers() {
             </select>
           </div>
         </div>
+
+        {/* Client */}
+          {clients.length > 0 && (
+            <div className="form-group">
+              <label htmlFor="id_client">Client associé</label>
+              <div className="input-wrapper">
+                <select
+                  id="id_client"
+                  name="id_client"
+                  value={formData.id_client || ''}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">-- Sélectionner un client --</option>
+                  {clients.map(client => (
+                    <option key={client.id_client} value={client.id_client}>
+                      {client.raison_sociale || client.nom}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
 
         {/* Mot de passe avec toggle */}
         <div className="form-group">
@@ -231,15 +289,17 @@ function InscriptionUsers() {
             </button>
           </div>
         </div>
-
+      </form> 
+      </div>
         {/* Boutons */}
         <div className="btn-group bottom group-buttons">
-          <button className="btn btn-success" type="submit">Valider</button>
+          <button className="btn btn-success" type="submit" onClick={handleSubmit}>Valider</button>
           <button className="btn btn-annuler" type="button" onClick={() => setFormData({
               nom: '',
               prenom: '',
               email: '',
               role_id: '',
+              id_client: '',
               pass: '',
               confirmPassword: ''
             })}
@@ -248,9 +308,9 @@ function InscriptionUsers() {
           </button>
           <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
         </div>
-      </form>
+            
     </div>
-  );
+    );
 }
 
 export default InscriptionUsers;

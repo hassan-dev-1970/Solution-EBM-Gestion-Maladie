@@ -14,7 +14,7 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  height: 700px;
+  height: auto;
 }
 
 /* Titre collé en haut */
@@ -26,6 +26,18 @@ body {
   padding-bottom: 15px;
   margin: 0 0 30px 0; /* Supprime l'espace en haut */
   border-bottom: 2px solid #e0e0e0;
+}
+
+.form-section {
+  margin-bottom: 20px;
+  position: relative;
+  margin-top: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
 }
 
 /* Ligne pour les champs côte à côte (mot de passe) */
@@ -128,15 +140,6 @@ body {
 .password-row .form-group input:focus::placeholder {
   color: transparent;
 }
-
-.group-buttons {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15%;
-}
-
-
 
 
 /* ========== TOGGLE MOT DE PASSE ========== */

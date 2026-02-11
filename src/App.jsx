@@ -8,14 +8,15 @@ import {
   Routes,
   useLocation,
   useNavigate,
+  useParams,
 } from 'react-router-dom';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 // Importation des styles globaux
 import './components/Styles/buttons.css';
-import './components/Styles/titres.css';
 import './components/Styles/input-select-texterea.css';
+import './components/Styles/titres.css';
 // Importation des composants
 import ListeClients from './components/Clients/ListeClients';
 import GestionTypePrestations from './components/Prestations/TypesPrestations';
@@ -23,6 +24,8 @@ import BulletinAdhesionPreview from './components/affiliation/BulletinAdhesionPr
 import FormulaireAdhesion from "./components/affiliation/FormulaireAdhesion";
 import ListeAdhesions from './components/affiliation/ListeAdhesions';
 import ListeAdhesionsSoumises from './components/affiliation/ListeAdhesionsSoumises';
+import AdhesionEdit from './components/affiliation/AdhesionEdit';
+import AdhesionDetail from './components/affiliation/AdhesionDetail';
 import AfficherPrestationsContrat from './components/contrats/AfficherPrestationsContrat';
 import AjouterContrat from './components/contrats/AjouterContrat';
 import DetailsContrat from './components/contrats/DetailsContrat';
@@ -158,24 +161,17 @@ useEffect(() => {
               onClose={() => setMessage('')}
             />
           )}
+
           <div className="page-content">
             <Routes>
-              <Route
-                path="/"
-                element={
-                  isAuthenticated ? (
-                    <Navigate to="/accueil" />
-                  ) : (
-                    <Connexion setIsAuthenticated={setIsAuthenticated} />
-                  )
-                }
-              />
-              <Route
-                path="/accueil"
-                element={
-                  isAuthenticated ? <Accueil /> : <Navigate to="/" />
-                }
-              />
+              <Route path="/" element={isAuthenticated ? (<Navigate to="/accueil" />) : (
+                <Connexion setIsAuthenticated={setIsAuthenticated}/>
+              )} />
+               
+              <Route path="/accueil" element={isAuthenticated ? <Accueil /> : 
+              <Navigate to="/" />} />
+
+
               <Route
                 path="/inscription"
                 element={
@@ -414,6 +410,13 @@ useEffect(() => {
                 </PrivateRoute>
               }
             />
+            {/* Détail Adhesion*/}
+            <Route path="/adhesions/:id/details" element={<AdhesionDetail />} />
+            <Route path="/adhesions/:id/modifier" element={<AdhesionEdit />} />
+
+
+
+
             <Route path="/espace-souscripteur/contrat" element={
                 <PrivateRoute>
                   <AjouterContrat 
@@ -443,7 +446,10 @@ useEffect(() => {
                 </PrivateRoute>
               }
             />
-          </Routes>
+
+                
+                
+        </Routes>
 
           </div>
         </div>
