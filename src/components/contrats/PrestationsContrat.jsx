@@ -269,14 +269,15 @@ const handleRetour = () => {
           "Chargement..."
         )}
       </h2>
-          <div className="btn-group right">
-            <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
-
+          <div className="btn-group right">        
+            {/* Bouton de sauvegarde */}
             <button onClick={handleSaveAll} className="btn btn-success"
               disabled={!isMaladieComplete || !isIncapaciteComplete || !isDecesComplete}
             >
-              Enregistrer toutes les prestations
+              Enregistrer les prestations
             </button>
+            {/* Bouton de retour */}
+            <button className="btn btn-retour" onClick={handleRetour}>Retour</button>
           </div>
     </div>
 

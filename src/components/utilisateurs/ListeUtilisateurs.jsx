@@ -158,8 +158,8 @@ setUtilisateurs((prev) =>
 
       <div style={{ paddingLeft: '10px' }}>
         <PermissionGate permission="utilisateur:ajouter">
-          <Link className='lien-button' to="/inscription">
-          <img src="/Images/edit/plus-1.png" alt="Ajouter"/>
+          <Link className='btn btn-add' to="/inscription">
+          <img src="/Images/edit/plus-2.png" alt="Ajouter"/>
             <span className="">Nouveau utilisateur</span>
           </Link>
         </PermissionGate>

@@ -157,11 +157,13 @@
 
 .form-group label {
   display: block;
+ flex: 0 0 auto;
   margin-bottom: 8px;
   font-weight: 600;
   color: #333;
   font-size: 14px;
   text-align: left;
+  
 }
 
 .form-group label.required::after {
@@ -213,6 +215,7 @@
   background-position: right 12px center;
   background-size: 12px;
   cursor: pointer;
+  width: 100%;
 }
 
 /* Ligne avec champs côte à côte */

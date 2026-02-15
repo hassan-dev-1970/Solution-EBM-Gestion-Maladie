@@ -478,11 +478,15 @@ if (signature?.image) {
           </div>
 
           <div className="btn-group right">
+            <button className="btn btn-success">
+              Imprimer
+            </button>
+
             <button disabled={!assure?.nom}
-            type="button" className="btn btn-ghost" onClick={handleDownloadPDF}> 
+            type="button" className="btn btn-telecharger" onClick={handleDownloadPDF}> 
               Télécharger le PDF</button>
 
-            <button className="btn btn-close" onClick={() => navigate(-1)}>
+            <button className="btn btn-retour" onClick={() => navigate(-1)}>
               Retour
             </button>
           </div>

@@ -243,7 +243,9 @@ const currentAdhesions = filteredAdhesions.slice(
   return (
     <div className="liste-Liste">
       <h1>Liste des adhésions</h1>
-
+      <div className="Liste">
+         <div className="header-actions-search">
+               
       {error && <p className="error">{error}</p>}
 
               {/* 🔎 Barre de Recherche */}
@@ -293,22 +295,29 @@ const currentAdhesions = filteredAdhesions.slice(
                 ))}
               </select>
 
-              {/* Bouton + pour Recherche Avancée */}
+                <div className='btn-group-search'> 
+                  {/* Bouton + pour Recherche Avancée */}
               <button
-                className="btn-advanced-search"
+                className="btn btn-advanced-search"
                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                 title="Recherche avancée"
                 type="button"
               >
                 {showAdvancedSearch ? '− Masqué' : '+ Recherche Avancée'}
-                </button>
+                </button>       
+
+              {/* Bouton + pour Ajouter un adhérent */}
               <PermissionGate permission="adhesion:ajouter">
-                <button onClick={() => navigate(adhesionRoute)} className="lien-button buton-add-adh">
-                  <img src="/Images/edit/plus-1.png" alt="Ajouter" className="icon-plus" />
+                <button onClick={() => navigate(adhesionRoute)} className="btn btn-add">
+                  <img src="/Images/edit/plus-2.png" alt="Ajouter" className="icon-plus" />
                   Nouveau Adhérent
                 </button>
               </PermissionGate>
+              
+                </div>
+            </div>   
           </div>
+
             {/* Zone Recherche Avancée */}
             {showAdvancedSearch && (
               <div className="zone-recherche-avancee">
@@ -356,11 +365,11 @@ const currentAdhesions = filteredAdhesions.slice(
                 <input type="date" placeholder="Date d'adhésion" value={searchDateAdhesion}
                   onChange={(e) => {
                     setSearchDateAdhesion(e.target.value);
-                    setCurrentPage(1); }}/>                            
-
-              
+                    setCurrentPage(1); }}/>                  
               </div>
             )}
+      </div>
+       
 
       <table className="table-contrats">
         <thead>

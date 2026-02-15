@@ -630,7 +630,7 @@ const beneficiairesPayload = (() => {
                   {contexte === "client" && canSubmit && (
                     <>
                       {canPrint && (
-                        <button type="button" className="btn-ghost" onClick={handleDownloadPDF} disabled={!signature}>Aperçu / PDF</button>
+                        <button type="button" className="btn btn-telecharger" onClick={handleDownloadPDF} disabled={!signature}>Aperçu / PDF</button>
                       )}
 
                       <button type="submit" className="btn btn-success">Soumettre le bulletin</button>
@@ -641,10 +641,10 @@ const beneficiairesPayload = (() => {
                   {contexte === "client" && canValidate && (
                     <>
                       {canPrint && (
-                        <button type="button"  className="btn-ghost" onClick={handleDownloadPDF} disabled={!signature}>Télécharger le bulletin</button>
+                        <button type="button"  className="btn btn-telecharger" onClick={handleDownloadPDF} disabled={!signature}>Télécharger le bulletin</button>
                       )}
 
-                      <button type="button" className="btn-success" onClick={handleValidation}>Valider l’adhésion</button>
+                      <button type="button" className="btn btn-success" onClick={handleValidation}>Valider l’adhésion</button>
                     </>
                   )}
 
@@ -655,7 +655,7 @@ const beneficiairesPayload = (() => {
 
                       <button type="button" className="btn btn-annuler"  onClick={() => window.location.reload()}> Annuler</button>
                     
-                      <button type="button" className="btn btn-close" onClick={() => navigate("/listeadhesions")}>Fermer</button>
+                      <button type="button" className="btn btn-retour" onClick={() => navigate("/listeadhesions")}>Retour</button>
                     </>
                   )}
           </div>

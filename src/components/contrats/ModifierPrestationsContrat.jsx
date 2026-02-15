@@ -189,8 +189,8 @@ const handleSaveAll = async () => {
       );
     }
 
-    toast.success("Mise à jour des prestations a été effectuée avec succès");
-    navigate("/listecontratsprestations");
+    toast.success("Mise à jour des prestations effectuée avec succès");
+    //navigate("/listecontratsprestations");
   } catch (err) {
     console.error("❌ Erreur save all :", err);
     toast.error("Erreur lors de l’enregistrement global");
@@ -217,9 +217,10 @@ const handleSaveAll = async () => {
         </h2>
           
       <div className="btn-group right">
+
+          <button onClick={handleSaveAll}  className="btn btn-success">Valider la modification</button>
           <button className="btn btn-retour" onClick={() => navigate("/listecontratsprestations")}>Retour</button>        
 
-          <button onClick={handleSaveAll}  className="btn btn-success"> Valider la modification des prestations</button>
       </div>
     </div>
 

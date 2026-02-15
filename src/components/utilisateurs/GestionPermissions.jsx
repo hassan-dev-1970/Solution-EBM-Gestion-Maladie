@@ -93,9 +93,14 @@ const handleSubmit = async () => {
       {/* Liste des permissions */}
       {selectedRoleId && (
         <div className="permissions-list">
-          <div className='btn-group'>
-            <button className="btn btn-success" onClick={handleSubmit}>Enregistrer</button>
-            <Link to="/ajouter-permission" className="btn btn-add" style={{textAlign:'center'}}>
+          <div className='btn-group right' style={{marginBottom: '10px'}}>
+
+            <button className="btn btn-success" onClick={handleSubmit} style={{marginTop: '-10px', height: '40px'}}>
+              Enregistrer
+              </button>
+
+            <Link to="/ajouter-permission" className="btn btn-add" style={{textAlign:'center', marginTop: '-10px', height: '40px'}}>
+            <img src="/Images/edit/plus-2.png" alt="Ajouter" className="icon-plus" />
               Ajouter une permission
             </Link>
           </div>

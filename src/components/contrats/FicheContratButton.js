@@ -81,7 +81,7 @@ const FicheContratButton = ({ idContrat }) => {
             className="fiche-contrat-item"
             onClick={() => exportFile("pdf")}
           >
-            <img src="/Images/icones/PDF.png" alt="Excel" className="export-icon" />
+            <img src="/Images/icones/PDF.png" alt="PDF" className="export-icon" />
             Export PDF
           </button>
         </div>

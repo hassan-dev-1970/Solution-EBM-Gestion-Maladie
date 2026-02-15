@@ -164,9 +164,9 @@ const handleSubmit = async () => {
   return (
     <div className="prestation-tab">
 
-      <div className="header-prestations">
+      <div className="btn-group right">
       <h3>Prestations Maladie</h3>
-        <button className="btn-valider-prestat" onClick={handleSubmit}>Enregistrer</button>
+        <button className="btn btn-success" onClick={handleSubmit}>Enregistrer</button>
       </div>
       
       <div className="table-container">

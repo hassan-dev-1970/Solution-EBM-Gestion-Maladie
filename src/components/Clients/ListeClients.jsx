@@ -158,8 +158,8 @@ const filteredClients = clients.filter((client) =>
 
 <div className='container-btn-add'>
      <PermissionGate permission="client:ajouter">
-        <button className="lien-button" onClick={() => setIsAjoutModalOpen(true)}>
-          <img src="/Images/edit/plus-1.png" alt="Ajouter" />
+        <button className="btn btn-add" onClick={() => setIsAjoutModalOpen(true)}>
+          <img src="/Images/edit/plus-2.png" alt="Ajouter" />
           <span>Nouveau client</span>
         </button>
       </PermissionGate>

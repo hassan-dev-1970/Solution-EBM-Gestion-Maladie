@@ -131,9 +131,9 @@ useEffect(() => {
 
   return (
     <div className="liste-Liste">
-      <h1>Gestion des Prestations</h1>
+      <h1>Gestion des Prestations</h1>      
 
-      {error && <p className="error">{error}</p>}
+             {error && <p className="error">{error}</p>}
 
               {/* 🔎 Barre de Recherche */}
 
@@ -169,15 +169,14 @@ useEffect(() => {
            
               {/* Bouton + pour Recherche Avancée */}
               <button
-                className="btn-advanced-search"
+                className="btn btn-advanced-search" style={{marginTop: '-3px'}}
                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                 title="Recherche avancée"
                 type="button">
                 {showAdvancedSearch ? '− Masqué' : '+ Recherche Avancée'}
-                </button>
-
-              
+                </button>              
           </div>
+
             {/* Zone Recherche Avancée */}
             {showAdvancedSearch && (
               <div className="zone-recherche-avancee">
@@ -248,7 +247,7 @@ useEffect(() => {
                       <PermissionGate permission="prestations:voir">
                       <li onClick={() => setDropdownOpenId(null)}>
                         <Link to={`/contrats/${contrat.id_contrat}/afficher-prestations`} className="dropdown-link-LC">
-                          <img src="/Images/edit/detail-3.png" alt="Détails" className="action-icon" /> 
+                          <img src="/Images/edit/chercher.png" alt="Détails" className="action-icon" /> 
                           Détails-Prestations
                         </Link>
                       </li>
@@ -274,7 +273,7 @@ useEffect(() => {
                             <PermissionGate permission="prestations:modifier">
                               <li onClick={() => setDropdownOpenId(null)}>
                                 <Link to={`/contrats/${contrat.id_contrat}/modifier-prestations`} 
-                                  className="dropdown-link-LC"> <img src="/Images/edit/modif-2.png" alt="Modifier" 
+                                  className="dropdown-link-LC"> <img src="/Images/edit/edit-7.png" alt="Modifier" 
                                     className="action-icon" /> 
                                   Modifier-Prestations
                                 </Link>                          

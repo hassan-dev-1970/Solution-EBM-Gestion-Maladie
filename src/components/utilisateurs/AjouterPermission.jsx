@@ -52,7 +52,7 @@ return (
           placeholder="Ajouter ici la nouvelle permission - Ex. utilisateur:consulter"
           value={newPermission}
           onChange={(e) => setNewPermission(e.target.value)}
-          required
+          
         />
         <div className="bouton">
         <button className="btn btn-success" type="submit">Ajouter</button>

@@ -1,6 +1,6 @@
 // src/components/contrats/AfficherPrestationsContrat.jsx
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import './Styles-contrats/PrestationsContrat.css';
@@ -9,6 +9,7 @@ const AfficherPrestationsContrat = () => {
   const { id_contrat } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState("maladie");
   const [maladie, setMaladie] = useState([]);
@@ -52,6 +53,16 @@ const AfficherPrestationsContrat = () => {
     fetchPrestations();
   }, [id_contrat, token]);
 
+   const handleRetour = () => {
+  if (location.state?.from) {
+    navigate(location.state.from);
+  } else if (window.history.length > 1) {
+    navigate(-1);
+  } else {
+    navigate("/listecontrats");
+  }
+};
+
   return (
     <div className="prestations-container">
 
@@ -71,7 +82,7 @@ const AfficherPrestationsContrat = () => {
           <div className="btn-group right">
             <button
               className="btn btn-retour" style={{width:'200px'}}
-              onClick={() => navigate("/listecontratsprestations")}>Retour</button>
+              onClick={handleRetour}>Retour</button>
       </div>
       </div>
 

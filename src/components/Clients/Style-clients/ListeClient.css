@@ -102,16 +102,16 @@ button.btn-supprimer:hover {
   height: 28px;
   opacity: 0.9;
   background-color: none;
+  border-bottom: 2px solid rgb(12, 12, 198);
 }
-
 
 
 /* Champ de recheche*/
 .barre-recherche-clients {
+  position: relative;
+  top: 15px;
   display: flex;
   flex-wrap: wrap;
-  gap: 4rem;
-  margin: 1.5rem 0;
   justify-content: left;
   width: 100%;
 }

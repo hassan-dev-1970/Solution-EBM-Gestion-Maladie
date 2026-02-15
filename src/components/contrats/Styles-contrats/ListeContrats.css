@@ -98,10 +98,7 @@ button.btn-supprimer:hover {
   transition: transform 0.3s ease;
 }
 
-.buton-add {
-  position: relative;
-  left: 350px;
-}
+
 
 /* Champ de recheche*/
 .input-recherche {
@@ -197,8 +194,8 @@ font-size: 20px;
 .dropdown-toggle-LC:hover {
   background-color: #f0f0f0;
   border-radius: 4px;
-  transition: background-color 0.3s ease;}
-
+  transition: background-color 0.3s ease;
+}
 
 .dropdown-menu-LC {
   position: absolute;

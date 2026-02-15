@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../contrats/Styles-contrats/ModifierContrat.css';
 import ModalAjoutCategorie from './ModalAjoutCategorie';
@@ -8,8 +8,18 @@ import ModalAjoutCategorie from './ModalAjoutCategorie';
 const ModifierContrat = () => {
   const { id_contrat } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem('token');
 
+   const handleRetour = () => {
+  if (location.state?.from) {
+    navigate(location.state.from);
+  } else if (window.history.length > 1) {
+    navigate(-1);
+  } else {
+    navigate("/listecontrats");
+  }
+};
   const [form, setForm] = useState({
     id_client: '',
     compagnie: '',
@@ -35,6 +45,7 @@ const ModifierContrat = () => {
     circuit: '',
     statut: '',
     date_resiliation: '',
+    agence: '',
     garantie_maladie: false,
     garantie_incapacite_invalidite_temporaire: false,
     garantie_deces_invalidite_totale: false,
@@ -102,6 +113,7 @@ const ModifierContrat = () => {
     }));
   };
 
+
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
@@ -129,7 +141,6 @@ const ModifierContrat = () => {
     toast.error("Erreur lors de la modification du contrat.");    
   }
 };
-
 
 const renderTabContent = () => {
     switch (activeTab) {
@@ -268,7 +279,7 @@ const renderTabContent = () => {
            </div>
             <div className="btn-group right">
               <button type="submit" className="btn btn-success">Enregistrer</button>
-              <button type="button" className="btn btn-annuler" onClick={() => navigate('/ListeContrats')}>Annuler</button>
+              <button type="button" className="btn btn-annuler" onClick={handleRetour}>Retour</button>
             </div>
           </div>
 

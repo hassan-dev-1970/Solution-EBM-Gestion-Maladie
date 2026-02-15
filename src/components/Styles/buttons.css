@@ -17,11 +17,20 @@
   font-size: 15px;
   transition: background-color 0.3s ease, color 0.3s ease;
   text-decoration: none;
-  width: 100%;
+  width: 250px;
+  height: 45px;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
   transition: all 0.3s ease;
+  color:#fff;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 /* ===== Conteneur pour les boutons côte à côte ===== */
@@ -51,12 +60,13 @@
 /* Alignement à droite */
 .btn-group.right {
   justify-content: flex-end;
-  width: 50%;
+  width: auto;
+  max-width: 100%;
   float: right;
   box-shadow: none;
   border-top: 0;
   border-bottom: 0;
-
+  padding: 0;
 }
 
 /* Alignement centré (au cas où) */
@@ -93,26 +103,47 @@
   
 }
 
+.btn-group-search {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  width: auto;
+  max-width: 100%;
+  float: right;
+  box-shadow: none;
+  border-top: 0;
+  border-bottom: 0;
+  padding: 0;
+  margin-top: -5px;
+  margin-left: auto;
+}
+
+
 /* ============================================================================================ */
 
 .btn-add {
-  background-color: #436e75; /* Vert Bootstrap */
-  color:#fff;
+  background-color: #43a39e; /* Vert Bootstrap */
+  display: flex;
+  align-items: center;  
+  white-space: nowrap;
+  width: auto;
 }
 .btn.add:hover {
   background-color: #edefef;
-  transform: translateY(-1px);
+}
+
+.btn-add img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 /* ===== Bouton primaire (validation, ajout, action principale) ===== */
 .btn-primary {
   background-color: #082b67; /* Bleu principal */
-  color:#fff;
-  
 }
 
 .btn-primary:hover {
   background-color: #061f4a; /* Bleu plus foncé au survol */
-  transform: translateY(-1px);
 }
 
 .btn-primary:active {
@@ -125,20 +156,35 @@
   transform: none;
 }
 
+.btn-advanced-search
+{
+  background-color: #0d8faf;
+  width: 200px;
+}
+
+.btn-advanced-search:hover
+{
+  background-color: #139fc2;
+}
+
+/* Télécharger */
+.btn-telecharger {
+  background-color: #17a2b8;
+  }
+.btn-telecharger:hover {
+  box-shadow: 0 6px 15px #c4e4e8;
+}
+
 /* ===== Bouton secondaire (annuler, retour) ===== */
 /* ======== Bouton retour ========= */
 .btn-retour {
-  background-color: #f5f5f5;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background-color: #6c757d;
 }
 
 .btn-retour:hover {
-  background-color: #667eea;
-  color: white;
-  transform: translateY(-2px);
+  background-color: #5a6268;
+  box-shadow: 0 6px 15px #ccd1d4;
 }
-
 /* ===== Bouton close ===== */
 .btn-close {
   background-color: #f5f5f5;
@@ -149,7 +195,6 @@
 .btn-close:hover {
   background-color: #910a18;
   color: white;
-  transform: translateY(-2px);
 }
 
 
@@ -166,24 +211,24 @@
 /* ===== Bouton succès (activer, confirmer) ===== */
 .btn-success {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
   box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
 }
 
 .btn-success:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
 }
 
+
 /* ===== Bouton annuler ===== */
 .btn-annuler {
-  background-color: #e0e0e0;
-  color: #555;
+  background-color: #067caf;  
 }
 
 .btn-annuler:hover {
-  background-color: #d0d0d0;
-  transform: translateY(-2px);
+  background-color: #067caf;  
+  box-shadow: 0 6px 15px #bedbe8;
+  transform: translateY(-1px);
 }
 
 .btn-annuler:disabled {
@@ -203,21 +248,6 @@
   color: #fff;
 }
 
-/* ======= Bouton Recherche avancé ======== */
-.btn-advanced-search {
-  background-color: #ccd9ef;
-  color: rgb(9, 9, 9);
-  border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  max-width: 200px;
-height: 35px;
-margin-top: 3px;
-
-}
 
 
 /* ===== Bouton dans les toasts de confirmation ===== */

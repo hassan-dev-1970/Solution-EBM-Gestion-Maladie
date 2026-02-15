@@ -129,7 +129,8 @@ useEffect(() => {
     <div className="liste-Liste">
       <h1>Contrats Actifs</h1>
 
-      {error && <p className="error">{error}</p>}
+      <div className="header-actions-search">  
+           {error && <p className="error">{error}</p>}
 
               {/* 🔎 Barre de Recherche */}
 
@@ -162,10 +163,10 @@ useEffect(() => {
                   <option key={index} value={police}>{police}</option>
                 ))}
               </select>
-           
+           <div className='btn-group-search'> 
               {/* Bouton + pour Recherche Avancée */}
               <button
-                className="btn-advanced-search"
+                className="btn btn-advanced-search"
                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                 title="Recherche avancée"
                 type="button"
@@ -174,11 +175,13 @@ useEffect(() => {
                 </button>
 
               <PermissionGate permission="contrat:ajouter">
-                <button onClick={() => navigate('/ajouter-contrat')} className="lien-button buton-add">
-                  <img src="/Images/edit/plus-1.png" alt="Ajouter" className="icon-plus" />
+                <button onClick={() => navigate('/ajouter-contrat')} className="btn btn-add">
+                  <img src="/Images/edit/plus-2.png" alt="Ajouter" className="icon-plus" />
                   Nouveau Contrat
                 </button>
               </PermissionGate>
+          </div>
+            </div>   
           </div>
             {/* Zone Recherche Avancée */}
             {showAdvancedSearch && (
@@ -246,38 +249,43 @@ useEffect(() => {
                   {dropdownOpenId === contrat.id_contrat && (
                     <ul className="dropdown-menu-LC" ref={dropdownRef}>
 
-                      <PermissionGate permission="contrat:voir">
+                    <PermissionGate permission="contrat:voir">
                       <li onClick={() => setDropdownOpenId(null)}>
-                        <Link to={`/contrats/${contrat.id_contrat}/details`} className="dropdown-link-LC">
+                        <Link to={`/contrats/${contrat.id_contrat}/details`} className="dropdown-link-LC" 
+                        state={{ from:"/listecontrats"}}>
                           <img src="/Images/edit/detail-3.png" alt="Détails" className="action-icon" /> 
                           Détails
                         </Link>
                       </li>
                     </PermissionGate>
-                      <PermissionGate permission="contrat:modifier">
-                        <li onClick={() => { navigate(`/contrats/${contrat.id_contrat}/modifier`); setDropdownOpenId(null); }}>
-                          <Link to={`/contrats/${contrat.id_contrat}/modifier`} className="dropdown-link-LC">
-                          <img src="/Images/edit/modif-2.png" alt="Modifier" className="action-icon" /> 
-                          Modifier
-                        </Link>
-                          
+                     <PermissionGate permission="contrat:modifier">
+                        <li onClick={() => setDropdownOpenId(null)}>
+                          <Link
+                            to={`/contrats/${contrat.id_contrat}/modifier`}
+                            className="dropdown-link-LC"
+                            state={{ from: "/listecontrats" }}>
+                            <img src="/Images/edit/edit-7.png" alt="Modifier" className="action-icon" />
+                            Modifier
+                          </Link>
                         </li>
                       </PermissionGate>
                       <PermissionGate permission="contrat:supprimer">
                         <li onClick={() => { supprimerContrat(contrat.id_contrat); setDropdownOpenId(null); }}>
-                          <img src="/Images/edit/delete-6.png" alt="Supprimer" className="action-icon" /> Supprimer
+                          <img src="/Images/edit/delete-6.png" alt="Supprimer" className="action-icon" /> 
+                          Supprimer
                         </li>
                       </PermissionGate>
+
+                    <PermissionGate permission="prestations:voir">
                       <li onClick={() => setDropdownOpenId(null)}>
-                          <Link
-                            to={`/contrats/${contrat.id_contrat}/prestations`}
-                            state={{ from: "/listecontrats" }}
-                            className="dropdown-link-LC"
-                          >
-                            <img src="/Images/edit/prestation.png" className="action-icon" alt=''/>
-                            Prestations
-                          </Link>
-                        </li>
+                        <Link to={`/contrats/${contrat.id_contrat}/afficher-prestations`} 
+                         className="dropdown-link-LC"
+                         state={{ from:"/listecontrats"}}>                        
+                          <img src="/Images/edit/chercher.png" alt="Détails" className="action-icon" /> 
+                          Détails-Prestations
+                        </Link>
+                      </li>
+                    </PermissionGate>                      
 
                     </ul>
                   )}

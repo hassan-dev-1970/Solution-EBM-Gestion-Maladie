@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import MessageBanner from '../message/MessageBanner';
 import PermissionGate from '../utilisateurs/PermissionGate';
 import './Styles-contrats/ListeContrats.css';
@@ -21,7 +21,6 @@ const ListeContrats = () => {
   const [policesParContrat, setPolicesParContrat] = useState([]);
 const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
-  const navigate = useNavigate();
   const contratsParPage = 10;
 
 useEffect(() => {
@@ -174,7 +173,7 @@ useEffect(() => {
            
               {/* Bouton + pour Recherche Avancée */}
               <button
-                className="btn-advanced-search"
+                className="btn btn-advanced-search" style={{marginTop: '-3px'}}
                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                 title="Recherche avancée"
                 type="button"
@@ -251,19 +250,23 @@ useEffect(() => {
 
                       <PermissionGate permission="contrat:voir">
                       <li onClick={() => setDropdownOpenId(null)}>
-                        <Link to={`/contrats/${contrat.id_contrat}/details`} className="dropdown-link-LC">
+                        <Link to={`/contrats/${contrat.id_contrat}/details`} className="dropdown-link-LC"
+                        state={{ from: "/listecontratsresilies" }}>
                           <img src="/Images/edit/detail-3.png" alt="Détails" className="action-icon" /> 
                           Détails
                         </Link>
                       </li>
                     </PermissionGate>
-                      <PermissionGate permission="contrat:modifier">
-                        <li onClick={() => { navigate(`/contrats/${contrat.id_contrat}/modifier`); setDropdownOpenId(null); }}>
-                          <Link to={`/contrats/${contrat.id_contrat}/modifier`} className="dropdown-link-LC">
-                          <img src="/Images/edit/modif-2.png" alt="Modifier" className="action-icon" /> 
-                          Modifier
-                        </Link>
-                          
+                   <PermissionGate permission="contrat:modifier">
+                        <li onClick={() => setDropdownOpenId(null)}>
+                          <Link
+                            to={`/contrats/${contrat.id_contrat}/modifier`}
+                            className="dropdown-link-LC"
+                            state={{ from: "/listecontratsresilies" }}
+                          >
+                            <img src="/Images/edit/modif-2.png" alt="Modifier" className="action-icon" />
+                            Modifier
+                          </Link>
                         </li>
                       </PermissionGate>
                       <PermissionGate permission="contrat:supprimer">
@@ -271,9 +274,19 @@ useEffect(() => {
                           <img src="/Images/edit/delete-6.png" alt="Supprimer" className="action-icon" /> Supprimer
                         </li>
                       </PermissionGate>
-                      <li onClick={() => { navigate(`/contrats/${contrat.id_contrat}/prestations`); setDropdownOpenId(null); }}>
-                        <img src="/Images/edit/prestation.png" alt="outil" className="action-icon" /> Prestations
+
+                      <PermissionGate permission="prestations:voir">
+                       <li onClick={() => setDropdownOpenId(null)}>
+                        <Link to={`/contrats/${contrat.id_contrat}/afficher-prestations`} 
+                          className="dropdown-link-LC"
+                          state={{ from:"/listecontratsresilies"}}>                        
+                          <img src="/Images/edit/chercher.png" alt="Détails" className="action-icon" /> 
+                          Détails-Prestations
+                        </Link>
                       </li>
+                    </PermissionGate> 
+
+                     
                     </ul>
                   )}
                 </div>

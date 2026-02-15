@@ -80,18 +80,20 @@ const ModalAjoutClient = ({ isOpen, onClose, onClientAjoute }) => {
       isOpen={isOpen}
       onClose={onClose}
       title="Ajout - Client"
-      size="medium"
+      size="large"
       footer={
         <>
-          <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
+        <div className="btn-group center">
           <button className="btn btn-success" type="submit" form="clientForm">Enregistrer</button>
+          <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
+        </div>
         </>
       }
     >
       <form id="clientForm" onSubmit={handleSubmit}>
         {/* Raison sociale */}
         <div className="form-group">
-          <label htmlFor="raison_sociale" className="required">Raison sociale</label>
+          <label htmlFor="raison_sociale">Raison sociale</label>
           <div className="input-wrapper">
             <input
               type="text"
@@ -182,7 +184,7 @@ const ModalAjoutClient = ({ isOpen, onClose, onClientAjoute }) => {
 
         {/* Agence et Commercial côte à côte */}
           <div className="form-group">
-            <label htmlFor="agence" className="required">Agence</label>
+            <label htmlFor="agence">Agence</label>
             <div className="input-wrapper">
               <select
                 id="agence"
@@ -206,7 +208,7 @@ const ModalAjoutClient = ({ isOpen, onClose, onClientAjoute }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="commercial" className="required">Commercial</label>
+            <label htmlFor="commercial">Commercial</label>
             <div className="input-wrapper">
               <select
                 id="commercial"

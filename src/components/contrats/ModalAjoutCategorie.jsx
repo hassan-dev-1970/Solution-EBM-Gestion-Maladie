@@ -50,12 +50,8 @@ const ModalAjoutCategorie = ({
       size="small"
       footer={
         <>
-          <button className="btn btn-annuler" type="button" onClick={onClose}>
-            Annuler
-          </button>
-          <button className="btn btn-success" type="submit" form="addCategorieForm">
-            Enregistrer
-          </button>
+          <button className="btn btn-success" type="submit" form="addCategorieForm">Enregistrer</button>
+          <button className="btn btn-annuler" type="button" onClick={onClose}>Annuler</button>
         </>
       }
     >

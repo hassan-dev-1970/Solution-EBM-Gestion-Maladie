@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import FicheContratButton from './FicheContratButton';
 import './Styles-contrats/DetailsContrat.css';
 
 const DetailsContrat = () => {
   const { id_contrat } = useParams();
   const [contrat, setContrat] = useState(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
+  const location = useLocation();
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -20,7 +22,17 @@ const DetailsContrat = () => {
 
   if (!contrat) return <p>Chargement...</p>;
 
-  
+ const handleRetour = () => {
+  if (location.state?.from) {
+    navigate(location.state.from);
+  } else if (window.history.length > 1) {
+    navigate(-1);
+  } else {
+    navigate("/listecontrats");
+  }
+};
+
+
 
   return (
     <div className="details-contrat-container">
@@ -29,7 +41,7 @@ const DetailsContrat = () => {
       </div>
         <div className="header-actions-details">
           <FicheContratButton idContrat={id_contrat} />
-          <button onClick={() => navigate('/listecontrats')} className='btn-recultation'>Retour</button>
+          <button onClick={handleRetour} className='btn btn-retour' style={{height: '39px'}}>Retour</button>
         </div>
       
 
