@@ -8,10 +8,7 @@ const safeGet = (obj, path, defaultValue = "") => {
   return path.split('.').reduce((o, p) => (o && o[p] !== undefined) ? o[p] : defaultValue, obj);
 };
 
-const Icon = ({ name }) => {
-  const icons = { person: "👤", heart: "🩺", child: "🧒", gift: "🎁" };
-  return <span className="icon">{icons[name] || "•"}</span>;
-};
+
 
 const AccordionHeader = ({ title, open, onClick, rightElement }) => (
   <button type="button" className={`acc-header ${open ? "open" : ""}`} onClick={onClick}>
@@ -55,12 +52,7 @@ const AdhesionFormCore = ({
   sections,
   toggleSection
 }) => {
-  const formatDateFR = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    if (isNaN(d.getTime())) return String(date);
-    return d.toLocaleDateString('fr-FR');
-  };
+
 
   // Helper pour afficher un champ
   const renderField = (label, value, onChange, type = "text", options = null) => {
@@ -126,7 +118,7 @@ const AdhesionFormCore = ({
                 )}
                 {renderField(
                   "Souscripteur *",
-                  clients.find(c => c.id_client == safeGet(assure, 'souscripteur'))?.raison_sociale || safeGet(assure, 'souscripteur'),
+                  clients.find(c => c.id_client === safeGet(assure, 'souscripteur'))?.raison_sociale || safeGet(assure, 'souscripteur'),
                   (e) => onAssureChange?.(e),
                   "select",
                   clients.map(c => ({ value: c.id_client, label: c.raison_sociale }))
@@ -190,7 +182,7 @@ const AdhesionFormCore = ({
                 {renderField("Matricule CNSS (12 chiffres)", safeGet(assure, 'num_cnss'), (e) => onAssureChange?.(e))}
                 {renderField(
                   "Nationalité",
-                  pays.find(p => p.id_pays == safeGet(assure, 'nationalite'))?.nationalite || safeGet(assure, 'nationalite'),
+                  pays.find(p => p.id_pays === safeGet(assure, 'nationalite'))?.nationalite || safeGet(assure, 'nationalite'),
                   (e) => onAssureChange?.(e),
                   "select",
                   pays.map(p => ({ value: p.id_pays, label: p.nationalite }))
@@ -233,14 +225,14 @@ const AdhesionFormCore = ({
                 {renderField("Adresse", safeGet(assure, 'adresse'), (e) => onAssureChange?.(e))}
                 {renderField(
                   "Ville",
-                  villes.find(v => v.id_ville == safeGet(assure, 'ville'))?.nom_ville || safeGet(assure, 'ville'),
+                  villes.find(v => v.id_ville === safeGet(assure, 'ville'))?.nom_ville || safeGet(assure, 'ville'),
                   (e) => onAssureChange?.(e),
                   "select",
                   villes.map(v => ({ value: v.id_ville, label: v.nom_ville }))
                 )}
                 {renderField(
                   "Pays",
-                  pays.find(p => p.id_pays == safeGet(assure, 'pays'))?.nom_pays || safeGet(assure, 'pays'),
+                  pays.find(p => p.id_pays === safeGet(assure, 'pays'))?.nom_pays || safeGet(assure, 'pays'),
                   (e) => onAssureChange?.(e),
                   "select",
                   pays.map(p => ({ value: p.id_pays, label: p.nom_pays }))
