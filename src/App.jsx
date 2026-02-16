@@ -8,7 +8,6 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  useParams,
 } from 'react-router-dom';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,12 +19,12 @@ import './components/Styles/titres.css';
 // Importation des composants
 import ListeClients from './components/Clients/ListeClients';
 import GestionTypePrestations from './components/Prestations/TypesPrestations';
+import AdhesionDetail from './components/affiliation/AdhesionDetail';
+import AdhesionEdit from './components/affiliation/AdhesionEdit';
 import BulletinAdhesionPreview from './components/affiliation/BulletinAdhesionPreview';
 import FormulaireAdhesion from "./components/affiliation/FormulaireAdhesion";
 import ListeAdhesions from './components/affiliation/ListeAdhesions';
 import ListeAdhesionsSoumises from './components/affiliation/ListeAdhesionsSoumises';
-import AdhesionEdit from './components/affiliation/AdhesionEdit';
-import AdhesionDetail from './components/affiliation/AdhesionDetail';
 import AfficherPrestationsContrat from './components/contrats/AfficherPrestationsContrat';
 import AjouterContrat from './components/contrats/AjouterContrat';
 import DetailsContrat from './components/contrats/DetailsContrat';
