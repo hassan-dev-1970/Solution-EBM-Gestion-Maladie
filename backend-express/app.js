@@ -27,7 +27,11 @@ const PORT = process.env.PORT || 5000;
 // 🔧 Middleware
 global.__basedir = __dirname;
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+  'http://localhost:3000',
+  'https://TON-URL-VERCEL.vercel.app'
+],
+
   credentials: true
 }));
 app.use(express.json());
