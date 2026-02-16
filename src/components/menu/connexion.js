@@ -21,7 +21,11 @@ const Connexion = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('/api/connexion/check-email', { email });
+      const res = await axios.post(
+  "https://solution-ebm-gestion-maladie-production.up.railway.app/api/connexion/check-email",
+  { email }
+);
+
 
       if (res.data.exists) {
         setStep(2);
