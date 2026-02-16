@@ -71,9 +71,13 @@ app.get('/api/utilisateurs', verifierToken, (req, res) => {
   });
 });
 
-// 🚀 Démarrer le serveur
+/* 🚀 Démarrer le serveur
 app.listen(PORT, () => {
   console.log(`✅ Serveur Express en cours sur le port ${PORT}`);
+});*/
+
+app.get('/', (req, res) => {
+  res.json({ message: "Backend EBM en ligne 🚀" });
 });
 
 // 🛑 Fermeture propre de MySQL
