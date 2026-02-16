@@ -60,7 +60,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "https://solution-ebm-gestion-maladie-production.up.railway.app",  
+
+  
   "devDependencies": {
     "ignore-loader": "^0.1.2",
     "webpack-cli": "^6.0.1"

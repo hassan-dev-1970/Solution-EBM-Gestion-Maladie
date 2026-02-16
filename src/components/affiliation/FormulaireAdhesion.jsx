@@ -441,7 +441,8 @@ const saveAdhesion = async (payload) => {
   };
 
   // 🔥 Envoi au backend
-  const res = await apiPost("http://localhost:5000/api/adhesions", finalPayload);
+  const res = await apiPost("https://solution-ebm-gestion-maladie-production.up.railway.app
+/api/adhesions", finalPayload);
 
   const id_adhesion =
     res?.data?.id_adhesion ||

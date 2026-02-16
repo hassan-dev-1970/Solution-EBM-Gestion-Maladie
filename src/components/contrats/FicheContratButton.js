@@ -26,7 +26,8 @@ const FicheContratButton = ({ idContrat }) => {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:5000/api/contrats/${idContrat}/export-prevoyance-${type}`,
+        `https://solution-ebm-gestion-maladie-production.up.railway.app
+/api/contrats/${idContrat}/export-prevoyance-${type}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

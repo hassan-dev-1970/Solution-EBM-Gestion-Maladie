@@ -2,8 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api'
-});
+  baseURL: 'https://solution-ebm-gestion-maladie-production.up.railway.app/api',});
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
