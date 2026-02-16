@@ -46,7 +46,11 @@ const handleConnexion = async (e) => {
   setLoading(true);
 
   try {
-    const { data } = await axios.post("/api/connexion", { email, pass });
+    const { data } = await axios.post(
+  "https://solution-ebm-gestion-maladie-production.up.railway.app/api/connexion",
+  { email, pass }
+);
+
     const { token, user } = data;
 
     // 🔐 Stockage persistant
