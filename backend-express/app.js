@@ -26,14 +26,23 @@ const PORT = process.env.PORT || 5000;
 
 // 🔧 Middleware
 global.__basedir = __dirname;
-app.use(cors({
+/*app.use(cors({
   origin: [
   'http://localhost:3000',
   'https://TON-URL-VERCEL.vercel.app'
 ],
 
   credentials: true
+}));*/
+
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://solution-ebm-gestion-maladie-elqu3s7qx.vercel.app'
+  ],
+  credentials: true
 }));
+
 app.use(express.json());
 
 // 📦 Routes
