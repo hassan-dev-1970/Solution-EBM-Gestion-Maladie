@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../Styles/connexion.css';
 import { useAuth } from '../utilisateurs/AuthContext';
-import { getAdhesionRouteByRole } from '../affiliation/adhesionRoutes';
 
 const Connexion = () => {
   const [email, setEmail] = useState('');
